@@ -10,7 +10,6 @@ async function main() {
   // Hash passwords
   const hashedPassword1 = await bcrypt.hash('user1Password123', 12);
   const hashedPassword2 = await bcrypt.hash('user2Password456', 12);
-  const hashedPassword3 = await bcrypt.hash('driverPassword789', 12);
 
   // Create customers
   const customer1 = await prisma.customer.create({
@@ -33,8 +32,6 @@ async function main() {
   const driver1 = await prisma.driver.create({
     data: {
       name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      password: hashedPassword3,
       description: 'Experienced driver with 5 years on the road',
       vehicle: 'Toyota Prius',
       pricePerKmInCents: 100,
@@ -45,8 +42,6 @@ async function main() {
   const driver2 = await prisma.driver.create({
     data: {
       name: 'Bob Brown',
-      email: 'bob.brown@example.com',
-      password: hashedPassword3,
       description: 'Reliable driver with a spacious van',
       vehicle: 'Ford Transit',
       pricePerKmInCents: 120,

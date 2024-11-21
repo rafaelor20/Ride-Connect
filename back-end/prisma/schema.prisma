@@ -16,8 +16,6 @@ model Customer {
 model Driver {
     id                Int      @id @default(autoincrement())
     name              String
-    email             String   @unique
-    password          String
     description       String
     vehicle           String
     pricePerKmInCents Int
