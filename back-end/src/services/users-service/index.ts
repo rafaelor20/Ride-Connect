@@ -1,16 +1,17 @@
-import { User } from '@prisma/client';
+import { Customer } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { duplicatedEmailError } from './errors';
 import userRepository from '@/repositories/user-repository';
-import { createUserSchema } from '@/schemas';
+import { createCustomerSchema } from '@/schemas';
 
-export async function createUser({ name, email, password }: CreateUserParams): Promise<User> {
+export async function createUser({ name, email, password }: CreateCustomerParams): Promise<Customer> {
   await validateUniqueEmailOrFail(email);
 
   await validateCreateUserParamsOrFail({ name, email, password });
 
   const hashedPassword = await bcrypt.hash(password, 12);
   return userRepository.create({
+    name,
     email,
     password: hashedPassword,
   });
@@ -23,11 +24,11 @@ async function validateUniqueEmailOrFail(email: string) {
   }
 }
 
-async function validateCreateUserParamsOrFail(params: CreateUserParams) {
-  await createUserSchema.validateAsync(params);
+async function validateCreateUserParamsOrFail(params: CreateCustomerParams) {
+  await createCustomerSchema.validateAsync(params);
 }
 
-export type CreateUserParams = Pick<Customer, 'name' | 'email' | 'password'>;
+export type CreateCustomerParams = Pick<Customer, 'name' | 'email' | 'password'>;
 
 const userService = {
   createUser,

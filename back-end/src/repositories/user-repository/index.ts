@@ -1,8 +1,8 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '@/config';
 
-async function findByEmail(email: string, select?: Prisma.UserSelect) {
-  const params: Prisma.UserFindUniqueArgs = {
+async function findByEmail(email: string, select?: Prisma.CustomerSelect) {
+  const params: Prisma.CustomerFindUniqueArgs = {
     where: {
       email,
     },
@@ -12,17 +12,17 @@ async function findByEmail(email: string, select?: Prisma.UserSelect) {
     params.select = select;
   }
 
-  return prisma.user.findUnique(params);
+  return prisma.customer.findUnique(params);
 }
 
-async function create(data: Prisma.UserUncheckedCreateInput) {
-  return prisma.user.create({
+async function create(data: Prisma.CustomerUncheckedCreateInput) {
+  return prisma.customer.create({
     data,
   });
 }
 
-async function findById(id: number, select?: Prisma.UserSelect) {
-  const params: Prisma.UserFindUniqueArgs = {
+async function findById(id: number, select?: Prisma.CustomerSelect) {
+  const params: Prisma.CustomerFindUniqueArgs = {
     where: {
       id,
     },
@@ -32,7 +32,7 @@ async function findById(id: number, select?: Prisma.UserSelect) {
     params.select = select;
   }
 
-  return prisma.user.findUnique(params);
+  return prisma.customer.findUnique(params);
 }
 
 const userRepository = {
