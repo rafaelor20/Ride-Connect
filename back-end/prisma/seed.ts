@@ -127,8 +127,8 @@ async function main() {
   // Generate JWT tokens for customers and drivers
   const customerToken1 = jwt.sign({ id: customer1.id, email: customer1.email }, JWT_SECRET, { expiresIn: '1h' });
   const customerToken2 = jwt.sign({ id: customer2.id, email: customer2.email }, JWT_SECRET, { expiresIn: '1h' });
-  const driverToken1 = jwt.sign({ id: driver1.id, email: driver1.email }, JWT_SECRET, { expiresIn: '1h' });
-  const driverToken2 = jwt.sign({ id: driver2.id, email: driver2.email }, JWT_SECRET, { expiresIn: '1h' });
+  const driverToken1 = jwt.sign({ id: driver1.id }, JWT_SECRET, { expiresIn: '1h' });
+  const driverToken2 = jwt.sign({ id: driver2.id }, JWT_SECRET, { expiresIn: '1h' });
 
   console.log('Customer 1 Token:', customerToken1);
   console.log('Customer 2 Token:', customerToken2);
@@ -145,5 +145,3 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
-
-

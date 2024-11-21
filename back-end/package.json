@@ -12,7 +12,8 @@
     "dev:load-envs": "dotenv -e .env.development",
     "dev": "cross-env NODE_ENV=development nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register ./src/server.ts' -e ts",
     "migration:run": "prisma migrate deploy",
-    "migration:generate": "npm run dev:load-envs prisma migrate dev"
+    "migration:generate": "npm run dev:load-envs prisma migrate dev",
+    "prisma:seed": "npm run dev:load-envs -- ts-node prisma/seed.ts"
   },
   "keywords": [
     "ride-connect",
