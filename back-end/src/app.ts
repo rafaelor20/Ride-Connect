@@ -5,16 +5,19 @@ import cors from 'cors';
 
 import { loadEnv, connectDb, disconnectDB } from '@/config';
 
+
 loadEnv();
 
 import { handleApplicationErrors } from '@/middlewares';
-import { } from '@/routers';
+import { usersRouter, authenticationRouter } from '@/routers';
 
 const app = express();
 app
   .use(cors())
   .use(express.json())
-  .get('/health', (_req, res) => res.send('OK!'))
+  .get('/health', (req: express.Request, res: express.Response) => res.send('OK!'))
+  .use('/users', usersRouter)
+  .use('/authentication', authenticationRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
