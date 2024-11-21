@@ -4,13 +4,22 @@ datasource db {
 }
 
 model Customer {
-    id        Int      @id @default(autoincrement())
+    id        Int       @id @default(autoincrement())
     name      String
-    email     String   @unique
+    email     String    @unique
     password  String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
     rides     Ride[]
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    Session   Session[]
+}
+
+model Session {
+    id         Int      @id @default(autoincrement())
+    customerId Int
+    customer   Customer @relation(fields: [customerId], references: [id])
+    token      String
+    createdAt  DateTime @default(now())
 }
 
 model Driver {
@@ -53,11 +62,10 @@ model Destination {
 
 model Ride {
     id            Int         @id @default(autoincrement())
-    customer      Customer    @relation(fields: [customerId], references: [id])
     customerId    Int
-    driver        Driver      @relation(fields: [driverId], references: [id])
+    customer      Customer    @relation(fields: [customerId], references: [id])
     driverId      Int
-    review        Review[]
+    driver        Driver      @relation(fields: [driverId], references: [id])
     originId      Int
     origin        Origin      @relation(fields: [originId], references: [id])
     destinationId Int
@@ -67,6 +75,7 @@ model Ride {
     valueInCents  Int
     createdAt     DateTime    @default(now())
     updatedAt     DateTime    @updatedAt
+    review        Review[]
 }
 
 generator client {
