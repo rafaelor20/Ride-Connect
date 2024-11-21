@@ -3,62 +3,72 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model User {
-    id           Int           @id @default(autoincrement())
-    password     String
-    email        String        @unique
-    createdAt    DateTime      @default(now())
-    amount       Float         @default(0)
-    sessions     Session[]
-    transactions Transaction[]
-    Debts        Debt[]
-    Credits      Credit[]
-}
-
-model Session {
+model Customer {
     id        Int      @id @default(autoincrement())
-    userId    Int
-    token     String
+    name      String
+    email     String   @unique
+    password  String
+    rides     Ride[]
     createdAt DateTime @default(now())
-
-    user User @relation(fields: [userId], references: [id])
+    updatedAt DateTime @updatedAt
 }
 
-model Transaction {
-    id          Int      @id @default(autoincrement())
-    userId      Int
-    entity      String?
-    description String?
-    amount      Float
-    createdAt   DateTime @default(now())
-
-    user User @relation(fields: [userId], references: [id])
+model Driver {
+    id                Int      @id @default(autoincrement())
+    name              String
+    email             String   @unique
+    password          String
+    description       String
+    vehicle           String
+    pricePerKmInCents Int
+    minKm             Int
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+    rides             Ride[]
 }
 
-model Debt {
-    id          Int       @id @default(autoincrement())
-    userId      Int
-    description String?
-    creditor    String?
-    amount      Float
-    createdAt   DateTime  @default(now())
-    paid        Boolean   @default(false)
-    payDate     DateTime?
-
-    user User @relation(fields: [userId], references: [id])
+model Review {
+    id        Int      @id @default(autoincrement())
+    rideId    Int
+    ride      Ride     @relation(fields: [rideId], references: [id])
+    rating    Int      @default(4)
+    comment   String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
-model Credit {
-    id          Int       @id @default(autoincrement())
-    userId      Int
-    description String?
-    debtor      String?
-    amount      Float
-    createdAt   DateTime  @default(now())
-    paid        Boolean   @default(false)
-    payDate     DateTime?
+model Origin {
+    id        Int    @id @default(autoincrement())
+    address   String
+    latitude  Float
+    longitude Float
+    rides     Ride[]
+}
 
-    user User @relation(fields: [userId], references: [id])
+model Destination {
+    id        Int    @id @default(autoincrement())
+    address   String
+    latitude  Float
+    longitude Float
+    rides     Ride[]
+}
+
+model Ride {
+    id            Int         @id @default(autoincrement())
+    customer      Customer    @relation(fields: [customerId], references: [id])
+    customerId    Int
+    driver        Driver      @relation(fields: [driverId], references: [id])
+    driverId      Int
+    review        Review[]
+    originId      Int
+    origin        Origin      @relation(fields: [originId], references: [id])
+    destinationId Int
+    destination   Destination @relation(fields: [destinationId], references: [id])
+    distanceInKm  Int
+    durationInSec Int
+    valueInCents  Int
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
 }
 
 generator client {
