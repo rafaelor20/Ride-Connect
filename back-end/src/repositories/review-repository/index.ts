@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '@/config';
 
-async function create(data: Prisma.ReviewUncheckedCreateInput) {
+async function createReview(data: Prisma.ReviewUncheckedCreateInput) {
   return prisma.review.create({
     data,
   });
@@ -22,7 +22,7 @@ async function findById(id: number, select?: Prisma.ReviewSelect) {
 }
 
 const reviewRepository = {
-  create,
+  createReview,
   findById,
 };
 
