@@ -5,7 +5,6 @@ import driverRepository from '../../repositories/driver-repository';
 import rideRepository from '../../repositories/ride-repository';
 import originRepository from '../../repositories/origin-repository';
 import destinationRepository from '../../repositories/destination-repository';
-import reviewRepository from '../../repositories/review-repository';
 
 const client = new Client({});
 
@@ -117,7 +116,7 @@ export async function rideConfirm(
       longitude: 0,
     });
 
-    const ride = await rideRepository.createRide({
+    await rideRepository.createRide({
       customerId: parseInt(customer_id),
       originId: originAdress.id,
       destinationId: destinationAdress.id,
@@ -126,6 +125,10 @@ export async function rideConfirm(
       driverId: parseInt(driver.id),
       valueInCents: parseInt(value),
     });
+
+    const response = { sucess: true };
+
+    return response;
   } catch (error) {
     throw new Error('Invalid customer ID');
   }
