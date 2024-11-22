@@ -53,32 +53,24 @@ async function main() {
   const origin1 = await prisma.origin.create({
     data: {
       address: '123 Main St, City, Country',
-      latitude: 12345678, // Example Int (could use Float)
-      longitude: 98765432, // Example Int (could use Float)
     },
   });
 
   const destination1 = await prisma.destination.create({
     data: {
       address: '456 Oak St, City, Country',
-      latitude: 23456789, // Example Int (could use Float)
-      longitude: 87654321, // Example Int (could use Float)
     },
   });
 
   const origin2 = await prisma.origin.create({
     data: {
       address: '789 Maple Ave, City, Country',
-      latitude: 34567890,
-      longitude: 76543210,
     },
   });
 
   const destination2 = await prisma.destination.create({
     data: {
       address: '321 Pine St, City, Country',
-      latitude: 45678901,
-      longitude: 65432109,
     },
   });
 
