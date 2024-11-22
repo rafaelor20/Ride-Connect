@@ -1,44 +1,39 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '@/config';
 
-async function findByEmail(email: string, select?: Prisma.CustomerSelect) {
-  const params: Prisma.CustomerFindUniqueArgs = {
-    where: {
-      email,
+async function createRide(data: Prisma.RideUncheckedCreateInput) {
+  return prisma.ride.create({
+    data: {
+      customerId: data.customerId,
+      driverId: data.driverId,
+      originId: data.originId,
+      destinationId: data.destinationId,
+      distanceInKm: data.distanceInKm,
+      durationInSec: data.durationInSec,
+      valueInCents: data.valueInCents,
     },
-  };
-
-  if (select) {
-    params.select = select;
-  }
-
-  return prisma.customer.findUnique(params);
-}
-
-async function create(data: Prisma.CustomerUncheckedCreateInput) {
-  return prisma.customer.create({
-    data,
+    include: {
+      customer: true,
+      driver: true,
+      origin: true,
+      destination: true,
+    },
   });
 }
 
-async function findById(id: number, select?: Prisma.CustomerSelect) {
-  const params: Prisma.CustomerFindUniqueArgs = {
+async function findById(id: number) {
+  const params: Prisma.RideFindUniqueArgs = {
     where: {
       id,
     },
   };
 
-  if (select) {
-    params.select = select;
-  }
-
-  return prisma.customer.findUnique(params);
+  return prisma.ride.findUnique(params);
 }
 
-const userRepository = {
-  findByEmail,
-  create,
+const rideRepository = {
+  createRide,
   findById,
 };
 
-export default userRepository;
+export default rideRepository;

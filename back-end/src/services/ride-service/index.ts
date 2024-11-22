@@ -3,6 +3,7 @@ import { Client } from '@googlemaps/google-maps-services-js';
 import { Customer } from '@prisma/client';
 import userRepository from '../../repositories/user-repository';
 import driverRepository from '../../repositories/driver-repository';
+import rideRepository from '../../repositories/ride-repository';
 
 const client = new Client({});
 
@@ -19,11 +20,23 @@ async function checkCustomerExists(customerId: string) {
   }
 }
 
+async function checkDriverExists(driverId: string) {
+  try {
+    const id = parseInt(driverId);
+    const driver = await driverRepository.findById(id);
+    if (!driver) {
+      throw new Error('Driver not found');
+    }
+  } catch (error) {
+    throw new Error('Invalid driver ID');
+  }
+}
+
 export async function rideEstimate({ customer_id, origin, destination }: RideEstimateParams) {
   const apiKey = process.env.GOOGLE_API; // Replace with your actual API key.
 
   try {
-    const Customer = await checkCustomerExists(customer_id);
+    await checkCustomerExists(customer_id);
 
     // Get latitude and longitude of origin and destination
     const [originGeo, destinationGeo] = await Promise.all([
@@ -82,10 +95,38 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
   }
 }
 
+export async function rideConfirm(
+  customer_id: string,
+  origin: string,
+  destination: string,
+  distance: string,
+  duration: string,
+  driver: { id: string; name: string },
+  value: string,
+) {
+  try {
+    await checkCustomerExists(customer_id);
+    await checkDriverExists(driver.id);
+
+    const ride = await rideRepository.createRide({
+      customer_id: parseInt(customer_id),
+      origin,
+      destination,
+      distance,
+      duration,
+      driver_id: parseInt(driver.id),
+      value,
+    });
+  } catch (error) {
+    throw new Error('Invalid customer ID');
+  }
+}
+
 export type RideEstimateParams = { customer_id: string; origin: string; destination: string };
 
 const rideService = {
   rideEstimate,
+  rideConfirm,
 };
 
 //export * from './errors';
