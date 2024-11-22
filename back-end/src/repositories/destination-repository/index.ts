@@ -21,7 +21,7 @@ async function findById(id: number, select?: Prisma.DestinationSelect) {
   return prisma.destination.findUnique(params);
 }
 
-const destination = {
+const destinationRepository = {
   create,
   findById,
 };

@@ -1,26 +1,14 @@
 import { Prisma } from '@prisma/client';
 import { prisma } from '@/config';
 
-async function create(data: Prisma.DriverUncheckedCreateInput) {
-  return prisma.driver.create({
+async function create(data: Prisma.ReviewUncheckedCreateInput) {
+  return prisma.review.create({
     data,
   });
 }
 
-async function getDriversWithReviews() {
-  return prisma.driver.findMany({
-    include: {
-      rides: {
-        include: {
-          review: true, // Include reviews for each ride
-        },
-      },
-    },
-  });
-}
-
-async function findById(id: number, select?: Prisma.DriverSelect) {
-  const params: Prisma.DriverFindUniqueArgs = {
+async function findById(id: number, select?: Prisma.ReviewSelect) {
+  const params: Prisma.ReviewFindUniqueArgs = {
     where: {
       id,
     },
@@ -30,13 +18,12 @@ async function findById(id: number, select?: Prisma.DriverSelect) {
     params.select = select;
   }
 
-  return prisma.customer.findUnique(params);
+  return prisma.review.findUnique(params);
 }
 
-const driverRepository = {
+const reviewRepository = {
   create,
   findById,
-  getDriversWithReviews,
 };
 
-export default driverRepository;
+export default reviewRepository;
