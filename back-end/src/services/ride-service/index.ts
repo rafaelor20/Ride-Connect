@@ -1,8 +1,6 @@
-import { Ride, Customer } from '@prisma/client';
 import { Client } from '@googlemaps/google-maps-services-js';
-import dotenv from 'dotenv';
-//import { createCustomerSchema } from '@/schemas';
 
+import { Customer } from '@prisma/client';
 import userRepository from '../../repositories/user-repository';
 import driverRepository from '../../repositories/driver-repository';
 
@@ -17,7 +15,6 @@ async function checkCustomerExists(customerId: string) {
     }
     return customer;
   } catch (error) {
-    console.error('Error checking if customer exists:', error);
     throw new Error('Invalid customer ID');
   }
 }
@@ -26,7 +23,6 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
   const apiKey = process.env.GOOGLE_API; // Replace with your actual API key.
 
   try {
-    console.log(customer_id, origin, destination);
     const Customer = await checkCustomerExists(customer_id);
 
     // Get latitude and longitude of origin and destination

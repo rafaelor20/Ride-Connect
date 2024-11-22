@@ -7,17 +7,8 @@ export async function rideEstimate(req: Request, res: Response) {
   try {
     const ride = await rideService.rideEstimate({ customer_id: cusomerId, origin, destination });
 
-    console.log('Ride estimate:', ride);
     return res.status(httpStatus.OK).send(ride);
   } catch (error) {
-    if (error.name === 'DuplicatedEmailError') {
-      return res.status(httpStatus.CONFLICT).send(error.message);
-    }
-
-    if (error.name === 'ValidationError') {
-      return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(error.message);
-    }
-
     return res.status(httpStatus.BAD_REQUEST).send(error);
   }
 }
