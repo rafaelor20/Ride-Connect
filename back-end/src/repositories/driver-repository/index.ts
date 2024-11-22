@@ -7,8 +7,16 @@ async function create(data: Prisma.DriverUncheckedCreateInput) {
   });
 }
 
-async function getDrivers() {
-  return prisma.driver.findMany();
+async function getDriversWithReviews() {
+  return prisma.driver.findMany({
+    include: {
+      rides: {
+        include: {
+          review: true, // Include reviews for each ride
+        },
+      },
+    },
+  });
 }
 
 async function findById(id: number, select?: Prisma.DriverSelect) {
@@ -28,7 +36,7 @@ async function findById(id: number, select?: Prisma.DriverSelect) {
 const driverRepository = {
   create,
   findById,
-  getDrivers,
+  getDriversWithReviews,
 };
 
 export default driverRepository;
