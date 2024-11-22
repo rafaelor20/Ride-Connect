@@ -106,6 +106,7 @@ export async function rideConfirm(
   value: string,
 ) {
   try {
+    console.log(customer_id);
     await checkCustomerExists(customer_id);
     await checkDriverExists(driver.id);
 
