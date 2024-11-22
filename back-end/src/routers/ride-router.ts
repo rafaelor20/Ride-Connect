@@ -2,10 +2,10 @@ import { Router } from 'express';
 
 import { createCustomerSchema } from '@/schemas';
 import { validateBody } from '@/middlewares';
-import { usersPost } from '@/controllers';
+import { rideEstimate } from '@/controllers';
 
-const usersRouter = Router();
+const rideRouter = Router();
 
-usersRouter.post('/', validateBody(createCustomerSchema), usersPost);
+rideRouter.post('/estimate', rideEstimate);
 
-export { usersRouter };
+export { rideRouter };
