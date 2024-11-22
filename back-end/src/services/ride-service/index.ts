@@ -109,11 +109,9 @@ export async function rideConfirm(
     await checkCustomerExists(customer_id);
     await checkDriverExists(driver.id);
 
-    const originAdress = await originRepository.createOrigin({ address: origin, latitude: 0, longitude: 0 });
+    const originAdress = await originRepository.createOrigin({ address: origin });
     const destinationAdress = await destinationRepository.createDestination({
       address: destination,
-      latitude: 0,
-      longitude: 0,
     });
 
     await rideRepository.createRide({
