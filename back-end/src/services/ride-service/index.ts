@@ -3,6 +3,7 @@ import { Client } from '@googlemaps/google-maps-services-js';
 import dotenv from 'dotenv';
 //import { createCustomerSchema } from '@/schemas';
 
+import { options } from 'joi';
 import userRepository from '../../repositories/user-repository';
 import driverRepository from '../../repositories/driver-repository';
 
@@ -49,6 +50,8 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
 
     const distanceInfo = distanceMatrix.data.rows[0].elements[0];
 
+    const drivers = await driverRepository.getDrivers();
+
     const response = {
       origin: {
         latitude: originLocation.lat,
@@ -60,6 +63,7 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
       },
       distance: distanceInfo.distance.text,
       duration: distanceInfo.duration.text,
+      options: drivers,
       routeResponse: distanceMatrix.data,
     };
 

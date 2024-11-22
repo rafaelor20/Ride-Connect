@@ -7,6 +7,10 @@ async function create(data: Prisma.DriverUncheckedCreateInput) {
   });
 }
 
+async function getDrivers() {
+  return prisma.driver.findMany();
+}
+
 async function findById(id: number, select?: Prisma.DriverSelect) {
   const params: Prisma.DriverFindUniqueArgs = {
     where: {
@@ -24,6 +28,7 @@ async function findById(id: number, select?: Prisma.DriverSelect) {
 const driverRepository = {
   create,
   findById,
+  getDrivers,
 };
 
 export default driverRepository;
