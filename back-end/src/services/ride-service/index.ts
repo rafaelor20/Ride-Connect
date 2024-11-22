@@ -1,9 +1,11 @@
 import { Client } from '@googlemaps/google-maps-services-js';
 
-import { Customer } from '@prisma/client';
 import userRepository from '../../repositories/user-repository';
 import driverRepository from '../../repositories/driver-repository';
 import rideRepository from '../../repositories/ride-repository';
+import originRepository from '../../repositories/origin-repository';
+import destinationRepository from '../../repositories/destination-repository';
+import reviewRepository from '../../repositories/review-repository';
 
 const client = new Client({});
 
@@ -108,14 +110,21 @@ export async function rideConfirm(
     await checkCustomerExists(customer_id);
     await checkDriverExists(driver.id);
 
+    const originAdress = await originRepository.createOrigin({ address: origin, latitude: 0, longitude: 0 });
+    const destinationAdress = await destinationRepository.createDestination({
+      address: destination,
+      latitude: 0,
+      longitude: 0,
+    });
+
     const ride = await rideRepository.createRide({
-      customer_id: parseInt(customer_id),
-      origin,
-      destination,
-      distance,
-      duration,
-      driver_id: parseInt(driver.id),
-      value,
+      customerId: parseInt(customer_id),
+      originId: originAdress.id,
+      destinationId: destinationAdress.id,
+      distanceInKm: parseInt(distance),
+      durationInSec: parseInt(duration),
+      driverId: parseInt(driver.id),
+      valueInCents: parseInt(value),
     });
   } catch (error) {
     throw new Error('Invalid customer ID');

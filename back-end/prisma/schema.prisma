@@ -45,19 +45,15 @@ model Review {
 }
 
 model Origin {
-    id        Int    @id @default(autoincrement())
-    address   String
-    latitude  Float
-    longitude Float
-    rides     Ride[]
+    id      Int    @id @default(autoincrement())
+    address String
+    rides   Ride[]
 }
 
 model Destination {
-    id        Int    @id @default(autoincrement())
-    address   String
-    latitude  Float
-    longitude Float
-    rides     Ride[]
+    id      Int    @id @default(autoincrement())
+    address String
+    rides   Ride[]
 }
 
 model Ride {

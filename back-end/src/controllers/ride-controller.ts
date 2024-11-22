@@ -16,15 +16,7 @@ export async function rideEstimate(req: Request, res: Response) {
 export async function rideConfirm(req: Request, res: Response) {
   const { customer_id, origin, destination, distance, duration, driver, value } = req.body;
   try {
-    const ride = await rideService.rideConfirm({
-      customer_id,
-      origin,
-      destination,
-      distance,
-      duration,
-      driver,
-      value,
-    });
+    const ride = await rideService.rideConfirm(customer_id, origin, destination, distance, duration, driver, value);
 
     return res.status(httpStatus.OK).send(ride);
   } catch (error) {
