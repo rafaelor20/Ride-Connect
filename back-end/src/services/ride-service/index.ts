@@ -60,6 +60,7 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
       },
       distance: distanceInfo.distance.text,
       duration: distanceInfo.duration.text,
+      routeResponse: distanceMatrix.data,
     };
 
     return response;
