@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { badRequestError } from '../errors/bad-request-error';
 import rideService from '@/services/ride-service';
 
 export async function rideEstimate(req: Request, res: Response) {
@@ -25,29 +26,25 @@ export async function rideConfirm(req: Request, res: Response) {
 }
 
 export async function getRidesByCustomerId(req: Request, res: Response) {
-  
   try {
-
     const { customer_id } = req.params;
     const { driver_id } = req.query;
 
-    if(customer_id == null || customer_id == undefined) {
-      return res.status(httpStatus.BAD).send('Invalid customer ID');
+    if (customer_id == null || customer_id == undefined) {
+      return res.status(httpStatus.BAD_REQUEST).send('Invalid customer ID');
     }
 
-    let rides
+    let rides;
 
-    if ( driver_id == null || driver_id == undefined ) {
+    if (driver_id == null || driver_id == undefined) {
       rides = await rideService.getRidesByCustomerId(customer_id);
       return res.status(httpStatus.OK).send(rides);
     }
 
-    rides = await rideService.getRidesByCustomerAndDriverId(customer_id, driver_id);
+    rides = await rideService.getRidesByCustomerAndDriverId(customer_id, driver_id as string);
 
     return res.status(httpStatus.OK).send(rides);
-  
   } catch (error) {
-    return res.status(httpStatus.BAD).send(error);
+    return res.status(httpStatus.BAD_REQUEST).send(error);
   }
 }
-

@@ -28,6 +28,7 @@ async function checkDriverExists(driverId: string) {
     if (!driver) {
       throw new Error('Driver not found');
     }
+    return driver;
   } catch (error) {
     throw new Error('Invalid driver ID');
   }
@@ -136,7 +137,7 @@ export async function rideConfirm(
 export async function getRidesByCustomerId(customer_id: string) {
   try {
     const customer = await checkCustomerExists(customer_id);
-    let rides = await rideRepository.findByCustomerId(customer.id);
+    const rides = await rideRepository.findByCustomerId(customer.id);
 
     return rides;
   } catch (error) {
@@ -148,7 +149,7 @@ export async function getRidesByCustomerAndDriverId(customer_id: string, driver_
   try {
     const customer = await checkCustomerExists(customer_id);
     const driver = await checkDriverExists(driver_id);
-    let rides = await rideRepository.findByCustomerAndDriverId(customer.id, driver.id);
+    const rides = await rideRepository.findByCustomerAndDriverId(customer.id, driver.id);
 
     return rides;
   } catch (error) {
@@ -162,7 +163,7 @@ const rideService = {
   rideEstimate,
   rideConfirm,
   getRidesByCustomerId,
-  getRidesByCustomerAndDriverId
+  getRidesByCustomerAndDriverId,
 };
 
 //export * from './errors';
