@@ -1,4 +1,4 @@
-export * from './users-factory';
+export * from './customer-factory';
 export * from './sessions-factory';
 export * from './transaction-factory';
 export * from './debt-factory';
