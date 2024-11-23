@@ -3,7 +3,7 @@ import faker from '@faker-js/faker';
 import { Customer } from '@/models/customer';
 import { prisma } from '@/config';
 
-export async function createUser(params: Partial<Customer> = {}): Promise<Customer> {
+export async function createCustomer(params: Partial<Customer> = {}): Promise<Customer> {
   const incomingPassword = params.password || faker.internet.password(6);
   const hashedPassword = await bcrypt.hash(incomingPassword, 10);
 
