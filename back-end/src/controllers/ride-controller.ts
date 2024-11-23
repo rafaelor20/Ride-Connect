@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { badRequestError } from '../errors/bad-request-error';
+import { AuthenticatedRequest } from '@/middlewares';
 import rideService from '@/services/ride-service';
 
-export async function rideEstimate(req: Request, res: Response) {
-  const { customer_id, origin, destination } = req.body;
+export async function rideEstimate(req: AuthenticatedRequest, res: Response) {
+  const { origin, destination } = req.body;
+  const customer_id = req.userId;
   try {
     const ride = await rideService.rideEstimate({ customer_id, origin, destination });
 
@@ -14,8 +15,9 @@ export async function rideEstimate(req: Request, res: Response) {
   }
 }
 
-export async function rideConfirm(req: Request, res: Response) {
-  const { customer_id, origin, destination, distance, duration, driver, value } = req.body;
+export async function rideConfirm(req: AuthenticatedRequest, res: Response) {
+  const { origin, destination, distance, duration, driver, value } = req.body;
+  const customer_id = req.userId;
   try {
     const ride = await rideService.rideConfirm(customer_id, origin, destination, distance, duration, driver, value);
 
@@ -25,7 +27,7 @@ export async function rideConfirm(req: Request, res: Response) {
   }
 }
 
-export async function getRidesByCustomerId(req: Request, res: Response) {
+export async function getRidesByCustomerId(req: AuthenticatedRequest, res: Response) {
   try {
     const { customer_id } = req.params;
     const { driver_id } = req.query;
