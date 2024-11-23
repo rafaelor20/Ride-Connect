@@ -133,11 +133,36 @@ export async function rideConfirm(
   }
 }
 
+export async function getRidesByCustomerId(customer_id: string) {
+  try {
+    const customer = await checkCustomerExists(customer_id);
+    let rides = await rideRepository.findByCustomerId(customer.id);
+
+    return rides;
+  } catch (error) {
+    throw new Error('Error in getRidesByCustomerId');
+  }
+}
+
+export async function getRidesByCustomerAndDriverId(customer_id: string, driver_id: string) {
+  try {
+    const customer = await checkCustomerExists(customer_id);
+    const driver = await checkDriverExists(driver_id);
+    let rides = await rideRepository.findByCustomerAndDriverId(customer.id, driver.id);
+
+    return rides;
+  } catch (error) {
+    throw new Error('Error in getRidesByCustomerAndDriverId');
+  }
+}
+
 export type RideEstimateParams = { customer_id: string; origin: string; destination: string };
 
 const rideService = {
   rideEstimate,
   rideConfirm,
+  getRidesByCustomerId,
+  getRidesByCustomerAndDriverId
 };
 
 //export * from './errors';

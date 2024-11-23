@@ -23,3 +23,31 @@ export async function rideConfirm(req: Request, res: Response) {
     return res.status(httpStatus.BAD_REQUEST).send(error);
   }
 }
+
+export async function getRidesByCustomerId(req: Request, res: Response) {
+  
+  try {
+
+    const { customer_id } = req.params;
+    const { driver_id } = req.query;
+
+    if(customer_id == null || customer_id == undefined) {
+      return res.status(httpStatus.BAD).send('Invalid customer ID');
+    }
+
+    let rides
+
+    if ( driver_id == null || driver_id == undefined ) {
+      rides = await rideService.getRidesByCustomerId(customer_id);
+      return res.status(httpStatus.OK).send(rides);
+    }
+
+    rides = await rideService.getRidesByCustomerAndDriverId(customer_id, driver_id);
+
+    return res.status(httpStatus.OK).send(rides);
+  
+  } catch (error) {
+    return res.status(httpStatus.BAD).send(error);
+  }
+}
+
