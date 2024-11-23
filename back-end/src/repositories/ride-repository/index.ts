@@ -31,9 +31,32 @@ async function findById(id: number) {
   return prisma.ride.findUnique(params);
 }
 
+async function findByCustomerId(customerId: number) {
+  const params: Prisma.RideFindManyArgs = {
+    where: {
+      customerId,
+    },
+  };
+
+  return prisma.ride.findMany(params);
+}
+
+async function findByCustomerAndDriverId(customerId: number, driverId: number) {
+  const params: Prisma.RideFindManyArgs = {
+    where: {
+      customerId,
+      driverId,
+    },
+  };
+
+  return prisma.ride.findMany(params);
+}
+
 const rideRepository = {
   createRide,
   findById,
+  findByCustomerId,
+  findByCustomerAndDriverId,
 };
 
 export default rideRepository;
