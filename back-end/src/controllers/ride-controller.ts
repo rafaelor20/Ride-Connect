@@ -5,7 +5,8 @@ import rideService from '@/services/ride-service';
 
 export async function rideEstimate(req: AuthenticatedRequest, res: Response) {
   const { origin, destination } = req.body;
-  const customer_id = req.userId;
+  const { userId } = req;
+  const customer_id = String(userId);
   try {
     const ride = await rideService.rideEstimate({ customer_id, origin, destination });
 
@@ -17,7 +18,8 @@ export async function rideEstimate(req: AuthenticatedRequest, res: Response) {
 
 export async function rideConfirm(req: AuthenticatedRequest, res: Response) {
   const { origin, destination, distance, duration, driver, value } = req.body;
-  const customer_id = req.userId;
+  const { userId } = req;
+  const customer_id = String(userId);
   try {
     const ride = await rideService.rideConfirm(customer_id, origin, destination, distance, duration, driver, value);
 
@@ -31,9 +33,14 @@ export async function getRidesByCustomerId(req: AuthenticatedRequest, res: Respo
   try {
     const { customer_id } = req.params;
     const { driver_id } = req.query;
+    const { userId } = req;
 
     if (customer_id == null || customer_id == undefined) {
       return res.status(httpStatus.BAD_REQUEST).send('Invalid customer ID');
+    }
+
+    if (customer_id != String(userId)) {
+      return res.status(httpStatus.UNAUTHORIZED).send('Unauthorized');
     }
 
     let rides;
