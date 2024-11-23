@@ -1,20 +1,22 @@
 import * as jwt from 'jsonwebtoken';
-import { User } from '@prisma/client';
+import { Customer } from '@prisma/client';
 
-import { createUser } from './factories';
+import { createCustomer } from './factories';
 import { createSession } from './factories/sessions-factory';
 import { prisma } from '@/config';
 
 export async function cleanDb() {
-  await prisma.debt.deleteMany({});
-  await prisma.credit.deleteMany({});
-  await prisma.transaction.deleteMany({});
+  await prisma.review.deleteMany({});
+  await prisma.ride.deleteMany({});
+  await prisma.origin.deleteMany({});
+  await prisma.destination.deleteMany({});
   await prisma.session.deleteMany({});
-  await prisma.user.deleteMany({});
+  await prisma.customer.deleteMany({});
+  await prisma.driver.deleteMany({});
 }
 
-export async function generateValidToken(user?: User) {
-  const incomingUser = user || (await createUser());
+export async function generateValidToken(user?: Customer) {
+  const incomingUser = user || (await createCustomer());
   const token = jwt.sign({ userId: incomingUser.id }, process.env.JWT_SECRET);
 
   await createSession(token);
