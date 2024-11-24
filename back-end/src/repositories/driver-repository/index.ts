@@ -30,7 +30,7 @@ async function findById(id: number, select?: Prisma.DriverSelect) {
     params.select = select;
   }
 
-  return prisma.customer.findUnique(params);
+  return prisma.driver.findUnique(params);
 }
 
 const driverRepository = {

@@ -34,10 +34,29 @@ async function checkDriverExists(driverId: string) {
   }
 }
 
+function checkOriginAndDestination(origin: string, destination: string) {
+  if (!origin || !destination) {
+    throw new Error('Origin and destination are required');
+  }
+
+  if (origin == destination) {
+    throw new Error('Origin and destination cannot be the same');
+  }
+}
+
+async function checkDistanceByDriver(driverId: number, distance: string) {
+  const driver = await driverRepository.findById(driverId);
+
+  if (driver.minKm > parseInt(distance)) {
+    throw new Error('Distance is less than the minimum allowed');
+  }
+}
+
 export async function rideEstimate({ customer_id, origin, destination }: RideEstimateParams) {
   const apiKey = process.env.GOOGLE_API; // Replace with your actual API key.
 
   try {
+    checkOriginAndDestination(origin, destination);
     await checkCustomerExists(customer_id);
 
     // Get latitude and longitude of origin and destination
@@ -107,7 +126,7 @@ export async function rideConfirm(
   value: string,
 ) {
   try {
-    console.log(customer_id);
+    checkOriginAndDestination(origin, destination);
     await checkCustomerExists(customer_id);
     await checkDriverExists(driver.id);
 
