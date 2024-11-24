@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export default function Footer() {
   return (
     <Container>
-      <p>&copy; 2023 Coin Manager. All rights reserved.</p>
+      <p>&copy; 2024 Ride Connect. All rights reserved.</p>
     </Container>
   );
 }

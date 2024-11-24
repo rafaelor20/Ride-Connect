@@ -5,7 +5,7 @@ import Link from '../Link';
 export default function Header() {
   return (
     <Container>
-      <p>Coin Manager</p>
+      <p>Ride Connect</p>
       <Link to="/">
         <img src={logoutButton} alt="Log out button" width="23" height="24" />
       </Link>

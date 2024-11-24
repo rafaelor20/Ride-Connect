@@ -38,8 +38,8 @@ export default function SignIn() {
     <Page >
       <Container>
         <Row>
-          <img src={logo} alt="Coin Manager Logo" width="140px" />
-          <Title>Coin Manager</Title>
+          <img src={logo} alt="Ride Connect Logo" width="140px" />
+          <Title>Ride Connect</Title>
         </Row>
         <Row>
           <Label></Label>
