@@ -28,7 +28,7 @@ export const Content = styled.div`
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 42vh;
-  width: 95%;
+  width: 70vw;
 `;
 
 export const CurrentAmount = styled.div`
