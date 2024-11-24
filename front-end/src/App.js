@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ToastContainer } from 'react-toastify';
 
 import { UserProvider } from './contexts/UserContext';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 
 import useToken from './hooks/useToken';
 
