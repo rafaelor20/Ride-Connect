@@ -7,6 +7,7 @@
     "prebuild": "rm -rf dist",
     "build": "ttsc -p tsconfig.build.json",
     "start": "node dist/server.js",
+    "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
     "lint": "eslint .",
     "lint:staged": "lint-staged",
     "dev:load-envs": "dotenv -e .env.development",
