@@ -113,16 +113,19 @@ describe('PATCH /ride/confirm', () => {
     const customer = await createCustomer();
     const token = await generateValidToken(customer);
     const driver = await createDriver();
-    const response = await server.patch('/ride/confirm').set('Authorization', `Bearer ${token}`).send({
-      destination: faker.address.streetName(),
-      distance: faker.random.number(),
-      duration: faker.random.words(),
-      driver: {
-        id: driver.id,
-        name: driver.name,
-      },
-      value: faker.random.number(),
-    });
+    const response = await server
+      .patch('/ride/confirm')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        destination: faker.address.streetName(),
+        distance: faker.random.number(),
+        duration: faker.random.words(),
+        driver: {
+          id: driver.id,
+          name: driver.name,
+        },
+        value: faker.random.number(),
+      });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
   });
@@ -131,16 +134,19 @@ describe('PATCH /ride/confirm', () => {
     const customer = await createCustomer();
     const token = await generateValidToken(customer);
     const driver = await createDriver();
-    const response = await server.patch('/ride/confirm').set('Authorization', `Bearer ${token}`).send({
-      origin: faker.address.streetName(),
-      distance: faker.random.number(),
-      duration: faker.random.words(),
-      driver: {
-        id: driver.id,
-        name: driver.name,
-      },
-      value: faker.random.number(),
-    });
+    const response = await server
+      .patch('/ride/confirm')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        origin: faker.address.streetName(),
+        distance: faker.random.number(),
+        duration: faker.random.words(),
+        driver: {
+          id: driver.id,
+          name: driver.name,
+        },
+        value: faker.random.number(),
+      });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
   });
@@ -149,17 +155,20 @@ describe('PATCH /ride/confirm', () => {
     const customer = await createCustomer();
     const token = await generateValidToken(customer);
     const driver = await createDriver();
-    const response = await server.patch('/ride/confirm').set('Authorization', `Bearer ${token}`).send({
-      origin: faker.address.streetName(),
-      destination: origin,
-      distance: faker.random.number(),
-      duration: faker.random.words(),
-      driver: {
-        id: driver.id,
-        name: driver.name,
-      },
-      value: faker.random.number(),
-    });
+    const response = await server
+      .patch('/ride/confirm')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        origin: faker.address.streetName(),
+        destination: origin,
+        distance: faker.random.number(),
+        duration: faker.random.words(),
+        driver: {
+          id: driver.id,
+          name: driver.name,
+        },
+        value: faker.random.number(),
+      });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
   });
@@ -168,34 +177,40 @@ describe('PATCH /ride/confirm', () => {
     const customer = await createCustomer();
     const token = await generateValidToken(customer);
     const driver = await createDriver();
-    const response = await server.patch('/ride/confirm').set('Authorization', `Bearer ${token}`).send({
-      origin: faker.address.streetName(),
-      destination: faker.address.streetName(),
-      duration: faker.random.words(),
-      driver: {
-        id: driver.id,
-        name: driver.name,
-      },
-      value: faker.random.number(),
-    });
+    const response = await server
+      .patch('/ride/confirm')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        origin: faker.address.streetName(),
+        destination: faker.address.streetName(),
+        duration: faker.random.words(),
+        driver: {
+          id: driver.id,
+          name: driver.name,
+        },
+        value: faker.random.number(),
+      });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
   });
-  
+
   it('should respond with status 400 when duration is not provided', async () => {
     const customer = await createCustomer();
     const token = await generateValidToken(customer);
     const driver = await createDriver();
-    const response = await server.patch('/ride/confirm').set('Authorization', `Bearer ${token}`).send({
-      origin: faker.address.streetName(),
-      destination: faker.address.streetName(),
-      distance: faker.random.number(),
-      driver: {
-        id: driver.id,
-        name: driver.name,
-      },
-      value: faker.random.number(),
-    });
+    const response = await server
+      .patch('/ride/confirm')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        origin: faker.address.streetName(),
+        destination: faker.address.streetName(),
+        distance: faker.random.number(),
+        driver: {
+          id: driver.id,
+          name: driver.name,
+        },
+        value: faker.random.number(),
+      });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
   });
@@ -219,35 +234,41 @@ describe('PATCH /ride/confirm', () => {
     const customer = await createCustomer();
     const token = await generateValidToken(customer);
     const driver = await createDriver();
-    const response = await server.patch('/ride/confirm').set('Authorization', `Bearer ${token}`).send({
-      origin: faker.address.streetName(),
-      destination: faker.address.streetName(),
-      distance: faker.random.number(),
-      duration: faker.random.words(),
-      driver: {
-        id: driver.id,
-        name: driver.name,
-      },
-    });
+    const response = await server
+      .patch('/ride/confirm')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        origin: faker.address.streetName(),
+        destination: faker.address.streetName(),
+        distance: faker.random.number(),
+        duration: faker.random.words(),
+        driver: {
+          id: driver.id,
+          name: driver.name,
+        },
+      });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
   });
-  
+
   it('should respond with status 200 when all parameters are provided', async () => {
     const customer = await createCustomer();
     const token = await generateValidToken(customer);
     const driver = await createDriver();
-    const response = await server.patch('/ride/confirm').set('Authorization', `Bearer ${token}`).send({
-      origin: faker.address.streetName(),
-      destination: faker.address.streetName(),
-      distance: faker.random.number(),
-      duration: faker.random.words(),
-      driver: {
-        id: driver.id,
-        name: driver.name,
-      },
-      value: faker.random.number(),
-    });
+    const response = await server
+      .patch('/ride/confirm')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        origin: 'Universidade Federal de Sergipe',
+        destination: 'Universidade Tiradentes',
+        distance: faker.random.number(),
+        duration: faker.random.words(),
+        driver: {
+          id: driver.id,
+          name: driver.name,
+        },
+        value: faker.random.number(),
+      });
 
     expect(response.status).toBe(httpStatus.OK);
     expect(response.body).toEqual(
@@ -270,5 +291,5 @@ describe('PATCH /ride/confirm', () => {
         value: expect.any(Number),
       }),
     );
-  }
+  });
 });
