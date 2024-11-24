@@ -7,6 +7,8 @@ export async function rideEstimate(req: AuthenticatedRequest, res: Response) {
   const { origin, destination } = req.body;
   const { userId } = req;
   const customer_id = String(userId);
+  console.log('rideEstimate', { userId, customer_id, origin, destination });
+  console.log(req);
   try {
     const ride = await rideService.rideEstimate({ customer_id, origin, destination });
 

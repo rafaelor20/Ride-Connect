@@ -1,6 +1,10 @@
 import api from './api';
 
-export async function confirm( origin, destination, distance, duration, driver, value) {
-  const response = await api.post('/ride/confirm', { origin, destination, distance, duration, driver, value });
+export async function confirm( body, token) {
+  const response = await api.post('/ride/confirm', body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 }

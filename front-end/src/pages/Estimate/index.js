@@ -20,7 +20,9 @@ export default function EstimateRide() {
     event.preventDefault();
     
     try {
-      await estimate(origin, destination);
+      const response = await estimate({ origin, destination });
+      
+      localStorage.setItem('rideEstimate', JSON.stringify(response));
       toast('Estimate success!');
       navigate('/confirm');
     } catch (error) {

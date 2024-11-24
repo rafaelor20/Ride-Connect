@@ -1,13 +1,15 @@
 import useAsync from '../useAsync';
+import useToken from '../useToken';
 
 import * as confirmApi from '../../services/confirmApi';
 
 export default function useConfirm() {
+  const token = useToken();
   const {
     loading: confirmLoading,
     error: confirmError,
     act: confirm,
-  } = useAsync(confirmApi.confirm, false);
+  } = useAsync((data) => confirmApi.estimate(data, token), false);
 
   return {
     confirmLoading,
