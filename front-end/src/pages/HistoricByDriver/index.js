@@ -7,15 +7,16 @@ import Input from '../../components/Form/Input';
 import Button from '../../components/Form/Button';
 import Header from '../../components/Home/Header.js';
 import Footer from '../../components/Footer.js';
+import Rides from '../../components/Historic/rides';
 
-export default function HistoricByDriver() {
+export default function Historic() {
   return (
     <Page>
       <Container>
         <Header />
         <Main>
           <Content>
-            <h1>HistoricByDriver</h1>
+            <Rides rides="list of rides"/>
           </Content>
         </Main>
         <Footer />
