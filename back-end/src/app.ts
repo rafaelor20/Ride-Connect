@@ -16,7 +16,7 @@ app
   .use(express.json())
   .get('/health', (req: express.Request, res: express.Response) => res.send('OK!'))
   .use('/users', usersRouter)
-  .use('/authentication', authenticationRouter)
+  .use('/auth', authenticationRouter)
   .use('/ride', rideRouter)
   .use(handleApplicationErrors);
 
