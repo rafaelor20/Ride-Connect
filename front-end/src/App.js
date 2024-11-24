@@ -7,6 +7,8 @@ import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import EstimateRide from './pages/Estimate';
 import ConfirmRide from './pages/Confirm';
+import Historic from './pages/Historic';
+import HistoricByDriver from './pages/HistoricByDriver';
 
 import useToken from './hooks/useToken';
 
@@ -40,6 +42,20 @@ export default function App() {
               element={
                 <ProtectedRouteGuard>
                   <ConfirmRide />
+                </ProtectedRouteGuard>
+              }>
+            </Route>
+            <Route path="/rides"
+              element={
+                <ProtectedRouteGuard>
+                  <Historic />
+                </ProtectedRouteGuard>
+              }>
+            </Route>
+            <Route path="/rides-by-driver"
+              element={
+                <ProtectedRouteGuard>
+                  <HistoricByDriver />
                 </ProtectedRouteGuard>
               }>
             </Route>
