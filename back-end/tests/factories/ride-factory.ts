@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
+import { Ride } from '@prisma/client';
 import { prisma } from '@/config';
-import { Ride } from '@/models/ride';
 
 export async function createRide(params: Partial<Ride> = {}): Promise<Ride> {
   return prisma.ride.create({

@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
+import { Review } from '@prisma/client';
 import { prisma } from '@/config';
-import { Review } from '@/models/review';
 
 export async function createReview(params: Partial<Review> = {}): Promise<Review> {
   return prisma.review.create({

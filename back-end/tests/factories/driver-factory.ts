@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
+import { Driver } from '@prisma/client';
 import { prisma } from '@/config';
-import { Driver } from '@/models/driver';
 
 export async function createDriver(params: Partial<Driver> = {}): Promise<Driver> {
   return prisma.driver.create({

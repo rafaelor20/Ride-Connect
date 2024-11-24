@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import faker from '@faker-js/faker';
-import { Customer } from '@/models/customer';
+import { Customer } from '@prisma/client';
 import { prisma } from '@/config';
 
 export async function createCustomer(params: Partial<Customer> = {}): Promise<Customer> {
