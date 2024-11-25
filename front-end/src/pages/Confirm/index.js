@@ -29,6 +29,8 @@ export default function ConfirmRide() {
     }
   }
 
+  console.log(rideEstimate);
+
   return (
     <Page>
       <Container>

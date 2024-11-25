@@ -4,25 +4,38 @@ import { AuthenticatedRequest } from '@/middlewares';
 import rideService from '@/services/ride-service';
 
 export async function rideEstimate(req: AuthenticatedRequest, res: Response) {
-  const { origin, destination } = req.body;
-  const { userId } = req;
-  const customer_id = String(userId);
-  console.log('rideEstimate', { userId, customer_id, origin, destination });
-  console.log(req);
   try {
+    const { origin, destination } = req.body;
+    const id = req.userId;
+
+    if (id == null || id == undefined) {
+      throw new Error('Invalid customer ID');
+    }
+
+    const customer_id = String(id);
+    console.log('rideEstimate', { id, customer_id, origin, destination });
+    console.log(req);
+
     const ride = await rideService.rideEstimate({ customer_id, origin, destination });
 
     return res.status(httpStatus.OK).send(ride);
   } catch (error) {
-    return res.status(httpStatus.BAD_REQUEST).send(error);
+    if (error.message === 'Invalid customer ID') {
+      return res.status(httpStatus.UNAUTHORIZED).send(error);
+
+      return res.status(httpStatus.BAD_REQUEST).send(error);
+    }
   }
 }
 
 export async function rideConfirm(req: AuthenticatedRequest, res: Response) {
-  const { origin, destination, distance, duration, driver, value } = req.body;
-  const { userId } = req;
-  const customer_id = String(userId);
   try {
+    const { origin, destination, distance, duration, driver, value } = req.body;
+    const { userId } = req;
+    if (userId == null || userId == undefined) {
+      throw new Error('Invalid customer ID');
+    }
+    const customer_id = String(userId);
     const ride = await rideService.rideConfirm(customer_id, origin, destination, distance, duration, driver, value);
 
     return res.status(httpStatus.OK).send(ride);
@@ -38,7 +51,7 @@ export async function getRidesByCustomerId(req: AuthenticatedRequest, res: Respo
     const { userId } = req;
 
     if (customer_id == null || customer_id == undefined) {
-      return res.status(httpStatus.BAD_REQUEST).send('Invalid customer ID');
+      return res.status(httpStatus.UNAUTHORIZED).send('Unauthorized');
     }
 
     if (customer_id != String(userId)) {
@@ -56,6 +69,9 @@ export async function getRidesByCustomerId(req: AuthenticatedRequest, res: Respo
 
     return res.status(httpStatus.OK).send(rides);
   } catch (error) {
+    if (error.message === 'Unauthorized') {
+      return res.status(httpStatus.UNAUTHORIZED).send(error);
+    }
     return res.status(httpStatus.BAD_REQUEST).send(error);
   }
 }
