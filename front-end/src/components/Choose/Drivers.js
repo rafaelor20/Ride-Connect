@@ -3,6 +3,13 @@ import Styled from 'styled-components';
 import Driver from './Driver';
 import { useNavigate } from 'react-router-dom';
 
+function calculateValue(distance, value) {
+  distance = distance.split(' ')[0];
+  distance = parseFloat(distance);
+  value = (distance * value).toFixed(2);
+  return value;
+}
+
 export default function Drivers() {
   const rideEstimateString = localStorage.getItem('rideEstimate');
   let rideEstimate;
@@ -16,7 +23,8 @@ export default function Drivers() {
   }
 
   const submit = (option) => {
-    option.value = rideEstimate.value * option.value;
+    console.log(rideEstimate);
+    option.value = calculateValue(rideEstimate.distance, option.value);
     localStorage.setItem('rideConfirm', JSON.stringify(option));
     navigate('/confirm');
   };

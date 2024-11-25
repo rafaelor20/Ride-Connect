@@ -43,7 +43,6 @@ export default function ConfirmRide() {
         <Header/>
         <Main>
           <Content>
-            
             <h1>Confirm your ride</h1>
             <p>Origin: {origin}</p>
             <p>Destination: {destination}</p>
