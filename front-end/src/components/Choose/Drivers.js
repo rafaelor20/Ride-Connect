@@ -1,38 +1,34 @@
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import Styled from 'styled-components';
 
 import Driver from './Driver';
 
 export default function Drivers() {
-  const { options } = localStorage.getItem('rideEstimate');
-  console.log(options);
-  const navigate = useNavigate();
+  const rideEstimateString = localStorage.getItem('rideEstimate');
+  let rideEstimate;
 
-  async function submit(event) {
-    event.preventDefault();
-    try {
-      const ride = {
-        origin: options.origin,
-        destination: options.destination,
-        distance: options.distance,
-        duration: options.duration,
-        driver: { id: options.driver.id, name: options.driver.name, value: options.value },
-      };
-      localStorage.setItem('ride', JSON.stringify(ride));
-      navigate('/confirm');
-    } catch (error) {
-      toast('Could not choose a driver!');
-    }
+  try {
+    rideEstimate = JSON.parse(rideEstimateString);
+    console.log(rideEstimate);
+    console.log(rideEstimate.options);
+  } catch (error) {
+    console.error('Failed to parse rideEstimate from localStorage', error);
+    rideEstimate = { options: [] }; // Provide a default value to avoid errors
   }
 
   return (
-    <div>
+    <Content>
       <h1>Drivers:</h1>
-      {options.map((option) => (
-        <Driver key={option.driver.id} name={option.driver.name} value={option.value} />
+      {rideEstimate.options.map((option) => (
+        <Driver key={option.id} name={option.name} value={rideEstimate.value} />
       ))}
-      <button onClick={submit}>Choose</button>
-    </div>
+    </Content>
   );
 }
+
+const Content = Styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+  padding: 5px;
+`;
