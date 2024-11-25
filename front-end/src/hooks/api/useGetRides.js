@@ -9,7 +9,7 @@ export default function useGetRides() {
     loading: getRidesLoading,
     error: getRidesError,
     act: getRides,
-  } = useAsync((data) => getRidesApi.useGetRides(data, token), false);
+  } = useAsync((data) => getRidesApi.getRides(data, token), false);
 
   return {
     getRidesLoading,
