@@ -11,18 +11,25 @@ import { useNavigate } from 'react-router-dom';
 import useConfirm from '../../hooks/api/useConfirm';
 
 export default function ConfirmRide() {
-  const rideEstimate = JSON.parse(localStorage.getItem('rideEstimate'));
+  const rideEstimate = JSON.parse(localStorage.getItem('rideEstimate')) || {};
+  const rideConfirm = JSON.parse(localStorage.getItem('rideConfirm')) || {};
+  const origin = JSON.parse(localStorage.getItem('origin')) || '';
+  const destination = JSON.parse(localStorage.getItem('destination')) || '';
+
+  console.log(origin);
+  console.log(destination);
   console.log(rideEstimate);
+  console.log(rideConfirm);
   const navigate = useNavigate();
   const { confirmLoading, confirm } = useConfirm();
 
   async function submit(event) {
     event.preventDefault();
     try {
-      await confirm({ origin: rideEstimate.origin, destination: rideEstimate.destination, 
+      await confirm({ origin: origin, destination: destination, 
         distance: rideEstimate.distance, duration: rideEstimate.duration, 
-        driver: { id: rideEstimate.driver.id, name: rideEstimate.driver.name },
-        value: rideEstimate.value });
+        driver: { id: rideConfirm.id, name: rideConfirm.name },
+        value: rideConfirm.value });
       toast('Ride confirmed!');
       navigate('/home');
     } catch (error) {
@@ -36,24 +43,32 @@ export default function ConfirmRide() {
         <Header/>
         <Main>
           <Content>
+            
+            <h1>Confirm your ride</h1>
+            <p>Origin: {origin}</p>
+            <p>Destination: {destination}</p>
+            <p>Distance: {rideEstimate.distance}</p>
+            <p>Duration: {rideEstimate.duration}</p>
+            <p>Driver:</p>
+            <p>     Id: {rideConfirm.id}</p>
+            <p>     Id: {rideConfirm.name}</p>
+            <p>Value: {rideConfirm.value}</p>
+            <ButtonsDiv>
+              <button onClick={submit} disabled={confirmLoading}>Confirm</button>
+            </ButtonsDiv>
+          </Content>
+          <ButtonsDiv>
+            <Link to="/home">
+              <ButtonsDiv>
+                <button disabled={confirmLoading}>Return to home</button>
+              </ButtonsDiv>
+            </Link>
             <Link to="/estimate">
               <ButtonsDiv>
                 <button disabled={confirmLoading}>Return to estimateRide</button>
               </ButtonsDiv>
             </Link>
-            <h1>Confirm your ride</h1>
-            <p>Origin: {rideEstimate.origin}</p>
-            <p>Destination: {rideEstimate.destination}</p>
-            <p>Distance: {rideEstimate.distance}</p>
-            <p>Duration: {rideEstimate.duration}</p>
-            <p>Driver:</p>
-            <p>     Id: {rideEstimate.driver.id}</p>
-            <p>     Id: {rideEstimate.driver.name}</p>
-            <p>Value: {rideEstimate.value}</p>
-            <ButtonsDiv>
-              <button onClick={submit} disabled={confirmLoading}>Confirm</button>
-            </ButtonsDiv>
-          </Content>
+          </ButtonsDiv>
         </Main>
         <Footer />
       </Container>

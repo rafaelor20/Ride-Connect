@@ -16,6 +16,7 @@ export default function Drivers() {
   }
 
   const submit = (option) => {
+    option.value = rideEstimate.value * option.value;
     localStorage.setItem('rideConfirm', JSON.stringify(option));
     navigate('/confirm');
   };
@@ -24,7 +25,7 @@ export default function Drivers() {
     <Content>
       <h1>Drivers:</h1>
       {rideEstimate.options.map((option) => (
-        <Driver onClick={() => submit(option)} key={option.id} driver={option} />
+        <Driver onClick={() => submit(option)} key={option.id} driver={option}/>
       ))}
     </Content>
   );

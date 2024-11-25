@@ -21,7 +21,8 @@ export default function EstimateRide() {
     
     try {
       const response = await estimate({ origin, destination });
-      
+      localStorage.setItem('origin', JSON.stringify(origin));
+      localStorage.setItem('destination', JSON.stringify(destination));
       localStorage.setItem('rideEstimate', JSON.stringify(response));
       toast('Estimate success!');
       navigate('/choose-driver');
