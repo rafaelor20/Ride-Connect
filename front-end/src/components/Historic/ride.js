@@ -1,19 +1,18 @@
 import styled from 'styled-components';
 
 export default function Ride(props) {
-  const ride = props.ride;
+  console.log(props);
   return (
     <RideContainer>
-      <p>Id: {ride.id}</p>
-      <p>Date: {ride.date}</p>
-      <p>Origin: {ride.origin}</p>
-      <p>Destination: {ride.destination}</p>
-      <p>Distance: {ride.distance}</p>
-      <p>Duration: {ride.duration}</p>
-      <p>Driver:</p>
-      <p>   Id: {ride.driver.id}</p>
-      <p>   Name: {ride.driver.name}</p>
-      <p>Value: {ride.value}</p>
+      <p>Id: {props.id}</p>
+      <p>Date: {props.updatedAt}</p>
+      <p>Origin: {props.origin}</p>
+      <p>Destination: {props.destinationId}</p>
+      <p>Distance: {props.distanceInKm}</p>
+      <p>Duration: {props.durationInSec}</p>
+      <p>Driver id: {props.driverId}</p>
+      <p>Driver name: {props.driverId}</p>
+      <p>Value: {props.valueInCents}</p>
     </RideContainer>
   );
 }

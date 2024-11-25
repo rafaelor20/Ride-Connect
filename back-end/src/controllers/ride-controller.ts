@@ -44,27 +44,16 @@ export async function rideConfirm(req: AuthenticatedRequest, res: Response) {
 
 export async function getRidesByCustomerId(req: AuthenticatedRequest, res: Response) {
   try {
-    const { customer_id } = req.params;
     const { driver_id } = req.query;
     const { userId } = req;
 
-    if (customer_id == null || customer_id == undefined) {
-      return res.status(httpStatus.UNAUTHORIZED).send('Unauthorized');
-    }
-
-    if (customer_id != String(userId)) {
-      return res.status(httpStatus.UNAUTHORIZED).send('Unauthorized');
-    }
-
     let rides;
-
     if (driver_id == null || driver_id == undefined) {
-      rides = await rideService.getRidesByCustomerId(customer_id);
+      rides = await rideService.getRidesByCustomerId(String(userId));
       return res.status(httpStatus.OK).send(rides);
     }
 
-    rides = await rideService.getRidesByCustomerAndDriverId(customer_id, driver_id as string);
-
+    rides = await rideService.getRidesByCustomerAndDriverId(String(userId), String(driver_id));
     return res.status(httpStatus.OK).send(rides);
   } catch (error) {
     if (error.message === 'Unauthorized') {
