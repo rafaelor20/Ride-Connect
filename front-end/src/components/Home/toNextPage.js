@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import Link from '../Link';
 
-export default function ToEstimate() {
+export default function ToNextPage(props) {
   return (
-    <Link to="/estimate">
+    <Link to={props.nextPage}>
       <Content>
         <p>
-            to estimate ride page!!
+          {props.description}
         </p>
       </Content>
     </Link>

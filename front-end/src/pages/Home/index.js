@@ -3,7 +3,8 @@ import { toast } from 'react-toastify';
 
 import Page from '../../components/Page';
 import { Container, Main, Content } from '../../components/styles.js';
-import ToEstimate from '../../components/Home/toEstimate.js';
+import ToEstimate from '../../components/Home/toNextPage.js';
+import Historic from '../../components/Home/historic.js';
 import Header from '../../components/Home/Header.js';
 import Footer from '../../components/Footer.js';
 
@@ -15,9 +16,7 @@ export default function Home() {
         <Main>
           <Content>
             <ToEstimate />
-            <div>
-              getHistoric now
-            </div>
+            <Historic />
           </Content>
         </Main>
         <Footer />

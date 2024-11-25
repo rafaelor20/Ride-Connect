@@ -9,7 +9,7 @@ export default function useConfirm() {
     loading: confirmLoading,
     error: confirmError,
     act: confirm,
-  } = useAsync((data) => confirmApi.estimate(data, token), false);
+  } = useAsync((data) => confirmApi.confirm(data, token), false);
 
   return {
     confirmLoading,
