@@ -2,9 +2,9 @@ import styled from 'styled-components';
 
 export default function Driver(props) {
   return (
-    <Content>
-      <p>Driver's name: {props.name}</p>
-      <p>Value: {props.value}</p>
+    <Content onClick={props.onClick}>
+      <p>Driver's name: {props.driver.name}</p>
+      <p>Value: {props.driver.value}</p>
     </Content>);
 }
 

@@ -15,13 +15,16 @@ export default function Drivers() {
     rideEstimate = { options: [] }; // Provide a default value to avoid errors
   }
 
-  const submit = async (event) => {
+  const submit = (option) => {
+    localStorage.setItem('rideConfirm', JSON.stringify(option));
+    navigate('/confirm');
+  };
 
   return (
     <Content>
       <h1>Drivers:</h1>
       {rideEstimate.options.map((option) => (
-        <Driver key={option.id} name={option.name} value={rideEstimate.value} />
+        <Driver onClick={() => submit(option)} key={option.id} driver={option} />
       ))}
     </Content>
   );
