@@ -24,7 +24,7 @@ export default function EstimateRide() {
       
       localStorage.setItem('rideEstimate', JSON.stringify(response));
       toast('Estimate success!');
-      navigate('/confirm');
+      navigate('/choose-driver');
     } catch (error) {
       toast('Não foi possível fazer o cadastro!');
     }

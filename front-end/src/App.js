@@ -6,6 +6,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import EstimateRide from './pages/Estimate';
+import ChooseDriver from './pages/ChooseDriver';
 import ConfirmRide from './pages/Confirm';
 import Historic from './pages/Historic';
 import HistoricByDriver from './pages/HistoricByDriver';
@@ -37,6 +38,13 @@ export default function App() {
                 </ProtectedRouteGuard>
               }>
             </Route>
+            <Route path="/choose-driver"
+              element={
+                <ProtectedRouteGuard>
+                  <ChooseDriver />
+                </ProtectedRouteGuard>
+              }>
+            </Route>
             <Route
               path="/confirm"
               element={
@@ -59,6 +67,7 @@ export default function App() {
                 </ProtectedRouteGuard>
               }>
             </Route>
+            
           </Routes>
         </Router>
       </UserProvider>
