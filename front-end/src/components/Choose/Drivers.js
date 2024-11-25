@@ -1,10 +1,12 @@
 import Styled from 'styled-components';
 
 import Driver from './Driver';
+import { useNavigate } from 'react-router-dom';
 
 export default function Drivers() {
   const rideEstimateString = localStorage.getItem('rideEstimate');
   let rideEstimate;
+  const navigate = useNavigate();
 
   try {
     rideEstimate = JSON.parse(rideEstimateString);
@@ -12,6 +14,8 @@ export default function Drivers() {
     console.error('Failed to parse rideEstimate from localStorage', error);
     rideEstimate = { options: [] }; // Provide a default value to avoid errors
   }
+
+  const submit = async (event) => {
 
   return (
     <Content>
