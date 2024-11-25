@@ -9,6 +9,8 @@ import Header from '../../components/Home/Header.js';
 import Footer from '../../components/Footer.js';
 import Rides from '../../components/Historic/rides';
 
+import useGetRides from '../../hooks/api/useGetRides.js';
+
 export default function Historic() {
   return (
     <Page>

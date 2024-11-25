@@ -8,6 +8,6 @@ const rideRouter = Router();
 
 rideRouter.post('/estimate', rideEstimate);
 rideRouter.patch('/confirm', rideConfirm);
-rideRouter.get('/:customer_id', getRidesByCustomerId);
+rideRouter.get('/', getRidesByCustomerId);
 
 export { rideRouter };
