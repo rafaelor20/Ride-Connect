@@ -23,7 +23,6 @@ export default function Drivers() {
   }
 
   const submit = (option) => {
-    console.log(rideEstimate);
     option.value = calculateValue(rideEstimate.distance, option.value);
     localStorage.setItem('rideConfirm', JSON.stringify(option));
     navigate('/confirm');
