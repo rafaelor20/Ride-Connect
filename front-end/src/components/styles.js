@@ -29,6 +29,7 @@ export const Content = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 42vh;
   width: 70vw;
+  max-width: 350px;
 `;
 
 export const CurrentAmount = styled.div`
