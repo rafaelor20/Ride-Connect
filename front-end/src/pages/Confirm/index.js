@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-
+import styled from 'styled-components';
 import Page from '../../components/Page';
 import { Container, Main, Content, ButtonsDiv } from '../../components/styles.js';
 import Header from '../../components/Home/Header.js';
@@ -15,11 +15,7 @@ export default function ConfirmRide() {
   const rideConfirm = JSON.parse(localStorage.getItem('rideConfirm')) || {};
   const origin = JSON.parse(localStorage.getItem('origin')) || '';
   const destination = JSON.parse(localStorage.getItem('destination')) || '';
-
-  console.log(origin);
-  console.log(destination);
-  console.log(rideEstimate);
-  console.log(rideConfirm);
+  
   const navigate = useNavigate();
   const { confirmLoading, confirm } = useConfirm();
 
@@ -33,7 +29,8 @@ export default function ConfirmRide() {
       toast('Ride confirmed!');
       navigate('/home');
     } catch (error) {
-      toast('Could not confirm ride!');
+      console.log(error);
+      toast(`${error.message}`);
     }
   }
 
@@ -43,18 +40,19 @@ export default function ConfirmRide() {
         <Header/>
         <Main>
           <Content>
-            <h1>Confirm your ride</h1>
-            <p>Origin: {origin}</p>
-            <p>Destination: {destination}</p>
-            <p>Distance: {rideEstimate.distance}</p>
-            <p>Duration: {rideEstimate.duration}</p>
-            <p>Driver:</p>
-            <p>     Id: {rideConfirm.id}</p>
-            <p>     Id: {rideConfirm.name}</p>
-            <p>Value: {rideConfirm.value}</p>
-            <ButtonsDiv>
-              <button onClick={submit} disabled={confirmLoading}>Confirm</button>
-            </ButtonsDiv>
+            <ContentDiv>
+              <h1>Confirm your ride:</h1>
+              <p>Origin: {origin}</p>
+              <p>Destination: {destination}</p>
+              <p>Distance: {rideEstimate.distance}</p>
+              <p>Duration: {rideEstimate.duration}</p>
+              <p>Driver ID: {rideConfirm.id}</p>
+              <p>Driver Name: {rideConfirm.name}</p>
+              <p>Value: {rideConfirm.value}</p>
+              <ButtonsDiv>
+                <button onClick={submit} disabled={confirmLoading}>Confirm</button>
+              </ButtonsDiv>
+            </ContentDiv>
           </Content>
           <ButtonsDiv>
             <Link to="/home">
@@ -74,3 +72,14 @@ export default function ConfirmRide() {
     </Page>
   );
 };
+
+const ContentDiv = styled.div`
+  min-width: 100%;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  text-align: left;
+  justify-content: center;
+  margin: 20px;
+`;
