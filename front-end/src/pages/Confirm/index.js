@@ -12,6 +12,7 @@ import useConfirm from '../../hooks/api/useConfirm';
 
 export default function ConfirmRide() {
   const rideEstimate = JSON.parse(localStorage.getItem('rideEstimate'));
+  console.log(rideEstimate);
   const navigate = useNavigate();
   const { confirmLoading, confirm } = useConfirm();
 
@@ -28,8 +29,6 @@ export default function ConfirmRide() {
       toast('Could not confirm ride!');
     }
   }
-
-  console.log(rideEstimate);
 
   return (
     <Page>

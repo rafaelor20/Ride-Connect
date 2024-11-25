@@ -13,8 +13,7 @@ export async function rideEstimate(req: AuthenticatedRequest, res: Response) {
     }
 
     const customer_id = String(id);
-    console.log('rideEstimate', { id, customer_id, origin, destination });
-    console.log(req);
+    console.log('rideEstimate', { customer_id, origin, destination });
 
     const ride = await rideService.rideEstimate({ customer_id, origin, destination });
 
