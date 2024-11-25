@@ -16,7 +16,7 @@ export default function Historic() {
         <Header />
         <Main>
           <Content>
-            <Rides rides="list of rides"/>
+            <Rides rides="list of rides by rider"/>
           </Content>
         </Main>
         <Footer />
