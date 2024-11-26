@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export default function Driver(props) {
-  const review = props.driver.review.length > 0 ? props.driver.review[0] : { rating: 0, comment: 'No comments' };
+  const review = props.driver.review.length > 0 ? props.driver.review[0] : { rating: 0, comment: 'No reviews yet' };
   return (
     <Content onClick={props.onClick}>
       <p>Name: {props.driver.name}</p>
