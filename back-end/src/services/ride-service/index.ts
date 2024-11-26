@@ -26,7 +26,7 @@ async function checkDriverExists(driverId: string) {
     const id = parseInt(driverId);
     const driver = await driverRepository.findById(id);
     if (!driver) {
-      throw new Error('Driver not found');
+      throw new Error('Invalid driver ID');
     }
     return driver;
   } catch (error) {
@@ -103,11 +103,12 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
             comment: review.comment,
           })),
         ),
-        // In value, Distance is in meters, price in cents
+        // In value, Distance is in meters, price in cents, value in km/currency
         value: ((distanceInfo.distance.value * driver.pricePerKmInCents) / 100000).toFixed(2),
       })),
       routeResponse: distanceMatrix.data,
     };
+    console.log(response);
 
     return response;
   } catch (error) {
@@ -128,7 +129,9 @@ export async function rideConfirm(
   try {
     checkOriginAndDestination(origin, destination);
     await checkCustomerExists(customer_id);
-    await checkDriverExists(driver.id);
+    const driverDB = await checkDriverExists(driver.id);
+
+    checkDistanceByDriver(driverDB.minKm, distance);
 
     const originAdress = await originRepository.createOrigin({ address: origin });
     const destinationAdress = await destinationRepository.createDestination({
