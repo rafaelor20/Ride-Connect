@@ -26,14 +26,14 @@ export default function SignUp() {
     event.preventDefault();
 
     if (password !== confirmPassword) {
-      toast('As senhas devem ser iguais!');
+      toast('Passwords do not match!');
     } else {
       try {
         await signUp(name, email, password);
-        toast('Inscrito com sucesso! Por favor, faça login.');
+        toast('User created!');
         navigate('/');
       } catch (error) {
-        toast('Não foi possível fazer o cadastro!');
+        toast('Something is wrong!, ' + error.message);
       }
     }
   }

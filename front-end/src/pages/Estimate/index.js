@@ -21,13 +21,13 @@ export default function EstimateRide() {
     
     try {
       const response = await estimate({ origin, destination });
+      console.log(response);
       localStorage.setItem('origin', JSON.stringify(origin));
       localStorage.setItem('destination', JSON.stringify(destination));
       localStorage.setItem('rideEstimate', JSON.stringify(response));
-      toast('Estimate success!');
       navigate('/choose-driver');
     } catch (error) {
-      toast('Não foi possível fazer o cadastro!');
+      toast('Something is wrong!, ' + error.message);
     }
   }
 

@@ -16,7 +16,7 @@ export default function Drivers() {
   try {
     rideEstimate = JSON.parse(rideEstimateString);
   } catch (error) {
-    console.error('Failed to parse rideEstimate from localStorage', error);
+    console.log('Failed to parse ride estimate from localStorage', error);
     rideEstimate = { options: [] }; // Provide a default value to avoid errors
   }
 

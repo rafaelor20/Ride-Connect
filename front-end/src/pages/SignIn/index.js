@@ -27,10 +27,10 @@ export default function SignIn() {
     try {
       const userData = await signIn(email, password);
       setUserData(userData);
-      //toast('Login!');
-      navigate('/home');
+      toast('Login with sucess!');
+      navigate('/estimate');
     } catch (err) {
-      toast('Something is wrong!');
+      toast('Something is wrong!,' + err.message);
     }
   }
 
