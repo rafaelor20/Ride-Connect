@@ -35,6 +35,4 @@ export default function ChooseDriver() {
 };
 
 const MapContainer = styled.div`
-  width: 500px;
-  height: 500px;
 `;
