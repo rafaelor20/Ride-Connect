@@ -36,6 +36,13 @@ async function findByCustomerId(customerId: number) {
     where: {
       customerId,
     },
+    include: {
+      driver: {
+        select: {
+          name: true, // Include only the driver's name
+        },
+      },
+    },
   };
 
   return prisma.ride.findMany(params);
@@ -46,6 +53,14 @@ async function findByCustomerAndDriverId(customerId: number, driverId: number) {
     where: {
       customerId,
       driverId,
+    },
+
+    include: {
+      driver: {
+        select: {
+          name: true, // Include only the driver's name
+        },
+      },
     },
   };
 

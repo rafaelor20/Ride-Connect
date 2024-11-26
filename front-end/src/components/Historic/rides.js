@@ -27,6 +27,7 @@ Rides.propTypes = {
 const RideContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  overflow: auto;
+  padding: 5px;
 `;
