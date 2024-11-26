@@ -14,21 +14,19 @@ export default function ChooseDriver() {
   return (
     <Page>
       <Header/>
+      <Link to="/estimate">
+        <button >Return to estimateRide</button>
+      </Link>
       <MapContainer>
-        
+        <RouteMap origin={rideEstimate.origin} destination={rideEstimate.destination} />
       </MapContainer>
-      <RouteMap origin={rideEstimate.origin} destination={rideEstimate.destination} />
-      <Container>
-        
-        <Main>
-          
+      <Container>        
+        <Main>          
           <Content>
+
             <Drivers />
           </Content>
         </Main>
-        <Link to="/estimate">
-          <button >Return to estimateRide</button>
-        </Link>
         <Footer />
       </Container>
     </Page>

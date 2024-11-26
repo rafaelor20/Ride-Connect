@@ -45,9 +45,11 @@ function checkOriginAndDestination(origin: string, destination: string) {
 }
 
 async function checkDistanceByDriver(driverId: number, distance: string) {
-  console.log(driverId, distance);
   const driver = await driverRepository.findById(driverId);
-  console.log(driver);
+
+  if (!driver) {
+    throw new Error('Driver not found');
+  }
 
   if (driver.minKm > parseFloat(distance)) {
     throw new Error('Distance is less than the minimum allowed');
@@ -122,8 +124,17 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
 
     return response;
   } catch (error) {
+    if (error.message === 'Invalid customer ID') {
+      throw new Error('Invalid customer ID');
+    }
+    if (error.message === 'Origin and destination are required') {
+      throw new Error('Origin and destination are required');
+    }
+    if (error.message === 'Origin and destination cannot be the same') {
+      throw new Error('Origin and destination cannot be the same');
+    }
     console.error('Error fetching ride estimate:', error.message);
-    throw new Error('Could not fetch ride estimate');
+    throw new Error(error.message);
   }
 }
 
@@ -141,28 +152,29 @@ export async function rideConfirm(
     await checkCustomerExists(customer_id);
     const driverDB = await checkDriverExists(driver.id);
 
-    checkDistanceByDriver(driverDB.minKm, distance);
+    // Check the distance by driver
+    await checkDistanceByDriver(driverDB.id, distance);
 
-    const originAdress = await originRepository.createOrigin({ address: origin });
-    const destinationAdress = await destinationRepository.createDestination({
+    const originAddress = await originRepository.createOrigin({ address: origin });
+    const destinationAddress = await destinationRepository.createDestination({
       address: destination,
     });
 
     await rideRepository.createRide({
       customerId: parseInt(customer_id),
-      originId: originAdress.id,
-      destinationId: destinationAdress.id,
+      originId: originAddress.id,
+      destinationId: destinationAddress.id,
       distanceInKm: parseInt(distance),
       durationInSec: parseInt(duration),
       driverId: parseInt(driver.id),
       valueInCents: parseInt(value),
     });
 
-    const response = { sucess: true };
-
+    const response = { success: true };
     return response;
   } catch (error) {
-    throw new Error('Invalid customer ID');
+    console.error('Error confirming ride:', error.message);
+    throw new Error(error.message);
   }
 }
 
