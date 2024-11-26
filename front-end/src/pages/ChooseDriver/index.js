@@ -5,17 +5,20 @@ import Footer from '../../components/Footer.js';
 import Link from '../../components/Link.js';
 
 import Drivers from '../../components/Choose/Drivers.js';
+import RouteMap from '../../components/RouteMap.js';
 
 export default function ChooseDriver() {
+  const rideEstimate = JSON.parse(localStorage.getItem('rideEstimate'));
   return (
     <Page>
+      <Header/>
+      <Link to="/estimate">
+        <button >Return to estimateRide</button>
+      </Link>
+      <RouteMap origin={rideEstimate.origin} destination={rideEstimate.destination} />
       <Container>
-        <Header/>
         <Main>
           <Content>
-            <Link to="/estimate">
-              <button >Return to estimateRide</button>
-            </Link>
             <Drivers />
           </Content>
         </Main>
@@ -24,3 +27,4 @@ export default function ChooseDriver() {
     </Page>
   );
 };
+
