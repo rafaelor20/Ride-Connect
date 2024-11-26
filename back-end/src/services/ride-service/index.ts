@@ -103,17 +103,18 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
         description: driver.description,
         vehicle: driver.vehicle,
         review: driver.rides.flatMap((ride) =>
-          ride.review.map((review) => ({
-            rating: review.rating,
-            comment: review.comment,
-          })),
+          Array.isArray(ride.review)
+            ? ride.review.map((review) => ({
+                rating: review.rating,
+                comment: review.comment,
+              }))
+            : [],
         ),
-        // In value, Distance is in meters, price in cents, value in km/currency
+        // Distance is in meters, price in km * cents, value in km * currency
         value: ((distanceInfo.distance.value * driver.pricePerKmInCents) / 100000).toFixed(2),
       })),
       routeResponse: distanceMatrix.data,
     };
-    console.log(response);
 
     return response;
   } catch (error) {
