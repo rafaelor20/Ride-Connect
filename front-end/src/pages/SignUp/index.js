@@ -25,7 +25,9 @@ export default function SignUp() {
   async function submit(event) {
     event.preventDefault();
 
-    if (password !== confirmPassword) {
+    if (!name || !email || !password || !confirmPassword) {
+      toast('All fields are required!');
+    } else if (password !== confirmPassword) {
       toast('Passwords do not match!');
     } else {
       try {

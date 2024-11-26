@@ -25,10 +25,15 @@ export default function SignIn() {
     event.preventDefault();
 
     try {
-      const userData = await signIn(email, password);
-      setUserData(userData);
-      toast('Login with sucess!');
-      navigate('/estimate');
+      if (!email || !password) {
+        toast('All fields are required!');
+        return;
+      } else {
+        const userData = await signIn(email, password);
+        setUserData(userData);
+        toast('Login with sucess!');
+        navigate('/estimate');
+      }
     } catch (err) {
       toast('Something is wrong!,' + err.message);
     }

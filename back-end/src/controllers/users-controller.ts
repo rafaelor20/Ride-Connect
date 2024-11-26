@@ -16,9 +16,10 @@ export async function usersPost(req: Request, res: Response) {
     }
 
     if (error.name === 'ValidationError') {
+      console.log('oi');
       return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(error.message);
     }
-
+    console.log('oi');
     return res.status(httpStatus.BAD_REQUEST).send(error);
   }
 }
