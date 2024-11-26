@@ -166,7 +166,6 @@ export async function getRidesByCustomerId(customer_id: string) {
   try {
     const customer = await checkCustomerExists(customer_id);
     const rides = await rideRepository.findByCustomerId(customer.id);
-
     return rides;
   } catch (error) {
     throw new Error('Error in getRidesByCustomerId');
@@ -194,5 +193,4 @@ const rideService = {
   getRidesByCustomerAndDriverId,
 };
 
-//export * from './errors';
 export default rideService;

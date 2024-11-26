@@ -42,6 +42,16 @@ async function findByCustomerId(customerId: number) {
           name: true, // Include only the driver's name
         },
       },
+      origin: {
+        select: {
+          address: true, // Include only the origin's address
+        },
+      },
+      destination: {
+        select: {
+          address: true, // Include only the destination's address
+        },
+      },
     },
   };
 
