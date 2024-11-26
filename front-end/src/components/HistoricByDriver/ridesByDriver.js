@@ -5,7 +5,6 @@ import RideByDriver from './rideByDriver';
 
 export default function RidesByDriver(props) {
   const rides = props.rides;
-  console.log(rides);
   
   return (
     <RideContainer>

@@ -5,7 +5,6 @@ import Ride from './ride';
 
 export default function Rides(props) {
   const rides = props.rides;
-  console.log(rides);
   
   return (
     <RideContainer>

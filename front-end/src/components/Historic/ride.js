@@ -17,7 +17,7 @@ export default function Ride(props) {
   const navigate = useNavigate();
 
   const handleNavigate = (id) => {
-    localStorage.setItem('driverId', id);
+    localStorage.setItem('driverId', props.driverId);
     navigate('/rides-by-driver');
   };
 

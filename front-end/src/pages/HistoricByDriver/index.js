@@ -13,11 +13,12 @@ import useGetRidesApi from '../../hooks/api/useGetRides.js';
 export default function Historic() {
   const { getRides } = useGetRidesApi();
   const [rides, setRides] = useState([]);
+  const driver_id = JSON.parse(localStorage.getItem('driverId'));
   
   useEffect(() => {
     async function fetchRides() {
       try {
-        const data = await getRides({ driver_id: null });
+        const data = await getRides({ driver_id: driver_id });
         setRides(data);
       } catch (error) {
         toast.error('Failed to fetch rides');

@@ -27,7 +27,7 @@ export default function ConfirmRide() {
         driver: { id: rideConfirm.id, name: rideConfirm.name },
         value: rideConfirm.value });
       toast('Ride confirmed!');
-      navigate('/home');
+      navigate('/rides');
     } catch (error) {
       console.log(error);
       toast(`${error.message}`);
@@ -55,7 +55,7 @@ export default function ConfirmRide() {
             </ContentDiv>
           </Content>
           <ButtonsDiv>
-            <Link to="/rides">
+            <Link to="/home">
               <ButtonsDiv>
                 <button disabled={confirmLoading}>Return to home</button>
               </ButtonsDiv>
