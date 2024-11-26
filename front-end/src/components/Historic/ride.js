@@ -38,7 +38,7 @@ export default function Ride(props) {
 
 const RideContainer = styled.div`
   text-align: left;
-  min-width: 200px;
+  min-width: 260px;
   border: 1px solid black;
   margin: 2px;
   padding: 5px;
