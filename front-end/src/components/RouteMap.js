@@ -5,16 +5,8 @@ const RouteMap = (props) => {
   const [directions, setDirections] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  const googleMapsApiKey = process.env.GOOGLE_API;
-  console.log(googleMapsApiKey);
-  /*
-  const origin = { lat: -10.9263351, lng: -37.1030664 }; // Origem
-  const destination = { lat: -10.9688219, lng: -37.0579397 }; // Destino
-  */
   const origin = { lat: props.origin.latitude, lng: props.origin.longitude };
   const destination = { lat: props.destination.latitude, lng: props.destination.longitude };
-  console.log(origin);
-  console.log(destination);
 
   useEffect(() => {
     if (!mapLoaded) return;
@@ -38,7 +30,7 @@ const RouteMap = (props) => {
 
   return (
     <LoadScript
-      googleMapsApiKey="SUA_CHAVE_DE_API"
+      googleMapsApiKey="AIzaSyDh52-Xri7BdhGoLqaBIOiEmVel0scIa3Y"
       onLoad={() => setMapLoaded(true)}
     >
       <GoogleMap

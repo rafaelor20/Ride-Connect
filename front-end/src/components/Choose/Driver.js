@@ -5,6 +5,7 @@ export default function Driver(props) {
     <Content onClick={props.onClick}>
       <p>Driver's name: {props.driver.name}</p>
       <p>Value: {props.driver.value}</p>
+      <p>Click on this box to choose this driver!</p>
     </Content>);
 }
 
