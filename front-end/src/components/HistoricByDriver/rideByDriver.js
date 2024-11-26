@@ -12,17 +12,11 @@ function formateDate(date) {
   return `${hours}:${minutes}  ${day}/${month}/${year}`;
 }
 
-export default function Ride(props) {
+export default function RideByDriver(props) {
   const formatedDate = formateDate(props.updatedAt);
-  const navigate = useNavigate();
-
-  const handleNavigate = (id) => {
-    localStorage.setItem('driverId', id);
-    navigate('/rides-by-driver');
-  };
 
   return (
-    <RideContainer onClick={() => handleNavigate(props.driverId)}>
+    <RideContainer >
       <p>Id: {props.id}</p>
       <p>Date: {formatedDate}</p>
       <p>Origin: {props.origin}</p>

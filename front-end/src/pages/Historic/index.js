@@ -34,13 +34,14 @@ export default function Historic() {
         <Header />
         <Main>
           <Content>
+            <p>Rides:</p>
             {rides.length > 0 ? (
               <Rides rides={rides} />
             ) : (
               <p>No rides found</p>
             )}
           </Content>
-          <Link to="home">
+          <Link to="/home">
             <Button>Back to home page</Button>
           </Link>
         </Main>
