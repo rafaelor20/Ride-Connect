@@ -52,6 +52,11 @@ async function checkDistanceByDriver(driverId: number, distance: string) {
   }
 }
 
+function DistanceStrToNumber(distance: string) {
+  const distanceNumber = parseFloat(distance.replace(' km', '').replace(',', '.'));
+  return distanceNumber;
+}
+
 export async function rideEstimate({ customer_id, origin, destination }: RideEstimateParams) {
   const apiKey = process.env.GOOGLE_API; // Replace with your actual API key.
 
@@ -90,7 +95,7 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
         latitude: destinationLocation.lat,
         longitude: destinationLocation.lng,
       },
-      distance: distanceInfo.distance.text,
+      distance: DistanceStrToNumber(distanceInfo.distance.text),
       duration: distanceInfo.duration.text,
       options: drivers.map((driver) => ({
         id: driver.id,
