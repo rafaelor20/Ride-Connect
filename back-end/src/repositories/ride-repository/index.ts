@@ -54,8 +54,8 @@ async function findByCustomerId(customerId: number) {
       },
     },
   };
-
-  return prisma.ride.findMany(params);
+  const rides = await prisma.ride.findMany(params);
+  return rides.reverse();
 }
 
 async function findByCustomerAndDriverId(customerId: number, driverId: number) {
@@ -73,8 +73,8 @@ async function findByCustomerAndDriverId(customerId: number, driverId: number) {
       },
     },
   };
-
-  return prisma.ride.findMany(params);
+  const rides = await prisma.ride.findMany(params);
+  return rides.reverse();
 }
 
 const rideRepository = {
