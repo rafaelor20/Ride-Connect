@@ -4,8 +4,6 @@ import Driver from './Driver';
 import { useNavigate } from 'react-router-dom';
 
 function calculateValue(distance, value) {
-  distance = distance.split(' ')[0];
-  distance = parseFloat(distance);
   value = (distance * value).toFixed(2);
   return value;
 }
