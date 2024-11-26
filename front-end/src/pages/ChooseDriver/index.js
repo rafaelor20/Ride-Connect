@@ -17,11 +17,12 @@ export default function ChooseDriver() {
       <Link to="/estimate">
         <button >Return to estimateRide</button>
       </Link>
-      <MapContainer>
-        <RouteMap origin={rideEstimate.origin} destination={rideEstimate.destination} />
-      </MapContainer>
+
       <Container>        
-        <Main>          
+        <Main>
+          <MapContainer>
+            <RouteMap origin={rideEstimate.origin} destination={rideEstimate.destination} />
+          </MapContainer>  
           <Content>
 
             <Drivers />

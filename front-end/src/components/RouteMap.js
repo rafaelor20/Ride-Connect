@@ -34,7 +34,7 @@ const RouteMap = (props) => {
       onLoad={() => setMapLoaded(true)}
     >
       <GoogleMap
-        mapContainerStyle={{ width: '100%', height: '500px' }}
+        mapContainerStyle={{ width: '300px', height: '300px' }}
         center={origin}
         zoom={13}
       >
