@@ -32,7 +32,8 @@ export default function Historic() {
         <Header />
         <Main>
           <Content>
-            <p>Rides:</p>
+            <p>Click on one of the boxes below to</p>
+            <p>filter the list of rides by it's driver:</p>
             {rides.length > 0 ? (
               <Rides rides={rides} />
             ) : (
