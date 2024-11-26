@@ -23,6 +23,7 @@ export default function Ride(props) {
 
   return (
     <RideContainer onClick={() => handleNavigate(props.driverId)}>
+      <p>Id: {props.id}</p>
       <p>Date: {formatedDate}</p>
       <p>Origin: {props.origin.address}</p>
       <p>Destination: {props.destination.address}</p>
