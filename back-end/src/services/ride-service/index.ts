@@ -102,6 +102,7 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
       distance: DistanceStrToNumber(distanceInfo.distance.text),
       duration: distanceInfo.duration.text,
       options: drivers
+        .filter((driver) => driver.minKm <= distanceInfo.distance.value / 1000) // Filter drivers based on minKm
         .map((driver) => ({
           id: driver.id,
           name: driver.name,
