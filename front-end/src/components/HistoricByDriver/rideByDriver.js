@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 
 function formateDate(date) {
   const d = new Date(date);

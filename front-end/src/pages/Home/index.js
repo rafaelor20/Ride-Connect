@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-
 import Page from '../../components/Page';
 import { Container, Main, Content } from '../../components/styles.js';
 import ToNextPage from '../../components/Home/toNextPage.js';
