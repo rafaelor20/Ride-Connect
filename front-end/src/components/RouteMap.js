@@ -30,7 +30,7 @@ const RouteMap = (props) => {
 
   return (
     <LoadScript
-      googleMapsApiKey="AIzaSyDh52-Xri7BdhGoLqaBIOiEmVel0scIa3Y"
+      googleMapsApiKey={process.env.REACT_APP_GOOGLE_API}
       onLoad={() => setMapLoaded(true)}
     >
       <GoogleMap
