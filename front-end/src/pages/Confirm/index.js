@@ -46,8 +46,8 @@ export default function ConfirmRide() {
               <p>Destination: {destination}</p>
               <p>Distance: {rideEstimate.distance}</p>
               <p>Duration: {rideEstimate.duration}</p>
-              <p>Driver ID: {rideConfirm.id}</p>
               <p>Driver Name: {rideConfirm.name}</p>
+              <p>Driver Vehicle: {rideConfirm.vehicle}</p>
               <p>Value: {rideConfirm.value}</p>
               <ButtonsDiv>
                 <button onClick={submit} disabled={confirmLoading}>Confirm</button>
@@ -55,7 +55,7 @@ export default function ConfirmRide() {
             </ContentDiv>
           </Content>
           <ButtonsDiv>
-            <Link to="/home">
+            <Link to="/rides">
               <ButtonsDiv>
                 <button disabled={confirmLoading}>Return to home</button>
               </ButtonsDiv>
