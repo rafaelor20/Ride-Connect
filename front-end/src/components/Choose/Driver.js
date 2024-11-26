@@ -4,6 +4,7 @@ export default function Driver(props) {
   const review = props.driver.review.length > 0 ? props.driver.review[0] : { rating: 0, comment: 'No comments' };
   return (
     <Content onClick={props.onClick}>
+      <p>Name: {props.driver.name}</p>
       <p>Value: {props.driver.value}</p>
       <p>Description: {props.driver.description}</p>
       <p>Vehicle: {props.driver.vehicle}</p>

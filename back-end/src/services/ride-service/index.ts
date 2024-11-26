@@ -45,9 +45,11 @@ function checkOriginAndDestination(origin: string, destination: string) {
 }
 
 async function checkDistanceByDriver(driverId: number, distance: string) {
+  console.log(driverId, distance);
   const driver = await driverRepository.findById(driverId);
+  console.log(driver);
 
-  if (driver.minKm > parseInt(distance)) {
+  if (driver.minKm > parseFloat(distance)) {
     throw new Error('Distance is less than the minimum allowed');
   }
 }
@@ -97,22 +99,24 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
       },
       distance: DistanceStrToNumber(distanceInfo.distance.text),
       duration: distanceInfo.duration.text,
-      options: drivers.map((driver) => ({
-        id: driver.id,
-        name: driver.name,
-        description: driver.description,
-        vehicle: driver.vehicle,
-        review: driver.rides.flatMap((ride) =>
-          Array.isArray(ride.review)
-            ? ride.review.map((review) => ({
-                rating: review.rating,
-                comment: review.comment,
-              }))
-            : [],
-        ),
-        // Distance is in meters, price in km * cents, value in km * currency
-        value: ((distanceInfo.distance.value * driver.pricePerKmInCents) / 100000).toFixed(2),
-      })),
+      options: drivers
+        .map((driver) => ({
+          id: driver.id,
+          name: driver.name,
+          description: driver.description,
+          vehicle: driver.vehicle,
+          review: driver.rides.flatMap((ride) =>
+            Array.isArray(ride.review)
+              ? ride.review.map((review) => ({
+                  rating: review.rating,
+                  comment: review.comment,
+                }))
+              : [],
+          ),
+          // Distance is in meters, price in km * cents, value in km * currency
+          value: ((distanceInfo.distance.value * driver.pricePerKmInCents) / 100000).toFixed(2),
+        }))
+        .sort((a, b) => parseFloat(a.value) - parseFloat(b.value)), // Sort by value
       routeResponse: distanceMatrix.data,
     };
 
