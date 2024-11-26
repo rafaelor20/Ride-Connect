@@ -20,11 +20,19 @@ export default function EstimateRide() {
     event.preventDefault();
     
     try {
-      const response = await estimate({ origin, destination });
-      localStorage.setItem('origin', JSON.stringify(origin));
-      localStorage.setItem('destination', JSON.stringify(destination));
-      localStorage.setItem('rideEstimate', JSON.stringify(response));
-      navigate('/choose-driver');
+      if (!origin || !destination) {
+        toast('Origin and Destination are required!');
+        return;
+      } else if (origin === destination) {
+        toast('Origin and Destination must be different!');
+        return;
+      } else {
+        const response = await estimate({ origin, destination });
+        localStorage.setItem('origin', JSON.stringify(origin));
+        localStorage.setItem('destination', JSON.stringify(destination));
+        localStorage.setItem('rideEstimate', JSON.stringify(response));
+        navigate('/choose-driver');
+      }
     } catch (error) {
       toast('Something is wrong!, ' + error.message);
     }
