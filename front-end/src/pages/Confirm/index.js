@@ -29,7 +29,6 @@ export default function ConfirmRide() {
       toast('Ride confirmed!');
       navigate('/rides');
     } catch (error) {
-      console.log(error);
       toast(`${error.message}`);
       navigate('/choose-driver');
     }
