@@ -40,6 +40,9 @@ export default function Historic() {
               <p>No rides found</p>
             )}
           </Content>
+          <Link to="/rides">
+            <Button>Back to all rides</Button>
+          </Link>
           <Link to="/home">
             <Button>Back to home page</Button>
           </Link>
