@@ -34,19 +34,17 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "dotenv-webpack": "^8.1.0",
     "git-commit-msg-linter": "^3.2.8",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
+    "react-app-rewired": "^2.2.1",
     "react-scripts": "^5.0.1"
   },
   "scripts": {
-    "prestart": "cp ../.env .env",
-    "start": "react-scripts start",
-    "fullstart": "npm run prestart && npm start",
-    "prebuild": "cp ../.env .env",
-    "build": "react-scripts build",
-    "fullbuild": "npm run prebuild && npm build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "prepare": "husky install"
   },
