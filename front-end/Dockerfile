@@ -27,3 +27,6 @@ WORKDIR /
 
 # remove the entire development directory
 RUN rm -rf /tmp/react
+
+# start the app
+CMD ["npm", "run", "start"]

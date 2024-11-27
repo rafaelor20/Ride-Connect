@@ -24,21 +24,10 @@ services:
   react:
     container_name: react
     build: ./front-end
-    volumes:
-      - react-volume:/var/www/html
-
-  nginx:
-    container_name: nginx_app
-    build: ./nginx
-    restart: always
     ports:
-      - 8080:80
+      - 3000:3000 # Expose React app on port 3000
     volumes:
       - react-volume:/var/www/html
-    depends_on:
-      - postgres
-      - node
-      - react
 
 volumes:
   postgres-volume:
