@@ -1,18 +1,11 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import rideService from '@/services/ride-service';
 
-export async function rideEstimate(req: AuthenticatedRequest, res: Response) {
+export async function rideEstimate(req: Request, res: Response) {
   try {
-    const { origin, destination } = req.body;
-    const id = req.userId;
-
-    if (id == null || id == undefined) {
-      throw new Error('Invalid customer ID');
-    }
-
-    const customer_id = String(id);
+    const { customer_id, origin, destination } = req.body;
 
     const ride = await rideService.rideEstimate({ customer_id, origin, destination });
 
@@ -34,14 +27,10 @@ export async function rideEstimate(req: AuthenticatedRequest, res: Response) {
   }
 }
 
-export async function rideConfirm(req: AuthenticatedRequest, res: Response) {
+export async function rideConfirm(req: Request, res: Response) {
   try {
-    const { origin, destination, distance, duration, driver, value } = req.body;
-    const { userId } = req;
-    if (userId == null || userId == undefined) {
-      throw new Error('Invalid customer ID');
-    }
-    const customer_id = String(userId);
+    const { customer_id, origin, destination, distance, duration, driver, value } = req.body;
+
     const ride = await rideService.rideConfirm(customer_id, origin, destination, distance, duration, driver, value);
 
     return res.status(httpStatus.OK).send(ride);
@@ -70,18 +59,18 @@ export async function rideConfirm(req: AuthenticatedRequest, res: Response) {
   }
 }
 
-export async function getRidesByCustomerId(req: AuthenticatedRequest, res: Response) {
+export async function getRidesByCustomerId(req: Request, res: Response) {
   try {
+    const { customer_id } = req.params;
     const { driver_id } = req.query;
-    const { userId } = req;
 
     let rides;
     if (driver_id == null || driver_id == undefined) {
-      rides = await rideService.getRidesByCustomerId(String(userId));
+      rides = await rideService.getRidesByCustomerId(String(customer_id));
       return res.status(httpStatus.OK).send(rides);
     }
 
-    rides = await rideService.getRidesByCustomerAndDriverId(String(userId), String(driver_id));
+    rides = await rideService.getRidesByCustomerAndDriverId(String(customer_id), String(driver_id));
     return res.status(httpStatus.OK).send(rides);
   } catch (error) {
     if (error.message === 'Unauthorized') {
