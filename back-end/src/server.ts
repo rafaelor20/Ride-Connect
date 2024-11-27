@@ -3,7 +3,7 @@ import app, { init } from '@/app';
 
 dotenv.config();
 
-const port = +process.env.PORT;
+const port = +process.env.BACKEND_PORT;
 
 init().then(() => {
   app.listen(port, () => {

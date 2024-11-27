@@ -42,8 +42,10 @@
   "scripts": {
     "prestart": "cp ../.env .env",
     "start": "react-scripts start",
+    "fullstart": "npm run prestart && npm start",
     "prebuild": "cp ../.env .env",
     "build": "react-scripts build",
+    "fullbuild": "npm run prebuild && npm build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install"
