@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import { UserProvider } from './contexts/UserContext';
@@ -10,8 +10,6 @@ import ChooseDriver from './pages/ChooseDriver';
 import ConfirmRide from './pages/Confirm';
 import Historic from './pages/Historic';
 import HistoricByDriver from './pages/HistoricByDriver';
-
-import useToken from './hooks/useToken';
 
 export default function App() {
   return (
