@@ -23,7 +23,7 @@ function returnUniqueDrivers(rides) {
 export default function Historic() {
   const { getRides } = useGetRidesApi();
   const [rides, setRides] = useState([]);
-  const [selectedDriver, setSelectedDriver] = useState({});
+  const [selectedDriver, setSelectedDriver] = useState('');
   const customer_id = JSON.parse(localStorage.getItem('customer_id'));
   const uniqueDrivers = returnUniqueDrivers(rides);
   const navigate = useNavigate();
@@ -42,10 +42,14 @@ export default function Historic() {
 
   async function applyFilter() {
     try {
-      localStorage.setItem('driverId', selectedDriver);
-      navigate('/rides-by-driver');
+      if (!selectedDriver || selectedDriver === '') {
+        toast.error('Please select a driver');
+      } else {
+        localStorage.setItem('driverId', selectedDriver);
+        navigate('/rides-by-driver');
+      }
     } catch (error) {
-      toast.error('Failed to get rides:' + error.message);
+      toast.error(error.message);
     }
   }
 
