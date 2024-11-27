@@ -1,6 +1,6 @@
 datasource db {
     provider = "postgresql"
-    url      = env("DATABASE_URL")
+    url      = "postgresql://postgres:root@postgres:5432/ride-connect?schema=public"
 }
 
 model Customer {
