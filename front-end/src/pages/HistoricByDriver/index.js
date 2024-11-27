@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import Page from '../../components/Page';
 import { Container, Main, Content } from '../../components/styles.js';
 import Button from '../../components/Form/Button';
-import Header from '../../components/Home/Header.js';
+import Header from '../../components/Header.js';
 import Footer from '../../components/Footer.js';
 import RidesByDriver from '../../components/HistoricByDriver/ridesByDriver.js';
 import Link from '../../components/Link.js';
