@@ -16,13 +16,11 @@ export default function RideByDriver(props) {
 
   return (
     <RideContainer >
-      <p>Id: {props.id}</p>
       <p>Date: {formatedDate}</p>
       <p>Origin: {props.origin}</p>
       <p>Destination: {props.destinationId}</p>
       <p>Distance: {props.distanceInKm}</p>
       <p>Duration: {props.durationInSec}</p>
-      <p>Driver id: {props.driverId}</p>
       <p>Driver name: {props.driver.name}</p>
       <p>Value: {props.valueInCents}</p>
     </RideContainer>
