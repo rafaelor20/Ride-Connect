@@ -44,6 +44,7 @@ export default function EstimateRide() {
       <Container>
         <Main>
           <Content>
+            <h1>Use 1 como customer_id de teste</h1>
             <form onSubmit={submit}>
               <Input
                 label="Customer id"
