@@ -92,7 +92,6 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
     const distanceInfo = distanceMatrix.data.rows[0].elements[0];
 
     const drivers = await driverRepository.getDriversWithReviews();
-    console.log(drivers);
     const response = {
       origin: {
         latitude: originLocation.lat,
