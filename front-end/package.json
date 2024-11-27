@@ -42,9 +42,12 @@
     "react-scripts": "^5.0.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "start-rewired ": "react-app-rewired start",
+    "build-rewired ": "react-app-rewired build",
+    "tes-rewired t": "react-app-rewired test",
     "eject": "react-scripts eject",
     "prepare": "husky install"
   },

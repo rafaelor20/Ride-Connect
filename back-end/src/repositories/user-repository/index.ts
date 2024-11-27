@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '@/config';
 
 async function findByEmail(email: string, select?: Prisma.CustomerSelect) {
-  const params: Prisma.CustomerFindUniqueArgs = {
+  const params: Prisma.CustomerFindFirstArgs = {
     where: {
       email,
     },
@@ -12,7 +12,7 @@ async function findByEmail(email: string, select?: Prisma.CustomerSelect) {
     params.select = select;
   }
 
-  return prisma.customer.findUnique(params);
+  return prisma.customer.findFirst(params);
 }
 
 async function create(data: Prisma.CustomerUncheckedCreateInput) {

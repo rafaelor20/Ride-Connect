@@ -6,7 +6,7 @@ datasource db {
 model Customer {
     id        Int       @id @default(autoincrement())
     name      String
-    email     String    @unique
+    email     String
     password  String
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt

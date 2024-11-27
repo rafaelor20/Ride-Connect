@@ -8,14 +8,13 @@
     "build": "ttsc -p tsconfig.build.json",
     "start": "node dist/server.js",
     "prisma:seed": "npm run dev:load-envs -- ts-node prisma/seed.ts",
-    "seed:start": "npm run dev:load-envs prisma migrate dev && prisma migrate deploy && npm run prisma:seed && npm run start",
+    "seed": "npx prisma migrate deploy && npx prisma db seed",
+    "seed:start": "npx prisma migrate deploy && npx prisma db seed && npm start",
     "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
     "lint": "eslint .",
     "lint:staged": "lint-staged",
     "dev:load-envs": "dotenv -e .env.development",
-    "dev": "cross-env NODE_ENV=development nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register ./src/server.ts' -e ts",
-    "migration:run": "prisma migrate deploy",
-    "migration:generate": "npm run dev:load-envs prisma migrate dev"
+    "dev": "cross-env NODE_ENV=development nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register ./src/server.ts' -e ts"
   },
   "keywords": [
     "ride-connect",

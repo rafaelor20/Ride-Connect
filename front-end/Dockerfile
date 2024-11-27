@@ -16,17 +16,5 @@ RUN chmod a+x /tmp/react/node_modules/.bin/react-scripts
 # create the optimized production version
 RUN npm run build
 
-# create the entire path (-p) for the folder to be served by nginx
-RUN mkdir -p /var/www/html
-
-# move the content
-RUN mv build/* /var/www/html
-
-# exit the folder
-WORKDIR /
-
-# remove the entire development directory
-RUN rm -rf /tmp/react
-
 # start the app
 CMD ["npm", "run", "start"]

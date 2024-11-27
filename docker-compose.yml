@@ -24,6 +24,8 @@ services:
   react:
     container_name: react
     build: ./front-end
+    env_file:
+      - .env
     ports:
       - 3000:3000 # Expose React app on port 3000
     volumes:

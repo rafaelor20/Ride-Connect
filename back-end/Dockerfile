@@ -18,3 +18,4 @@ RUN npm run build
 
 # run prisma migrations and start the server
 CMD ["npm", "run", "seed:start"]
+
