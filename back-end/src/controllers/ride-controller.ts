@@ -11,16 +11,25 @@ export async function rideEstimate(req: Request, res: Response) {
     return res.status(httpStatus.OK).send(ride);
   } catch (error) {
     if (error.message === 'Invalid customer ID') {
+      error.error_code = 'INVALID_DATA';
+      error.error_description = 'Invalid customer ID';
       return res.status(httpStatus.UNAUTHORIZED).send(error);
     }
 
     if (error.message === 'Origin and destination are required') {
+      error.error_code = 'INVALID_DATA';
+      error.error_description = 'Origin and destination are required';
       return res.status(httpStatus.BAD_REQUEST).send(error);
     }
 
     if (error.message === 'Origin and destination cannot be the same') {
+      error.error_code = 'INVALID_DATA';
+      error.error_description = 'Origin and destination cannot be the same';
       return res.status(httpStatus.BAD_REQUEST).send(error);
     }
+
+    error.error_code = 'INVALID_DATA';
+    error.error_description = 'Something is wrong';
 
     return res.status(httpStatus.BAD_REQUEST).send(error);
   }
