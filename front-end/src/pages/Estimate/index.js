@@ -28,7 +28,7 @@ export default function EstimateRide() {
         toast('Origin and Destination must be different!');
         return;
       } else {
-        const response = await estimate({ origin, destination });
+        const response = await estimate({ customer_id, origin, destination });
         localStorage.setItem('origin', JSON.stringify(origin));
         localStorage.setItem('destination', JSON.stringify(destination));
         localStorage.setItem('customer_id', JSON.stringify(customer_id));
