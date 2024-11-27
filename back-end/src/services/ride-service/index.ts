@@ -62,7 +62,7 @@ function DistanceStrToNumber(distance: string) {
 }
 
 export async function rideEstimate({ customer_id, origin, destination }: RideEstimateParams) {
-  const apiKey = process.env.GOOGLE_API; // Replace with your actual API key.
+  const apiKey = process.env.GOOGLE_API_KEY; // Replace with your actual API key.
 
   try {
     checkOriginAndDestination(origin, destination);
