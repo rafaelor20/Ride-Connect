@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import useConfirm from '../../hooks/api/useConfirm';
 
 export default function ConfirmRide() {
+  const customer_id = JSON.parse(localStorage.getItem('customer_id')) || '';
   const rideEstimate = JSON.parse(localStorage.getItem('rideEstimate')) || {};
   const rideConfirm = JSON.parse(localStorage.getItem('rideConfirm')) || {};
   const origin = JSON.parse(localStorage.getItem('origin')) || '';
@@ -22,7 +23,7 @@ export default function ConfirmRide() {
   async function submit(event) {
     event.preventDefault();
     try {
-      await confirm({ origin: origin, destination: destination, 
+      await confirm({ customer_id: customer_id, origin: origin, destination: destination, 
         distance: rideEstimate.distance, duration: rideEstimate.duration, 
         driver: { id: rideConfirm.id, name: rideConfirm.name },
         value: rideConfirm.value });

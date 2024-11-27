@@ -14,14 +14,15 @@ export default function Historic() {
   const { getRides } = useGetRidesApi();
   const [rides, setRides] = useState([]);
   const driver_id = JSON.parse(localStorage.getItem('driverId'));
+  const customer_id = JSON.parse(localStorage.getItem('customer_id'));
   
   useEffect(() => {
     async function fetchRides() {
       try {
-        const data = await getRides({ driver_id: driver_id });
+        const data = await getRides({ customer_id: customer_id, driver_id: driver_id });
         setRides(data);
       } catch (error) {
-        toast.error('Failed to fetch rides');
+        toast.error('Failed to fetch rides' + error.message);
       }
     }
     fetchRides();
@@ -42,9 +43,6 @@ export default function Historic() {
           </Content>
           <Link to="/rides">
             <Button>Back to all rides</Button>
-          </Link>
-          <Link to="/home">
-            <Button>Back to home page</Button>
           </Link>
         </Main>
         <Footer />
