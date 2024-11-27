@@ -14,7 +14,7 @@ export default function Header(props) {
 }
 
 const Container = styled.div`
-  width: 100%; 
+  min-width: auto;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
