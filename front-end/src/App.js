@@ -20,51 +20,40 @@ export default function App() {
       <UserProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<SignIn />} />
+            <Route path="/" element={<EstimateRide />} />
+            <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route
               path="/home"
               element={
-                <ProtectedRouteGuard>
-                  <Home />
-                </ProtectedRouteGuard>
+                <Home />
               }>
             </Route>
             <Route
               path="/estimate"
               element={
-                <ProtectedRouteGuard>
-                  <EstimateRide />
-                </ProtectedRouteGuard>
+                <EstimateRide />
               }>
             </Route>
             <Route path="/choose-driver"
               element={
-                <ProtectedRouteGuard>
-                  <ChooseDriver />
-                </ProtectedRouteGuard>
+                <ChooseDriver />
               }>
             </Route>
             <Route
               path="/confirm"
               element={
-                <ProtectedRouteGuard>
-                  <ConfirmRide />
-                </ProtectedRouteGuard>
+                <ConfirmRide />
               }>
             </Route>
             <Route path="/rides"
               element={
-                <ProtectedRouteGuard>
-                  <Historic />
-                </ProtectedRouteGuard>
+                <Historic />
               }>
             </Route>
             <Route path="/rides-by-driver"
               element={
-                <ProtectedRouteGuard>
-                  <HistoricByDriver />
-                </ProtectedRouteGuard>
+                <HistoricByDriver />
               }>
             </Route>
           </Routes>
