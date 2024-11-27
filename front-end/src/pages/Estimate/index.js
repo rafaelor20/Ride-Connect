@@ -46,6 +46,13 @@ export default function EstimateRide() {
           <Content>
             <form onSubmit={submit}>
               <Input
+                label="Customer id"
+                type="text"
+                fullWidth
+                value={customer_id}
+                onChange={(e) => setCustomer_id(e.target.value)}
+              />
+              <Input
                 label="Origin"
                 type="text"
                 fullWidth
@@ -58,13 +65,6 @@ export default function EstimateRide() {
                 fullWidth
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
-              />
-              <Input
-                label="Customer id"
-                type="text"
-                fullWidth
-                value={customer_id}
-                onChange={(e) => setCustomer_id(e.target.value)}
               />
               <Button type="submit" color="primary" fullWidth disabled={estimateLoading}>
               Estimate
