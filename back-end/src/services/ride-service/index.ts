@@ -89,7 +89,7 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
     const distanceInfo = distanceMatrix.data.rows[0].elements[0];
 
     const drivers = await driverRepository.getDriversWithReviews();
-
+    console.log(drivers);
     const response = {
       origin: {
         latitude: originLocation.lat,
@@ -108,14 +108,13 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
           name: driver.name,
           description: driver.description,
           vehicle: driver.vehicle,
-          review: driver.rides.flatMap((ride) =>
-            Array.isArray(ride.review)
-              ? ride.review.map((review) => ({
-                  rating: review.rating,
-                  comment: review.comment,
-                }))
-              : [],
-          ),
+
+          review: drivers[driver.id - 1].rides[0].review[0]
+            ? {
+                rating: drivers[driver.id - 1].rides[0].review[0].rating,
+                comment: drivers[driver.id - 1].rides[0].review[0].comment,
+              }
+            : { rating: null, comment: '' },
           // Distance is in meters, price in km * cents, value in km * currency
           value: ((distanceInfo.distance.value * driver.pricePerKmInCents) / 100000).toFixed(2),
         }))

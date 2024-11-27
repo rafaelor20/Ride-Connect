@@ -10,9 +10,15 @@ async function create(data: Prisma.DriverUncheckedCreateInput) {
 async function getDriversWithReviews() {
   return prisma.driver.findMany({
     include: {
+      //take one review
       rides: {
-        include: {
-          review: true, // Include reviews for each ride
+        select: {
+          review: {
+            select: {
+              rating: true,
+              comment: true,
+            },
+          },
         },
       },
     },
