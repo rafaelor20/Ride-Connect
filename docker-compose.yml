@@ -15,7 +15,7 @@ services:
     build: ./back-end
     restart: always
     ports:
-      - 5000:5000
+      - 8080:5000
     depends_on:
       - postgres
     env_file:
@@ -27,7 +27,7 @@ services:
     env_file:
       - .env
     ports:
-      - 3000:3000 # Expose React app on port 3000
+      - 80:3000 # Expose React app on port 3000
     volumes:
       - react-volume:/var/www/html
 
