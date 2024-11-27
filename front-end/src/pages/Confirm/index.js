@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import Page from '../../components/Page';
 import { Container, Main, Content, ButtonsDiv } from '../../components/styles.js';
-import Header from '../../components/Home/Header.js';
+import Header from '../../components/Header.js';
 import Footer from '../../components/Footer.js';
 import Link from '../../components/Link.js';
 import { useNavigate } from 'react-router-dom';
@@ -54,18 +54,6 @@ export default function ConfirmRide() {
               </ButtonsDiv>
             </ContentDiv>
           </Content>
-          <ButtonsDiv>
-            <Link to="/home">
-              <ButtonsDiv>
-                <button disabled={confirmLoading}>Return to home</button>
-              </ButtonsDiv>
-            </Link>
-            <Link to="/estimate">
-              <ButtonsDiv>
-                <button disabled={confirmLoading}>Return to estimateRide</button>
-              </ButtonsDiv>
-            </Link>
-          </ButtonsDiv>
         </Main>
         <Footer />
       </Container>
