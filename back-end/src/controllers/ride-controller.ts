@@ -44,23 +44,39 @@ export async function rideConfirm(req: Request, res: Response) {
     return res.status(httpStatus.OK).send(ride);
   } catch (error) {
     if (error.message === 'Invalid customer ID') {
-      return res.status(httpStatus.UNAUTHORIZED).send(error);
+      error.error_code = 'INVALID_DATA';
+      error.error_description = error.message;
+      return res.status(httpStatus.BAD_REQUEST).send(error);
     }
 
     if (error.message === 'Origin and destination are required') {
+      error.error_code = 'INVALID_DATA';
+      error.error_description = error.message;
       return res.status(httpStatus.BAD_REQUEST).send(error);
     }
 
     if (error.message === 'Origin and destination cannot be the same') {
+      error.error_code = 'INVALID_DATA';
+      error.error_description = error.message;
       return res.status(httpStatus.BAD_REQUEST).send(error);
     }
 
     if (error.message === 'Invalid driver ID') {
-      return res.status(httpStatus.BAD_REQUEST).send(error);
+      error.error_code = 'INVALID_DATA';
+      error.error_description = error.message;
+      return res.status(400).send(error);
+    }
+
+    if (error.message === 'Driver Not Found') {
+      error.error_code = 'Driver Not Found';
+      error.error_description = error.message;
+      return res.status(404).send(error);
     }
 
     if (error.message === 'Distance is less than the minimum allowed') {
-      return res.status(httpStatus.BAD_REQUEST).send(error);
+      error.error_code = 'INVALID_DISTANCE';
+      error.error_description = error.message;
+      return res.status(406).send(error);
     }
 
     return res.status(httpStatus.BAD_REQUEST).send(error);

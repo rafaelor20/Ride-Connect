@@ -24,13 +24,16 @@ async function checkCustomerExists(customerId: string) {
 async function checkDriverExists(driverId: string) {
   try {
     const id = parseInt(driverId);
+    if (isNaN(id)) {
+      throw new Error('Invalid driver ID');
+    }
     const driver = await driverRepository.findById(id);
     if (!driver) {
-      throw new Error('Invalid driver ID');
+      throw new Error('Driver Not Found');
     }
     return driver;
   } catch (error) {
-    throw new Error('Invalid driver ID');
+    throw new Error(error.message);
   }
 }
 
@@ -173,7 +176,6 @@ export async function rideConfirm(
     const response = { success: true };
     return response;
   } catch (error) {
-    console.error('Error confirming ride:', error.message);
     throw new Error(error.message);
   }
 }
