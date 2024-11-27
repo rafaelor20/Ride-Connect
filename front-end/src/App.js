@@ -61,14 +61,4 @@ export default function App() {
       </UserProvider>
     </>
   );
-}
-
-function ProtectedRouteGuard({ children }) {
-  const token = useToken();
-
-  if (!token) {
-    return <Navigate to="/" />;
-  }
-
-  return <>{children}</>;
-}
+};
