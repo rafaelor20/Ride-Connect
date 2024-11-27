@@ -1,3 +1,4 @@
+import { send } from 'process';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import rideService from '@/services/ride-service';
@@ -88,6 +89,10 @@ export async function getRidesByCustomerId(req: Request, res: Response) {
     const { customer_id } = req.params;
     const { driver_id } = req.query;
 
+    if (customer_id == null || customer_id == undefined) {
+      throw new Error('Invalid customer ID');
+    }
+
     let rides;
     if (driver_id == null || driver_id == undefined) {
       rides = await rideService.getRidesByCustomerId(String(customer_id));
@@ -98,8 +103,45 @@ export async function getRidesByCustomerId(req: Request, res: Response) {
     return res.status(httpStatus.OK).send(rides);
   } catch (error) {
     if (error.message === 'Unauthorized') {
+      error.error_code = 'UNAUTHORIZED';
+      error.error_description = error.message;
       return res.status(httpStatus.UNAUTHORIZED).send(error);
     }
+
+    if (error.message === 'Invalid customer ID') {
+      error.error_code = 'INVALID_DATA';
+      error.error_description = error.message;
+      return res.status(400).send(error);
+    }
+
+    if (error.message === 'Customer not found') {
+      error.error_code = 'INVALID_DATA';
+      error.error_description = 'Customer not found';
+      return res.status(400).send(error);
+    }
+
+    if (error.message === 'NO_RIDES_FOUND') {
+      error.error_code = error.message;
+      error.error_description = 'No rides found';
+      return res.status(404).send(error);
+    }
+
+    //Invalid driver ID
+    if (error.message === 'Invalid driver ID') {
+      error.error_code = 'INVALID_DRIVER';
+      error.error_description = error.message;
+      return res.status(httpStatus.BAD_REQUEST).send(error);
+    }
+
+    //Driver not found
+    if (error.message === 'Driver not found') {
+      error.error_code = 'INVALID_DRIVER';
+      error.error_description = error.message;
+      return res.status(httpStatus.BAD_REQUEST).send(error);
+    }
+
+    error.error_code = 'INVALID_DATA';
+    error.error_description = error.message;
     return res.status(httpStatus.BAD_REQUEST).send(error);
   }
 }

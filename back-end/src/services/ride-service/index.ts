@@ -184,9 +184,14 @@ export async function getRidesByCustomerId(customer_id: string) {
   try {
     const customer = await checkCustomerExists(customer_id);
     const rides = await rideRepository.findByCustomerId(customer.id);
+
+    if (rides.length === 0) {
+      throw new Error('NO_RIDES_FOUND');
+    }
+
     return rides;
   } catch (error) {
-    throw new Error('Error in getRidesByCustomerId');
+    throw new Error(error.message);
   }
 }
 
@@ -196,9 +201,13 @@ export async function getRidesByCustomerAndDriverId(customer_id: string, driver_
     const driver = await checkDriverExists(driver_id);
     const rides = await rideRepository.findByCustomerAndDriverId(customer.id, driver.id);
 
+    if (rides.length === 0) {
+      throw new Error('NO_RIDES_FOUND');
+    }
+
     return rides;
   } catch (error) {
-    throw new Error('Error in getRidesByCustomerAndDriverId');
+    throw new Error(error.message);
   }
 }
 
