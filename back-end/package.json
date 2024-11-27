@@ -9,7 +9,7 @@
     "start": "node dist/server.js",
     "prisma:seed": "npm run dev:load-envs -- ts-node prisma/seed.ts",
     "seed": "npx prisma migrate deploy && npx prisma db seed",
-    "seed:start": "npx prisma migrate deploy && npx prisma db seed && npm start",
+    "seed:start": "npx prisma migrate dev --name init && npx prisma migrate deploy && npx prisma db seed && npm start",
     "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
     "lint": "eslint .",
     "lint:staged": "lint-staged",
