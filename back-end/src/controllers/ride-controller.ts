@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { AuthenticatedRequest } from '@/middlewares';
 import rideService from '@/services/ride-service';
 
 export async function rideEstimate(req: Request, res: Response) {
