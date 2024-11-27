@@ -5,7 +5,7 @@ import Link from './Link';
 export default function Header(props) {
   return (
     <Container>
-      <p>{props.text}</p>
+      <p>addresses again:</p>
       <Link to={props.to}>
         <img src={backSquare} alt="return button" width="23" height="24" filter='invert(1)' style={{  margin: '10px 0px 0px 0px' }}/>
       </Link>
@@ -21,7 +21,7 @@ const Container = styled.div`
   justify-content: space-evenly;
   font-family: 'Raleway', sans-serif;
   font-weight: bold;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
   line-height: 31px;
   text-align: left;
