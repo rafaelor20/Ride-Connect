@@ -14,4 +14,4 @@ EXPOSE 5000
 RUN npm i && npm run build
 
 # start the server
-CMD ["npm", "run", "start"]
+CMD ["migrate-seed-and-start"]
