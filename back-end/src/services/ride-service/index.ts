@@ -134,7 +134,6 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
     if (error.message === 'Origin and destination cannot be the same') {
       throw new Error('Origin and destination cannot be the same');
     }
-    console.error('Error fetching ride estimate:', error.message);
     throw new Error(error.message);
   }
 }
@@ -174,7 +173,6 @@ export async function rideConfirm(
     const response = { success: true };
     return response;
   } catch (error) {
-    console.error('Error confirming ride:', error.message);
     throw new Error(error.message);
   }
 }
