@@ -24,8 +24,7 @@ export default function ChooseDriver() {
             <RouteMap origin={rideEstimate.origin} destination={rideEstimate.destination} />
           </MapContainer>  
           <Content>
-
-            <Drivers />
+            <Drivers/>
           </Content>
         </Main>
         <Footer />

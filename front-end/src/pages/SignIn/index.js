@@ -32,7 +32,7 @@ export default function SignIn() {
         const userData = await signIn(email, password);
         setUserData(userData);
         toast('Login with sucess!');
-        navigate('/estimate');
+        navigate('/home');
       }
     } catch (err) {
       toast('Something is wrong!,' + err.message);

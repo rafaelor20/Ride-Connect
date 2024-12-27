@@ -27,7 +27,7 @@ export default function ConfirmRide() {
         driver: { id: rideConfirm.id, name: rideConfirm.name },
         value: rideConfirm.value });
       toast('Ride confirmed!');
-      navigate('/rides');
+      navigate('/home');
     } catch (error) {
       toast(`${error.message}`);
       navigate('/choose-driver');
