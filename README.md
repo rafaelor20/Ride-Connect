@@ -102,7 +102,7 @@ Response: {
 
 POST "/ride/estimate"
 Body: {origin, destination }
-Reponse: {
+Response: {
       origin: {
         latitude: originLocation.lat,
         longitude: originLocation.lng,
@@ -137,11 +137,11 @@ Reponse: {
 
 PATCH "/ride/confirm"
 Body: {origin, destination, distance, duration, driver, value}
-Reponse: { success: true }
+Response: { success: true }
 
 GET "/ride/?driver_id"
 Query: {driver_id}
-Reponse: {
+Response: {
     rides: {
         id: number;
         customerId: number;
