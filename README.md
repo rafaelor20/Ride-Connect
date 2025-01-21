@@ -134,7 +134,7 @@ Response: { success: true }
 GET "/ride/?driver_id"
 Query: {driver_id}
 Response: {
-    rides: {
+    rides: { ## multiple rides
         id: number;
         customerId: number;
         driverId: number;
