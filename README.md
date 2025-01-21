@@ -104,35 +104,27 @@ POST "/ride/estimate"
 Body: {origin, destination }
 Response: {
       origin: {
-        latitude: originLocation.lat,
-        longitude: originLocation.lng,
+        latitude,
+        longitude,
       },
       destination: {
-        latitude: destinationLocation.lat,
-        longitude: destinationLocation.lng,
+        latitude,
+        longitude,
       },
-      distance: DistanceStrToNumber(distanceInfo.distance.text),
-      duration: distanceInfo.duration.text,
-      options: drivers
-        .filter((driver) => driver.minKm <= distanceInfo.distance.value / 1000) // Filter drivers based on minKm
-        .map((driver) => ({
+      distance,
+      duration,
+      options:{ ## multiple drivers
           id: driver.id,
           name: driver.name,
           description: driver.description,
           vehicle: driver.vehicle,
-          review: driver.rides.flatMap((ride) =>
-            Array.isArray(ride.review)
-              ? ride.review.map((review) => ({
+          review:{ ## multiple reviews
                   rating: review.rating,
                   comment: review.comment,
-                }))
-              : [],
-          ),
-          // Distance is in meters, price in km * cents, value in km * currency
-          value: ((distanceInfo.distance.value * driver.pricePerKmInCents) / 100000).toFixed(2),
-        }))
-        .sort((a, b) => parseFloat(a.value) - parseFloat(b.value)), // Sort by value
-      routeResponse: distanceMatrix.data,
+              },
+          value:,
+      }
+      routeResponse,
     }
 
 PATCH "/ride/confirm"
