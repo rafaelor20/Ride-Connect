@@ -96,8 +96,7 @@ Response: {
 POST "/auth/sign-in"
 Body: { email, password }
 Response: {
-    user: exclude(user, 'password'),
-    token,
+    token
   };
 
 POST "/ride/estimate"
