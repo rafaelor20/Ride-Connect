@@ -1,3 +1,4 @@
+import React from 'react';
 import Page from '../../components/Page';
 import { Container, Main, Content } from '../../components/styles.js';
 import ToNextPage from '../../components/Home/toNextPage.js';

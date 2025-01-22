@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import logoutButton from '../../assets/log-out.svg';
 import Link from '../Link';

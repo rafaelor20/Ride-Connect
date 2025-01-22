@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Page from '../../components/Page.js';
 import { Container, Main, Content } from '../../components/styles.js';
 import Header from '../../components/Home/Header.js';
