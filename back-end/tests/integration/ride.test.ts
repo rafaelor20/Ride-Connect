@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 import httpStatus from 'http-status';
 import supertest from 'supertest';
 import { Vehicle } from '@faker-js/faker/vehicle';
+import { Client } from '@googlemaps/google-maps-services-js';
 import { cleanDb, generateValidToken } from '../helpers';
 import {
   createCustomer,
@@ -22,6 +23,18 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await close();
+});
+
+// Mock the Client methods
+jest.mock('@googlemaps/google-maps-services-js', () => {
+  return {
+    Client: jest.fn().mockImplementation(() => {
+      return {
+        geocode: jest.fn(),
+        distancematrix: jest.fn(),
+      };
+    }),
+  };
 });
 
 const server = supertest(app);
@@ -56,6 +69,48 @@ describe('POST /ride/estimate', () => {
 
   it('should respond with status 200 when all parameters are provided', async () => {
     const token = await generateValidToken();
+
+    // Mock the external service responses
+    const mockOriginGeo = {
+      data: {
+        results: [
+          {
+            geometry: { location: { lat: 37.7749, lng: -122.4194 } },
+          },
+        ],
+      },
+    };
+    const mockDestinationGeo = {
+      data: {
+        results: [
+          {
+            geometry: { location: { lat: 34.0522, lng: -118.2437 } },
+          },
+        ],
+      },
+    };
+    const mockDistanceMatrix = {
+      data: {
+        rows: [
+          {
+            elements: [
+              {
+                distance: { text: '558 km', value: 558000 },
+                duration: { text: '6 hours 0 mins', value: 21600 },
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    // Mock the behavior of external APIs
+    //(Client.geocode as jest.Mock).mockResolvedValueOnce(mockOriginGeo).mockResolvedValueOnce(mockDestinationGeo);
+    //(client.distancematrix as jest.Mock).mockResolvedValue(mockDistanceMatrix);
+
+    Client.prototype.geocode = jest.fn().mockResolvedValueOnce(mockOriginGeo);
+    Client.prototype.distancematrix = jest.fn().mockResolvedValue(mockDistanceMatrix);
+
     const response = await server.post('/ride/estimate').set('Authorization', `Bearer ${token}`).send({
       origin: faker.address.streetName(),
       destination: faker.address.streetName(),
@@ -97,13 +152,13 @@ describe('PATCH /ride/confirm', () => {
     const response = await server.patch('/ride/confirm').send({
       origin: faker.address.streetName(),
       destination: faker.address.streetName(),
-      distance: faker.random.number(),
+      distance: faker.datatype.number(),
       duration: faker.random.words(),
       driver: {
-        id: faker.random.number(),
+        id: faker.datatype.number(),
         name: faker.name.findName(),
       },
-      value: faker.random.number(),
+      value: faker.datatype.number(),
     });
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
@@ -118,13 +173,13 @@ describe('PATCH /ride/confirm', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         destination: faker.address.streetName(),
-        distance: faker.random.number(),
+        distance: faker.datatype.number(),
         duration: faker.random.words(),
         driver: {
           id: driver.id,
           name: driver.name,
         },
-        value: faker.random.number(),
+        value: faker.datatype.number(),
       });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
@@ -139,13 +194,13 @@ describe('PATCH /ride/confirm', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         origin: faker.address.streetName(),
-        distance: faker.random.number(),
+        distance: faker.datatype.number(),
         duration: faker.random.words(),
         driver: {
           id: driver.id,
           name: driver.name,
         },
-        value: faker.random.number(),
+        value: faker.datatype.number(),
       });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
@@ -161,13 +216,13 @@ describe('PATCH /ride/confirm', () => {
       .send({
         origin: faker.address.streetName(),
         destination: origin,
-        distance: faker.random.number(),
+        distance: faker.datatype.number(),
         duration: faker.random.words(),
         driver: {
           id: driver.id,
           name: driver.name,
         },
-        value: faker.random.number(),
+        value: faker.datatype.number(),
       });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
@@ -188,7 +243,7 @@ describe('PATCH /ride/confirm', () => {
           id: driver.id,
           name: driver.name,
         },
-        value: faker.random.number(),
+        value: faker.datatype.number(),
       });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
@@ -204,12 +259,12 @@ describe('PATCH /ride/confirm', () => {
       .send({
         origin: faker.address.streetName(),
         destination: faker.address.streetName(),
-        distance: faker.random.number(),
+        distance: faker.datatype.number(),
         driver: {
           id: driver.id,
           name: driver.name,
         },
-        value: faker.random.number(),
+        value: faker.datatype.number(),
       });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
@@ -222,9 +277,9 @@ describe('PATCH /ride/confirm', () => {
     const response = await server.patch('/ride/confirm').set('Authorization', `Bearer ${token}`).send({
       origin: faker.address.streetName(),
       destination: faker.address.streetName(),
-      distance: faker.random.number(),
+      distance: faker.datatype.number(),
       duration: faker.random.words(),
-      value: faker.random.number(),
+      value: faker.datatype.number(),
     });
 
     expect(response.status).toBe(httpStatus.BAD_REQUEST);
@@ -240,7 +295,7 @@ describe('PATCH /ride/confirm', () => {
       .send({
         origin: faker.address.streetName(),
         destination: faker.address.streetName(),
-        distance: faker.random.number(),
+        distance: faker.datatype.number(),
         duration: faker.random.words(),
         driver: {
           id: driver.id,
@@ -261,13 +316,13 @@ describe('PATCH /ride/confirm', () => {
       .send({
         origin: 'Universidade Federal de Sergipe',
         destination: 'Universidade Tiradentes',
-        distance: faker.random.number(),
+        distance: faker.datatype.number(),
         duration: faker.random.words(),
         driver: {
           id: driver.id,
           name: driver.name,
         },
-        value: faker.random.number(),
+        value: faker.datatype.number(),
       });
 
     expect(response.status).toBe(httpStatus.OK);

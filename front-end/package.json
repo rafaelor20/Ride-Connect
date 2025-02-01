@@ -36,18 +36,15 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "dotenv-webpack": "^8.1.0",
     "git-commit-msg-linter": "^3.2.8",
-    "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
     "react-app-rewired": "^2.2.1",
     "react-scripts": "^5.0.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "start:rewired ": "react-app-rewired start",
-    "build:rewired ": "react-app-rewired build",
-    "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

@@ -1,5 +1,5 @@
 # avoid routine error problem: error:0308010C:digital envelope routines::unsupported
-FROM node:16
+FROM node:16-alpine
 
 # folder where the build will go
 WORKDIR /tmp/react
@@ -8,13 +8,10 @@ WORKDIR /tmp/react
 COPY . .
 
 # install project dependencies
-RUN npm i
+RUN npm i && npm run build && mkdir -p /var/www/html && mv build/* /var/www/html
 
-# bugfix - while using CRA to build
-RUN chmod a+x /tmp/react/node_modules/.bin/react-scripts 
+# exit the folder
+WORKDIR /
 
-# create the optimized production version
-RUN npm run build
-
-# start the app
-CMD ["npm", "run", "start"]
+# remove the entire development directory
+RUN rm -rf /tmp/react
