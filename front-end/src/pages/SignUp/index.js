@@ -33,7 +33,7 @@ export default function SignUp() {
       try {
         await signUp(name, email, password);
         toast('User created!');
-        navigate('/sign-in');
+        navigate('/');
       } catch (error) {
         toast('Something is wrong!, ' + error.message);
       }

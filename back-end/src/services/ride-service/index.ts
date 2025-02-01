@@ -24,16 +24,13 @@ async function checkCustomerExists(customerId: string) {
 async function checkDriverExists(driverId: string) {
   try {
     const id = parseInt(driverId);
-    if (isNaN(id)) {
-      throw new Error('Invalid driver ID');
-    }
     const driver = await driverRepository.findById(id);
     if (!driver) {
-      throw new Error('Driver Not Found');
+      throw new Error('Invalid driver ID');
     }
     return driver;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error('Invalid driver ID');
   }
 }
 
@@ -92,6 +89,7 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
     const distanceInfo = distanceMatrix.data.rows[0].elements[0];
 
     const drivers = await driverRepository.getDriversWithReviews();
+
     const response = {
       origin: {
         latitude: originLocation.lat,
@@ -110,13 +108,14 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
           name: driver.name,
           description: driver.description,
           vehicle: driver.vehicle,
-
-          review: drivers[driver.id - 1].rides[0].review[0]
-            ? {
-                rating: drivers[driver.id - 1].rides[0].review[0].rating,
-                comment: drivers[driver.id - 1].rides[0].review[0].comment,
-              }
-            : { rating: null, comment: '' },
+          review: driver.rides.flatMap((ride) =>
+            Array.isArray(ride.review)
+              ? ride.review.map((review) => ({
+                  rating: review.rating,
+                  comment: review.comment,
+                }))
+              : [],
+          ),
           // Distance is in meters, price in km * cents, value in km * currency
           value: ((distanceInfo.distance.value * driver.pricePerKmInCents) / 100000).toFixed(2),
         }))
@@ -182,14 +181,9 @@ export async function getRidesByCustomerId(customer_id: string) {
   try {
     const customer = await checkCustomerExists(customer_id);
     const rides = await rideRepository.findByCustomerId(customer.id);
-
-    if (rides.length === 0) {
-      throw new Error('NO_RIDES_FOUND');
-    }
-
     return rides;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error('Error in getRidesByCustomerId');
   }
 }
 
@@ -199,13 +193,9 @@ export async function getRidesByCustomerAndDriverId(customer_id: string, driver_
     const driver = await checkDriverExists(driver_id);
     const rides = await rideRepository.findByCustomerAndDriverId(customer.id, driver.id);
 
-    if (rides.length === 0) {
-      throw new Error('NO_RIDES_FOUND');
-    }
-
     return rides;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error('Error in getRidesByCustomerAndDriverId');
   }
 }
 

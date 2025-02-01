@@ -5,8 +5,8 @@ import Link from './Link';
 export default function Header(props) {
   return (
     <Container>
-      <p>addresses again:</p>
-      <Link to="/estimate">
+      <p>{props.text}</p>
+      <Link to={props.to}>
         <img src={backSquare} alt="return button" width="23" height="24" filter='invert(1)' style={{  margin: '10px 0px 0px 0px' }}/>
       </Link>
     </Container>
@@ -14,14 +14,14 @@ export default function Header(props) {
 }
 
 const Container = styled.div`
-  min-width: auto;
+  width: 100%; 
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   font-family: 'Raleway', sans-serif;
   font-weight: bold;
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 700;
   line-height: 31px;
   text-align: left;
