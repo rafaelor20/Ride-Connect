@@ -6,7 +6,6 @@ import Button from '../../components/Form/Button';
 import Header from '../../components/Home/Header.js';
 import Footer from '../../components/Footer.js';
 import Rides from '../../components/Historic/rides';
-import DriverSelector from '../../components/Historic/DriverSelectior.js';
 import Link from '../../components/Link.js';
 
 import useGetRidesApi from '../../hooks/api/useGetRides.js';
