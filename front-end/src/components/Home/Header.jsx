@@ -16,12 +16,16 @@ export default function Header() {
 
 const Container = styled.div`
   width: 100%;
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 15px;;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 5px;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
   filter: invert(1);
+  p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff !important; /* Force white text */
+    filter: invert(1); /* Invert text color back to white if parent is inverted */
+  }
 `;

@@ -1,5 +1,5 @@
 import Link from '../Link';
-import Button from '../../components/Form/Button';
+import Button from '../Form/Button';
 
 export default function ToNextPage(props) {
   return (

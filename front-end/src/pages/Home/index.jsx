@@ -1,15 +1,15 @@
-import Page from '../../components/Page';
-import { Container, Main, Content } from '../../components/styles.js';
-import ToNextPage from '../../components/Home/toNextPage.js';
-import Header from '../../components/Home/Header.js';
-import Footer from '../../components/Footer.js';
+import Page from '../../components/Page.jsx';
+import { Container, Main, Content } from '../../components/styles';
+import ToNextPage from '../../components/Home/toNextPage';
+import Header from '../../components/Home/Header.jsx';
+import Footer from '../../components/Footer.jsx';
 
 export default function Home() {
   return (
     <Page>
       <Container>
-        <Header/>
         <Main>
+          <Header/>
           <Content>
             <ToNextPage nextPage="/estimate" description="Get a new ride!" />
             <ToNextPage nextPage="/rides" description="Get historic of rides" />

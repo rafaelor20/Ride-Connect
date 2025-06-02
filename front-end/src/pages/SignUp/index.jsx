@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import Page from '../../components/Page';
 import Input from '../../components/Form/Input';
 import Button from '../../components/Form/Button';
-import { Container, Row, Title, Label } from '../../components/Auth';
+import { Container, Row, Title, Label, MainRow } from '../../components/Auth';
 import Link from '../../components/Link';
-
+import Footer from '../../components/Footer';
 import useSignUp from '../../hooks/api/useSignUp';
 
 import logo from '../../assets/logo.png';
@@ -47,11 +47,10 @@ export default function SignUp() {
           <img src={logo} alt="Ride Connect Logo" width="140px" />
           <Title>Ride Connect</Title>
         </Row>
-        <Row>
-          <Label></Label>
+        <MainRow>
           <form onSubmit={submit}>
             <Input
-              label="Name"
+              label="Username"
               type="text"
               fullWidth
               value={name}
@@ -82,9 +81,12 @@ export default function SignUp() {
               SUBSCRIBE
             </Button>
           </form>
-        </Row>
+        </MainRow>
         <Row>
           <Link to="/">Already subscribed?</Link>
+        </Row>
+        <Row>
+          <Footer />
         </Row>
       </Container>
     </Page>

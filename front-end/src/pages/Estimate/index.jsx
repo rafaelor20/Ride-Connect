@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import Page from '../../components/Page';
-import { Container, Main, Content } from '../../components/styles.js';
-import Input from '../../components/Form/Input';
-import Button from '../../components/Form/Button';
-import Header from '../../components/Home/Header.js';
-import Footer from '../../components/Footer.js';
+import Page from '../../components/Page.jsx';
+import { Container, Main, Content } from '../../components/styles';
+import FormDescription from '../../components/Estimate/FormDescription.jsx';
+import Input from '../../components/Form/Input.jsx';
+import Button from '../../components/Form/Button.jsx';
+import Header from '../../components/Home/Header.jsx';
+import Footer from '../../components/Footer.jsx';
 
-import useEstimateApi from '../../hooks/api/useEstimate.js';  
+import useEstimateApi from '../../hooks/api/useEstimate';  
 
 export default function EstimateRide() {
   const [ origin, setOrigin ] = useState('');
@@ -40,11 +41,12 @@ export default function EstimateRide() {
 
   return (
     <Page>
-      <Container>
-        <Header/>
+      <Container>        
         <Main>
+          <Header/>
           <Content>
             <form onSubmit={submit}>
+              <FormDescription text="Where to pick you up:" />
               <Input
                 label="Origin"
                 type="text"
@@ -52,6 +54,7 @@ export default function EstimateRide() {
                 value={origin}
                 onChange={(e) => setOrigin(e.target.value)}
               />
+              <FormDescription text="Where are you going:" />
               <Input
                 label="Destination"
                 type="text"
@@ -60,7 +63,7 @@ export default function EstimateRide() {
                 onChange={(e) => setDestination(e.target.value)}
               />
               <Button type="submit" color="primary" fullWidth disabled={estimateLoading}>
-              Estimate
+              Estimate your ride
               </Button>
             </form>
           </Content>

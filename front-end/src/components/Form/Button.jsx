@@ -1,4 +1,4 @@
-import MuiButton from '@material-ui/core/Button';
+import MuiButton from '@mui/material/Button';
 import styled from 'styled-components';
 
 export default function Button({ variant='contained', children, ...props }) {
@@ -11,5 +11,7 @@ export default function Button({ variant='contained', children, ...props }) {
 
 const StyledMuiButton = styled(MuiButton)`
   margin-top: 8px !important;
-  background-color: blue;
+  background-color: #741d8f !important;
+  border-radius: 15px !important;
+  min-width: 250px !important;
 `;

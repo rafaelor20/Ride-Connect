@@ -1,11 +1,11 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import Page from '../../components/Page';
-import { Container, Main, Content, ButtonsDiv } from '../../components/styles.js';
-import Header from '../../components/Home/Header.js';
-import Footer from '../../components/Footer.js';
-import Link from '../../components/Link.js';
+import Page from '../../components/Page.jsx';
+import { Container, Main, Content, ButtonsDiv } from '../../components/styles';
+import Header from '../../components/Home/Header.jsx';
+import Footer from '../../components/Footer.jsx';
+import Link from '../../components/Link';
 import { useNavigate } from 'react-router-dom';
 
 import useConfirm from '../../hooks/api/useConfirm';

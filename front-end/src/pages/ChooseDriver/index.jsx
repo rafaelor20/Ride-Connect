@@ -1,11 +1,11 @@
-import Page from '../../components/Page.js';
-import { Container, Main, Content } from '../../components/styles.js';
-import Header from '../../components/Home/Header.js';
-import Footer from '../../components/Footer.js';
-import Link from '../../components/Link.js';
+import Page from '../../components/Page.jsx';
+import { Container, Main, Content } from '../../components/styles';
+import Header from '../../components/Home/Header.jsx';
+import Footer from '../../components/Footer.jsx';
+import Link from '../../components/Link';
 
-import Drivers from '../../components/Choose/Drivers.js';
-import RouteMap from '../../components/RouteMap.js';
+import Drivers from '../../components/Choose/Drivers';
+import RouteMap from '../../components/RouteMap.jsx';
 
 import styled from 'styled-components';
 

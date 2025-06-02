@@ -7,7 +7,7 @@ export default function Header(props) {
     <Container>
       <p>{props.text}</p>
       <Link to={props.to}>
-        <img src={backSquare} alt="return button" width="23" height="24" filter='invert(1)' style={{  margin: '10px 0px 0px 0px' }}/>
+        <img src={backSquare} alt="return button" width="23" height="24"/>
       </Link>
     </Container>
   );
@@ -25,5 +25,4 @@ const Container = styled.div`
   font-weight: 700;
   line-height: 31px;
   text-align: left;
-  filter: invert(1);
 `;
