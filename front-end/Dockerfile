@@ -1,5 +1,5 @@
 # avoid routine error problem: error:0308010C:digital envelope routines::unsupported
-FROM node:19-alpine
+FROM node:20-alpine
 
 # folder where the build will go
 WORKDIR /tmp/react
@@ -8,8 +8,7 @@ WORKDIR /tmp/react
 COPY . .
 
 # install project dependencies
-RUN npm i && npm run build && mkdir -p /var/www/html && mv build/* /var/www/html
-
+RUN npm i && npm run build && mkdir -p /var/www/html && mv dist/* /var/www/html
 # exit the folder
 WORKDIR /
 
