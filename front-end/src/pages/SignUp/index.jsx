@@ -83,7 +83,7 @@ export default function SignUp() {
           </form>
         </MainRow>
         <Row>
-          <Link to="/">Already subscribed?</Link>
+          <Link to="/"><p>Already subscribed?</p></Link>
         </Row>
         <Row>
           <Footer />

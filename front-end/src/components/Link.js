@@ -7,4 +7,7 @@ export default styled(Link)`
   &:hover {
     text-decoration: underline;
   }
+  p {
+    color: white;
+  }
 `;

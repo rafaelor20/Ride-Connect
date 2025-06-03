@@ -56,7 +56,7 @@ export default function SignIn() {
           </form>
         </MainRow>
         <Row>
-          <Link to="/Sign-up">Create a account here!</Link>
+          <Link to="/Sign-up"><p>Create a account here!</p></Link>
         </Row>
         <Row>
           <Footer />
