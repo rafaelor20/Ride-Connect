@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, DirectionsRenderer } from '@react-google-maps/api';
+import styled from 'styled-components';
 
 const RouteMap = (props) => {
   const [directions, setDirections] = useState(null);
@@ -29,6 +30,7 @@ const RouteMap = (props) => {
   }, [mapLoaded]);
 
   return (
+    <MapContainer>
     <LoadScript
       googleMapsApiKey={import.meta.env.VITE_API_GOOGLE_API_KEY}
       onLoad={() => setMapLoaded(true)}
@@ -41,7 +43,17 @@ const RouteMap = (props) => {
         {directions && <DirectionsRenderer directions={directions} />}
       </GoogleMap>
     </LoadScript>
+    </MapContainer>
   );
 };
 
 export default RouteMap;
+
+const MapContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  max-height: 500px;
+  border-radius: 8px;
+  overflow: auto;
+`;

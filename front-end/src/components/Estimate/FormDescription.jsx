@@ -16,7 +16,7 @@ const Container = styled.div`
   margin-top: 10px;
   padding: 1px;
   p {
-    color: grey;
+    color: #3b3b3b;
     font-size: 14px;
     margin: 0;
   }

@@ -16,6 +16,7 @@ export default function Header() {
 
 const Container = styled.div`
   width: 100%;
+  max-width: 500px;
   margin-top: 15px;
   margin-bottom: 5px;
   display: flex;

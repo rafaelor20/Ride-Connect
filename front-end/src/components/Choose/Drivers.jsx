@@ -22,7 +22,7 @@ export default function Drivers() {
 
   return (
     <Content>
-      <h1>Drivers:</h1>
+      <h1>Available Drivers:</h1>
       {rideEstimate.options.map((option) => (
         <Driver onClick={() => submit(option)} key={option.id} driver={option}/>
       ))}
@@ -34,6 +34,29 @@ const Content = Styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: auto;
-  padding: 5px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  max-height: 100%;
+  h1 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: black;
+  }
+
+  /* Add spacing between Driver elements */
+  & > *:not(:last-child) {
+    margin-bottom: 5px;
+  }
+
+  /* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
 `;

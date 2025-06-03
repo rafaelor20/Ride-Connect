@@ -18,7 +18,7 @@ export const Title = styled.h1`
 export const Label = styled.h1`
   font-size: 12px;
   margin-bottom: 1px;
-  color: grey;
+  color: #3b3b3b;
 `;
 
 export const MainRow = styled.div`
