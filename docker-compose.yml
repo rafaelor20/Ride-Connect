@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:17-alpine
+    image: rafaelor20/ride-connect:v1
     container_name: postgres
     restart: always
     ports:

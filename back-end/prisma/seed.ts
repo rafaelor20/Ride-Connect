@@ -183,6 +183,67 @@ async function main() {
 
   console.log('Origins and destinations seeded successfully');
   // Create rides
+
+  const rideMain = await prisma.ride.create({
+    data: {
+      customerId: mainUser.id,
+      driverId: driver1.id,
+      originId: origin1.id,
+      destinationId: destination1.id,
+      distanceInKm: 15,
+      durationInSec: 900,
+      valueInCents: 1500,
+    },
+  });
+
+  const rideMain2 = await prisma.ride.create({
+    data: {
+      customerId: mainUser.id,
+      driverId: driver2.id,
+      originId: origin2.id,
+      destinationId: destination2.id,
+      distanceInKm: 20,
+      durationInSec: 1200,
+      valueInCents: 2400,
+    },
+  });
+
+  const rideMain3 = await prisma.ride.create({
+    data: {
+      customerId: mainUser.id,
+      driverId: driver3.id,
+      originId: origin3.id,
+      destinationId: destination3.id,
+      distanceInKm: 10,
+      durationInSec: 600,
+      valueInCents: 1000,
+    },
+  });
+
+  const rideMain4 = await prisma.ride.create({
+    data: {
+      customerId: mainUser.id,
+      driverId: driver4.id,
+      originId: origin4.id,
+      destinationId: destination4.id,
+      distanceInKm: 25,
+      durationInSec: 1500,
+      valueInCents: 2500,
+    },
+  });
+
+  const rideMain5 = await prisma.ride.create({
+    data: {
+      customerId: mainUser.id,
+      driverId: driver5.id,
+      originId: origin5.id,
+      destinationId: destination5.id,
+      distanceInKm: 12,
+      durationInSec: 720,
+      valueInCents: 1320,
+    },
+  });
+
   const ride1 = await prisma.ride.create({
     data: {
       customerId: customer1.id,
