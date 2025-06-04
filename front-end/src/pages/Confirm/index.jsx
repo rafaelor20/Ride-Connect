@@ -143,24 +143,24 @@ const ReturnButtons = styled.div`
   justify-content: space-around;
   width: 100%;
   button {
-    width: 120px;
-    height: 70px;
-    background-color: blue;
+    width: 140px;
+    height: 60px;
+    background-color: #741d8f;
     color: white;
-    border: none;
     border-radius: 10px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
     &:disabled {
-      background-color: grey;
+      background-color: darkgrey;
+      color: white;
       cursor: not-allowed;
     }
     &:hover {
-      background-color: darkblue;
+      background-color: #66197e;
     }
     &:active {
-      background-color: lightblue;
+      background-color: #e0e0e0;
     }
     transition: background-color 0.3s ease;
   }
