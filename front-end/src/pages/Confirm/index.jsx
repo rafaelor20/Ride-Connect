@@ -40,21 +40,27 @@ export default function ConfirmRide() {
         <Header/>
         <Main>
           <Content>
-            <ContentDiv>
-              <h1>Confirm your ride:</h1>
-              <p>Origin: {origin}</p>
-              <p>Destination: {destination}</p>
-              <p>Distance: {rideEstimate.distance}</p>
-              <p>Duration: {rideEstimate.duration}</p>
-              <p>Driver Name: {rideConfirm.name}</p>
-              <p>Driver Vehicle: {rideConfirm.vehicle}</p>
-              <p>Value: {rideConfirm.value}</p>
-              <ButtonsDiv>
-                <button onClick={submit} disabled={confirmLoading}>Confirm</button>
-              </ButtonsDiv>
-            </ContentDiv>
+            <RideDiv>
+              <p>Origin:</p>
+              <h1>{origin}</h1>
+              <p>Destination:</p>
+              <h1>{destination}</h1>
+              <p>Distance:</p>
+              <h1>{rideEstimate.distance}</h1>
+              <p>Duration:</p>
+              <h1>{rideEstimate.duration}</h1>
+              <p>Driver:</p>
+              <h1>{rideConfirm.name}</h1>
+              <p>Driver:</p>
+              <h1>{rideConfirm.vehicle}</h1>
+              <p>Driver Value:</p>
+              <h1>{rideConfirm.value}</h1>
+            </RideDiv>
           </Content>
           <ButtonsDiv>
+                <ConfirmButton onClick={submit} disabled={confirmLoading}>Confirm</ConfirmButton>
+          </ButtonsDiv>
+          <ReturnButtons>
             <Link to="/home">
               <ButtonsDiv>
                 <button disabled={confirmLoading}>Return to home</button>
@@ -62,10 +68,10 @@ export default function ConfirmRide() {
             </Link>
             <Link to="/estimate">
               <ButtonsDiv>
-                <button disabled={confirmLoading}>Return to estimateRide</button>
+                <button disabled={confirmLoading}>Return to estimate</button>
               </ButtonsDiv>
             </Link>
-          </ButtonsDiv>
+          </ReturnButtons>
         </Main>
         <Footer />
       </Container>
@@ -73,13 +79,89 @@ export default function ConfirmRide() {
   );
 };
 
-const ContentDiv = styled.div`
-  min-width: 100%;
-  padding: 8px;
+const RideDiv = styled.div`
+  max-width: 90%;
+  min-width: 90%;
   display: flex;
   flex-direction: column;
-  align-items: left;
   text-align: left;
-  justify-content: center;
-  margin: 20px;
+  justify-content: start;
+  background-color: white;
+  overflow-y: auto;
+  margin: 5px 0px;
+  padding: 10px 0px;
+
+  h1 {
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 2px; /* Add space above each h1 */
+    margin-bottom: 8px; /* Add space below each h1 */
+  }
+
+  p {
+    color: black;
+    font-size: 14px;
+    margin-top: 2px; /* Add space above each p */
+    margin-bottom: 1px; /* Optional: small space below p */
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+`;
+
+const ConfirmButton = styled.button`
+  width: 100%;
+  height: 40px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  &:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+  }
+  &:hover {
+    background-color: darkgreen;
+  }
+  &:active {
+    background-color: lightgreen;
+  }
+  transition: background-color 0.3s ease;
+`;
+
+const ReturnButtons = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  button {
+    width: 120px;
+    height: 70px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    &:disabled {
+      background-color: grey;
+      cursor: not-allowed;
+    }
+    &:hover {
+      background-color: darkblue;
+    }
+    &:active {
+      background-color: lightblue;
+    }
+    transition: background-color 0.3s ease;
+  }
 `;

@@ -47,6 +47,10 @@ export const ButtonsDiv = styled.div`
   flex-wrap: wrap;
   gap: 10px 0px;
   max-width: calc(100px * 4);
+
+  div{
+    background-color: blue;
+  }
 `;
 
 export const Label = styled.h1`
