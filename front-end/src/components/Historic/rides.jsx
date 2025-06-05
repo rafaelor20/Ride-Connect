@@ -8,7 +8,7 @@ export default function Rides(props) {
   
   return (
     <RideContainer>
-      {rides.map((ride, index) => (
+      {rides.map((ride) => (
         <Ride key={ride.id} {...ride} />
       ))}
     </RideContainer>

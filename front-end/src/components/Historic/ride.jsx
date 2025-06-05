@@ -16,34 +16,42 @@ export default function Ride(props) {
   const formatedDate = formateDate(props.updatedAt);
   const navigate = useNavigate();
 
-  const handleNavigate = (id) => {
+  const handleNavigate = () => {
     localStorage.setItem('driverId', props.driverId);
     navigate('/rides-by-driver');
   };
 
   return (
     <RideContainer onClick={() => handleNavigate(props.driverId)}>
-      <p>Id: {props.id}</p>
-      <p>Date: {formatedDate}</p>
-      <p>Origin: {props.origin.address}</p>
-      <p>Destination: {props.destination.address}</p>
-      <p>Distance: {props.distanceInKm}</p>
-      <p>Duration: {props.durationInSec}</p>
-      <p>Driver id: {props.driverId}</p>
-      <p>Driver name: {props.driver.name}</p>
-      <p>Value: {props.valueInCents}</p>
+      <p>Date: <h1>{formatedDate}</h1></p>
+      <p>Origin: <h1>{props.origin.address}</h1></p>
+      <p>Destination: <h1>{props.destination.address}</h1></p>
+      <p>Distance: <h1>{props.distanceInKm}</h1></p>
+      <p>Duration: <h1>{props.durationInSec}</h1></p>
+      <p>Driver name: <h1>{props.driver.name}</h1></p>
+      <p>Value: <h1>{props.valueInCents}</h1></p>
     </RideContainer>
   );
 }
 
 const RideContainer = styled.div`
   text-align: left;
-  min-width: 260px;
+  width: 260px;
   border: 1px solid black;
   margin: 2px;
   padding: 5px;
   p{
     font-size: 14px;
+  }
+  h1{
+    font-size: 14px;
+    font-weight: bold;
+  }
+  cursor: pointer;
+  background-color: white;
+  transition: background-color 0.2s;
+  &:hover {
+    background-color: #dadadad3;
   }
 `;
 

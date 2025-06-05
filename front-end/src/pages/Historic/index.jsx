@@ -10,6 +10,8 @@ import Link from '../../components/Link';
 
 import useGetRidesApi from '../../hooks/api/useGetRides';
 
+import styled from 'styled-components';
+
 export default function Historic() {
   const { getRides } = useGetRidesApi();
   const [rides, setRides] = useState([]);
@@ -33,13 +35,15 @@ export default function Historic() {
         <Header />
         <Main>
           <Content>
-            <p>Click on one of the boxes below to</p>
-            <p>filter the list of rides by it's driver:</p>
-            {rides.length > 0 ? (
-              <Rides rides={rides} />
-            ) : (
-              <p>No rides found</p>
-            )}
+            <StyledRides>
+              <p>Click on one of the boxes below to</p>
+              <p>filter the rides by it's driver:</p>
+              {rides.length > 0 ? (
+                <Rides rides={rides} />
+              ) : (
+                <p>No rides found</p>
+              )}
+            </StyledRides>
           </Content>
           <Link to="/home">
             <Button>Back to home page</Button>
@@ -50,3 +54,27 @@ export default function Historic() {
     </Page>
   );
 }
+
+
+const StyledRides = styled.div`
+  overflow-y: auto;
+
+  p {
+    color: black;
+  }
+
+    /* Add spacing between Driver elements */
+  & > *:not(:last-child) {
+    margin-bottom: 5px;
+  }
+
+  /* Hide scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+`;
