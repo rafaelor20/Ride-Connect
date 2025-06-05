@@ -5,6 +5,8 @@ import RideByDriver from './rideByDriver';
 
 export default function RidesByDriver(props) {
   const rides = props.rides;
+
+  console.log('Ride props:', props);
   
   return (
     <RideContainer>
@@ -29,4 +31,9 @@ const RideContainer = styled.div`
   align-items: center;
   overflow: auto;
   padding: 5px;
+
+  p{
+    font-size: 14px;
+    color: black;
+  }
 `;

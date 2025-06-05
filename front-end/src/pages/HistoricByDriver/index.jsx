@@ -10,6 +10,8 @@ import Link from '../../components/Link.js';
 
 import useGetRidesApi from '../../hooks/api/useGetRides.js';
 
+import styled from 'styled-components';
+
 export default function Historic() {
   const { getRides } = useGetRidesApi();
   const [rides, setRides] = useState([]);
@@ -34,11 +36,11 @@ export default function Historic() {
         <Header />
         <Main>
           <Content>
-            <p>Rides with driver:</p>
+            <StyledP>Rides with driver:</StyledP>
             {rides.length > 0 ? (
               <RidesByDriver rides={rides} />
             ) : (
-              <p>No rides found</p>
+              <StyledP>No rides found</StyledP>
             )}
           </Content>
           <Link to="/rides">
@@ -53,3 +55,9 @@ export default function Historic() {
     </Page>
   );
 }
+
+
+const StyledP = styled.p`
+  font-size: 14px;
+  color: black;
+`;

@@ -65,10 +65,20 @@ async function findByCustomerAndDriverId(customerId: number, driverId: number) {
       driverId,
     },
 
-    include: {
+        include: {
       driver: {
         select: {
           name: true, // Include only the driver's name
+        },
+      },
+      origin: {
+        select: {
+          address: true, // Include only the origin's address
+        },
+      },
+      destination: {
+        select: {
+          address: true, // Include only the destination's address
         },
       },
     },
