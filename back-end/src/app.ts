@@ -14,7 +14,7 @@ import { usersRouter, authenticationRouter, rideRouter } from '@/routers';
 
 const app = express();
 app
-  .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
+  .use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
   .use(cors())
   .use(express.json())
   .get('/health', (req: express.Request, res: express.Response) => res.send('OK!'))

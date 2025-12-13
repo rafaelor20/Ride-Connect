@@ -6,67 +6,25 @@ import rideService from '@/services/ride-service';
 export async function rideEstimate(req: AuthenticatedRequest, res: Response) {
   try {
     const { origin, destination } = req.body;
-    const id = req.userId;
-
-    if (id == null || id == undefined) {
-      throw new Error('Invalid customer ID');
-    }
-
-    const customer_id = String(id);
+    const customer_id = String(req.userId);
 
     const ride = await rideService.rideEstimate({ customer_id, origin, destination });
 
     return res.status(httpStatus.OK).send(ride);
   } catch (error) {
-    if (error.message === 'Invalid customer ID') {
-      return res.status(httpStatus.UNAUTHORIZED).send(error);
-    }
-
-    if (error.message === 'Origin and destination are required') {
-      return res.status(httpStatus.BAD_REQUEST).send(error);
-    }
-
-    if (error.message === 'Origin and destination cannot be the same') {
-      return res.status(httpStatus.BAD_REQUEST).send(error);
-    }
-
-    return res.status(httpStatus.BAD_REQUEST).send(error);
+    return res.status(httpStatus.BAD_REQUEST).send(error.message);
   }
 }
 
 export async function rideConfirm(req: AuthenticatedRequest, res: Response) {
   try {
     const { origin, destination, distance, duration, driver, value } = req.body;
-    const { userId } = req;
-    if (userId == null || userId == undefined) {
-      throw new Error('Invalid customer ID');
-    }
-    const customer_id = String(userId);
+    const customer_id = String(req.userId);
     const ride = await rideService.rideConfirm(customer_id, origin, destination, distance, duration, driver, value);
 
     return res.status(httpStatus.OK).send(ride);
   } catch (error) {
-    if (error.message === 'Invalid customer ID') {
-      return res.status(httpStatus.UNAUTHORIZED).send(error);
-    }
-
-    if (error.message === 'Origin and destination are required') {
-      return res.status(httpStatus.BAD_REQUEST).send(error);
-    }
-
-    if (error.message === 'Origin and destination cannot be the same') {
-      return res.status(httpStatus.BAD_REQUEST).send(error);
-    }
-
-    if (error.message === 'Invalid driver ID') {
-      return res.status(httpStatus.BAD_REQUEST).send(error);
-    }
-
-    if (error.message === 'Distance is less than the minimum allowed') {
-      return res.status(httpStatus.BAD_REQUEST).send(error);
-    }
-
-    return res.status(httpStatus.BAD_REQUEST).send(error);
+    return res.status(httpStatus.BAD_REQUEST).send(error.message);
   }
 }
 
@@ -76,17 +34,13 @@ export async function getRidesByCustomerId(req: AuthenticatedRequest, res: Respo
     const { userId } = req;
 
     let rides;
-    if (driver_id == null || driver_id == undefined) {
+    if (driver_id) {
+      rides = await rideService.getRidesByCustomerAndDriverId(String(userId), String(driver_id));
+    } else {
       rides = await rideService.getRidesByCustomerId(String(userId));
-      return res.status(httpStatus.OK).send(rides);
     }
-
-    rides = await rideService.getRidesByCustomerAndDriverId(String(userId), String(driver_id));
-    return res.status(httpStatus.OK).send(rides);
+    return res.status(httpStatus.OK).send({ rides });
   } catch (error) {
-    if (error.message === 'Unauthorized') {
-      return res.status(httpStatus.UNAUTHORIZED).send(error);
-    }
-    return res.status(httpStatus.BAD_REQUEST).send(error);
+    return res.status(httpStatus.BAD_REQUEST).send(error.message);
   }
 }

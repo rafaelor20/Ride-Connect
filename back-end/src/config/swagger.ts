@@ -14,6 +14,34 @@ const options: swaggerJsdoc.Options = {
         description: 'Development server',
       },
     ],
+    tags: [
+      {
+        name: 'Authentication',
+        description: 'Endpoints related to user authentication',
+      },
+      {
+        name: 'Users',
+        description: 'Endpoints related to user management',
+      },
+      {
+        name: 'Rides',
+        description: 'Endpoints related to ride management',
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   // Path to the files containing OpenAPI annotations
   apis: ['./src/routers/*.ts'],
