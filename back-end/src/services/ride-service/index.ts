@@ -60,6 +60,24 @@ function DistanceStrToNumber(distance: string) {
   const distanceNumber = parseFloat(distance.replace(' km', '').replace(',', '.'));
   return distanceNumber;
 }
+function DurationStrToNumber(duration: string) {
+  // 1 hour 20 mins to seconds in integer
+  const durationParts = duration.split(' ');
+  let totalSeconds = 0;
+
+  for (let i = 0; i < durationParts.length; i += 2) {
+    const value = parseInt(durationParts[i]);
+    const unit = durationParts[i + 1];
+
+    if (unit.startsWith('hour')) {
+      totalSeconds += value * 3600;
+    } else if (unit.startsWith('min')) {
+      totalSeconds += value * 60;
+    }
+  }
+
+  return totalSeconds;
+}
 
 export async function rideEstimate({ customer_id, origin, destination }: RideEstimateParams) {
   const apiKey = process.env.GOOGLE_API_KEY; // Replace with your actual API key.
@@ -100,7 +118,7 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
         longitude: destinationLocation.lng,
       },
       distance: DistanceStrToNumber(distanceInfo.distance.text),
-      duration: distanceInfo.duration.text,
+      duration: DurationStrToNumber(distanceInfo.duration.text),
       options: drivers
         .filter((driver) => driver.minKm <= distanceInfo.distance.value / 1000) // Filter drivers based on minKm
         .map((driver) => ({
@@ -160,20 +178,24 @@ export async function rideConfirm(
       address: destination,
     });
 
+    value = Math.round(value * 100);
+    distance = Math.round(distance);
+
     await rideRepository.createRide({
       customerId: customer_id,
+      driverId: driver.id,
       originId: originAddress.id,
       destinationId: destinationAddress.id,
       distanceInKm: distance,
       durationInSec: duration,
-      driverId: driver.id,
       valueInCents: value,
     });
 
     const response = { success: true };
     return response;
   } catch (error) {
-    throw new Error(error.message);
+    console.log(error);
+    throw new Error(error);
   }
 }
 
