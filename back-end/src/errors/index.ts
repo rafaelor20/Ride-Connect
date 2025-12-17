@@ -5,3 +5,4 @@ export * from './not-found-error';
 export * from './unauthorized-error';
 export * from './request-error';
 export * from './invalid-amount-error';
+export * from './invalid-credentials-error';

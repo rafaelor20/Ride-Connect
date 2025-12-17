@@ -8,9 +8,9 @@ import destinationRepository from '../../repositories/destination-repository';
 
 const client = new Client({});
 
-async function checkCustomerExists(customerId: string) {
+async function checkCustomerExists(customerId: number) {
   try {
-    const id = parseInt(customerId);
+    const id = customerId;
     const customer = await userRepository.findById(id);
     if (!customer) {
       throw new Error('Customer not found');
@@ -21,9 +21,9 @@ async function checkCustomerExists(customerId: string) {
   }
 }
 
-async function checkDriverExists(driverId: string) {
+async function checkDriverExists(driverId: number) {
   try {
-    const id = parseInt(driverId);
+    const id = driverId;
     const driver = await driverRepository.findById(id);
     if (!driver) {
       throw new Error('Invalid driver ID');
@@ -44,14 +44,14 @@ function checkOriginAndDestination(origin: string, destination: string) {
   }
 }
 
-async function checkDistanceByDriver(driverId: number, distance: string) {
+async function checkDistanceByDriver(driverId: number, distance: number) {
   const driver = await driverRepository.findById(driverId);
 
   if (!driver) {
     throw new Error('Driver not found');
   }
 
-  if (driver.minKm > parseFloat(distance)) {
+  if (driver.minKm > distance) {
     throw new Error('Distance is less than the minimum allowed');
   }
 }
@@ -139,13 +139,13 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
 }
 
 export async function rideConfirm(
-  customer_id: string,
+  customer_id: number,
   origin: string,
   destination: string,
-  distance: string,
-  duration: string,
-  driver: { id: string; name: string },
-  value: string,
+  distance: number,
+  duration: number,
+  driver: { id: number; name: string },
+  value: number,
 ) {
   try {
     checkOriginAndDestination(origin, destination);
@@ -161,13 +161,13 @@ export async function rideConfirm(
     });
 
     await rideRepository.createRide({
-      customerId: parseInt(customer_id),
+      customerId: customer_id,
       originId: originAddress.id,
       destinationId: destinationAddress.id,
-      distanceInKm: parseInt(distance),
-      durationInSec: parseInt(duration),
-      driverId: parseInt(driver.id),
-      valueInCents: parseInt(value),
+      distanceInKm: distance,
+      durationInSec: duration,
+      driverId: driver.id,
+      valueInCents: value,
     });
 
     const response = { success: true };
@@ -179,7 +179,7 @@ export async function rideConfirm(
 
 export async function getRidesByCustomerId(customer_id: string) {
   try {
-    const customer = await checkCustomerExists(customer_id);
+    const customer = await checkCustomerExists(Number(customer_id));
     const rides = await rideRepository.findByCustomerId(customer.id);
     return rides;
   } catch (error) {
@@ -187,7 +187,7 @@ export async function getRidesByCustomerId(customer_id: string) {
   }
 }
 
-export async function getRidesByCustomerAndDriverId(customer_id: string, driver_id: string) {
+export async function getRidesByCustomerAndDriverId(customer_id: number, driver_id: number) {
   try {
     const customer = await checkCustomerExists(customer_id);
     const driver = await checkDriverExists(driver_id);
@@ -199,7 +199,7 @@ export async function getRidesByCustomerAndDriverId(customer_id: string, driver_
   }
 }
 
-export type RideEstimateParams = { customer_id: string; origin: string; destination: string };
+export type RideEstimateParams = { customer_id: number; origin: string; destination: string };
 
 const rideService = {
   rideEstimate,
