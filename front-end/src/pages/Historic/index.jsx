@@ -20,7 +20,7 @@ export default function Historic() {
     async function fetchRides() {
       try {
         const data = await getRides({ driver_id: null });
-        setRides(data);
+        setRides(data.rides);
       } catch (error) {
         console.error('Error fetching rides:', error);
         toast.error('Failed to fetch rides');

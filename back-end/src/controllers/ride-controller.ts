@@ -35,7 +35,7 @@ export async function getRidesByCustomerId(req: AuthenticatedRequest, res: Respo
     const { userId } = req;
 
     let rides;
-    if (driver_id) {
+    if (driver_id !== undefined) {
       rides = await rideService.getRidesByCustomerAndDriverId(userId, Number(driver_id));
     } else {
       rides = await rideService.getRidesByCustomerId(String(userId));
