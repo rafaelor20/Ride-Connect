@@ -86,6 +86,9 @@ export default function SignUp() {
           <Link to="/"><p>Already subscribed?</p></Link>
         </Row>
         <Row>
+          <Link to="/forgot-password"><p>Forgot your password?</p></Link>
+        </Row>
+        <Row>
           <Footer />
         </Row>
       </Container>
