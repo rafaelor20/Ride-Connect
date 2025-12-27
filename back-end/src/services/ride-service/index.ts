@@ -194,7 +194,6 @@ export async function rideConfirm(
     const response = { success: true };
     return response;
   } catch (error) {
-    console.log(error);
     throw new Error(error);
   }
 }

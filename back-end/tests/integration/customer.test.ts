@@ -1,3 +1,9 @@
+jest.mock('@googlemaps/google-maps-services-js', () => ({
+  Client: jest.fn(() => ({
+    distancematrix: jest.fn(() => Promise.resolve({})),
+  })),
+}));
+
 import { faker } from '@faker-js/faker';
 import httpStatus from 'http-status';
 import supertest from 'supertest';

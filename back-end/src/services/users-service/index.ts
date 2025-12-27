@@ -1,5 +1,5 @@
+import * as bcrypt from 'bcrypt';
 import { Customer } from '@prisma/client';
-import bcrypt from 'bcrypt';
 import { duplicatedEmailError } from './errors';
 import userRepository from '@/repositories/user-repository';
 import { createCustomerSchema } from '@/schemas';

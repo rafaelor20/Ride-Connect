@@ -1,9 +1,12 @@
 import bcrypt from 'bcrypt';
 import faker from '@faker-js/faker';
 import { Customer } from '@prisma/client';
-import { prisma } from '@/config';
+import { prisma, connectDb } from '@/config';
 
 export async function createCustomer(params: Partial<Customer> = {}): Promise<Customer> {
+  if (!prisma) {
+    connectDb();
+  }
   const incomingPassword = params.password || faker.internet.password(6);
   const hashedPassword = await bcrypt.hash(incomingPassword, 10);
 

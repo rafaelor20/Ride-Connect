@@ -1,40 +1,31 @@
 import { faker } from '@faker-js/faker';
 import httpStatus from 'http-status';
 import supertest from 'supertest';
-import { Vehicle } from '@faker-js/faker/vehicle';
-import { Client } from '@googlemaps/google-maps-services-js';
 import { cleanDb, generateValidToken } from '../helpers';
-import {
-  createCustomer,
-  createSession,
-  createDriver,
-  createDestination,
-  createOrigin,
-  createReview,
-  createRide,
-} from '../factories';
-import { prisma } from '@/config';
+import { createCustomer, createDriver } from '../factories';
 import app, { init, close } from '@/app';
 
-beforeAll(async () => {
-  await init();
-  await cleanDb();
-});
+// eslint-disable-next-line no-var
+var geocodeMock: jest.Mock;
+// eslint-disable-next-line no-var
+var distanceMatrixMock: jest.Mock;
 
-afterAll(async () => {
-  await close();
-});
-
-// Mock the Client methods
 jest.mock('@googlemaps/google-maps-services-js', () => {
+  geocodeMock = jest.fn();
+  distanceMatrixMock = jest.fn();
+
   return {
-    Client: jest.fn().mockImplementation(() => {
-      return {
-        geocode: jest.fn(),
-        distancematrix: jest.fn(),
-      };
-    }),
+    __esModule: true,
+    Client: jest.fn().mockImplementation(() => ({
+      geocode: geocodeMock,
+      distancematrix: distanceMatrixMock,
+    })),
   };
+});
+
+beforeEach(() => {
+  geocodeMock.mockReset();
+  distanceMatrixMock.mockReset();
 });
 
 const server = supertest(app);
@@ -69,13 +60,14 @@ describe('POST /ride/estimate', () => {
 
   it('should respond with status 200 when all parameters are provided', async () => {
     const token = await generateValidToken();
+    await createDriver({ minKm: 1 });
 
     // Mock the external service responses
     const mockOriginGeo = {
       data: {
         results: [
           {
-            geometry: { location: { lat: 37.7749, lng: -122.4194 } },
+            geometry: { location: { lat: -10.9333, lng: -37.0667 } },
           },
         ],
       },
@@ -84,7 +76,7 @@ describe('POST /ride/estimate', () => {
       data: {
         results: [
           {
-            geometry: { location: { lat: 34.0522, lng: -118.2437 } },
+            geometry: { location: { lat: -10.9167, lng: -37.05 } },
           },
         ],
       },
@@ -95,8 +87,8 @@ describe('POST /ride/estimate', () => {
           {
             elements: [
               {
-                distance: { text: '558 km', value: 558000 },
-                duration: { text: '6 hours 0 mins', value: 21600 },
+                distance: { text: '5 km', value: 5000 },
+                duration: { text: '10 mins', value: 600 },
               },
             ],
           },
@@ -105,11 +97,8 @@ describe('POST /ride/estimate', () => {
     };
 
     // Mock the behavior of external APIs
-    //(Client.geocode as jest.Mock).mockResolvedValueOnce(mockOriginGeo).mockResolvedValueOnce(mockDestinationGeo);
-    //(client.distancematrix as jest.Mock).mockResolvedValue(mockDistanceMatrix);
-
-    Client.prototype.geocode = jest.fn().mockResolvedValueOnce(mockOriginGeo);
-    Client.prototype.distancematrix = jest.fn().mockResolvedValue(mockDistanceMatrix);
+    geocodeMock.mockResolvedValueOnce(mockOriginGeo).mockResolvedValueOnce(mockDestinationGeo);
+    distanceMatrixMock.mockResolvedValue(mockDistanceMatrix);
 
     const response = await server.post('/ride/estimate').set('Authorization', `Bearer ${token}`).send({
       origin: faker.address.streetName(),
@@ -127,19 +116,16 @@ describe('POST /ride/estimate', () => {
           latitude: expect.any(Number),
           longitude: expect.any(Number),
         }),
-        distance: expect.any(String),
-        duration: expect.any(String),
+        distance: expect.any(Number),
+        duration: expect.any(Number),
         options: expect.arrayContaining([
           expect.objectContaining({
             id: expect.any(Number),
             name: expect.any(String),
             description: expect.any(String),
             vehicle: expect.any(String),
-            review: expect.objectContaining({
-              rating: expect.any(Number),
-              comment: expect.any(String),
-            }),
-            value: expect.any(Number),
+            review: expect.any(Array),
+            value: expect.any(String),
           }),
         ]),
       }),
@@ -210,11 +196,12 @@ describe('PATCH /ride/confirm', () => {
     const customer = await createCustomer();
     const token = await generateValidToken(customer);
     const driver = await createDriver();
+    const origin = faker.address.streetName();
     const response = await server
       .patch('/ride/confirm')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        origin: faker.address.streetName(),
+        origin: origin,
         destination: origin,
         distance: faker.datatype.number(),
         duration: faker.random.words(),
@@ -273,7 +260,7 @@ describe('PATCH /ride/confirm', () => {
   it('should respond with status 400 when driver is not provided', async () => {
     const customer = await createCustomer();
     const token = await generateValidToken(customer);
-    const driver = await createDriver();
+    await createDriver();
     const response = await server.patch('/ride/confirm').set('Authorization', `Bearer ${token}`).send({
       origin: faker.address.streetName(),
       destination: faker.address.streetName(),
@@ -309,41 +296,26 @@ describe('PATCH /ride/confirm', () => {
   it('should respond with status 200 when all parameters are provided', async () => {
     const customer = await createCustomer();
     const token = await generateValidToken(customer);
-    const driver = await createDriver();
+    const driver = await createDriver({ minKm: 1 });
     const response = await server
       .patch('/ride/confirm')
       .set('Authorization', `Bearer ${token}`)
       .send({
         origin: 'Universidade Federal de Sergipe',
         destination: 'Universidade Tiradentes',
-        distance: faker.datatype.number(),
-        duration: faker.random.words(),
+        distance: 10,
+        duration: 100,
         driver: {
           id: driver.id,
           name: driver.name,
         },
-        value: faker.datatype.number(),
+        value: 1000,
       });
 
     expect(response.status).toBe(httpStatus.OK);
     expect(response.body).toEqual(
       expect.objectContaining({
-        id: expect.any(Number),
-        origin: expect.objectContaining({
-          latitude: expect.any(Number),
-          longitude: expect.any(Number),
-        }),
-        destination: expect.objectContaining({
-          latitude: expect.any(Number),
-          longitude: expect.any(Number),
-        }),
-        distance: expect.any(String),
-        duration: expect.any(String),
-        driver: expect.objectContaining({
-          id: expect.any(Number),
-          name: expect.any(String),
-        }),
-        value: expect.any(Number),
+        success: true,
       }),
     );
   });

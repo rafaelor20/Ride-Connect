@@ -72,37 +72,31 @@ async function forgotPassword(email: string): Promise<string> {
 
   await userRepository.update(user.id, { token });
 
-  const resetPasswordUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+  if (process.env.NODE_ENV !== 'test') {
+    const resetPasswordUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
 
-  await emailService.sendEmail(
-    user.email,
-    'Password Reset',
-    `Click here to reset your password: <a href="${resetPasswordUrl}">${resetPasswordUrl}</a>`,
-  );
+    await emailService.sendEmail(
+      user.email,
+      'Password Reset',
+      `Click here to reset your password: <a href="${resetPasswordUrl}">${resetPasswordUrl}</a>`,
+    );
+  }
 
-  return 'Token sent to email';
+  return token;
 }
 
 async function resetPassword(params: ResetPasswordParams): Promise<void> {
   const { token, password } = params;
 
-  try {
-    const user = await userRepository.findByToken(token);
-    if (!user) throw notFoundError();
-    if (user.token !== token) throw invalidCredentialsError();
+  const user = await userRepository.findByToken(token);
+  if (!user) throw invalidCredentialsError();
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+  const hashedPassword = await bcrypt.hash(password, 12);
 
-    await userRepository.update(user.id, {
-      password: hashedPassword,
-      token: null,
-    });
-  } catch (error) {
-    if (error.name === 'NotFoundError') {
-      throw notFoundError();
-    }
-    throw invalidCredentialsError();
-  }
+  await userRepository.update(user.id, {
+    password: hashedPassword,
+    token: null,
+  });
 }
 
 export type SignInParams = Pick<Customer, 'email' | 'password'>;

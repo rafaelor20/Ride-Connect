@@ -23,9 +23,13 @@ export async function forgotPasswordPost(req: Request, res: Response) {
   const { email } = req.body as ForgotPasswordParams;
 
   try {
-    const result = await authenticationService.forgotPassword(email);
+    const token = await authenticationService.forgotPassword(email);
 
-    return res.status(httpStatus.OK).send({ result });
+    if (process.env.NODE_ENV === 'test') {
+      return res.status(httpStatus.OK).send({ token });
+    }
+
+    return res.status(httpStatus.OK).send({ message: 'Token sent to email' });
   } catch (error) {
     if (error.name === 'NotFoundError') {
       return res.sendStatus(httpStatus.NOT_FOUND);

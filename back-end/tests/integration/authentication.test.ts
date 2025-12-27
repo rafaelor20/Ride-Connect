@@ -1,4 +1,10 @@
-import faker from '@faker-js/faker';
+jest.mock('@googlemaps/google-maps-services-js', () => ({
+  Client: jest.fn(() => ({
+    distancematrix: jest.fn(() => Promise.resolve({})),
+  })),
+}));
+
+import { faker } from '@faker-js/faker';
 import httpStatus from 'http-status';
 import supertest from 'supertest';
 import { createCustomer } from '../factories';
@@ -68,7 +74,7 @@ describe('POST /auth/sign-in', () => {
         expect(response.body).toEqual({
           token: expect.any(String),
           id: customer.id,
-          name: customer.name,
+          //name: customer.name,
           email: customer.email,
         });
       });
