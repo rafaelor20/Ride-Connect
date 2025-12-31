@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { authenticateToken } from '@/middlewares';
+import { authenticateToken, validateBody } from '@/middlewares';
+import { rideEstimateSchema, rideConfirmSchema } from '@/schemas';
 import { rideEstimate, rideConfirm, getRidesByCustomerId } from '@/controllers';
 
 const rideRouter = Router();
@@ -84,7 +85,7 @@ const rideRouter = Router();
  *       401:
  *         description: Unauthorized
  */
-rideRouter.post('/estimate', authenticateToken, rideEstimate);
+rideRouter.post('/estimate', authenticateToken, validateBody(rideEstimateSchema), rideEstimate);
 
 /**
  * @swagger
@@ -143,7 +144,7 @@ rideRouter.post('/estimate', authenticateToken, rideEstimate);
  *       401:
  *         description: Unauthorized
  */
-rideRouter.patch('/confirm', authenticateToken, rideConfirm);
+rideRouter.patch('/confirm', authenticateToken, validateBody(rideConfirmSchema), rideConfirm);
 
 /**
  * @swagger

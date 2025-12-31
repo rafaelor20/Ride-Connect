@@ -21,7 +21,7 @@ export async function rideConfirm(req: AuthenticatedRequest, res: Response) {
     const { origin, destination, distance, duration, driver, value } = req.body;
     //const customer_id = String(req.userId);
     const customer_id = req.userId;
-    const ride = await rideService.rideConfirm(customer_id, origin, destination, distance, duration, driver, value);
+    const ride = await rideService.rideConfirm({ customer_id, origin, destination, distance, duration, driver, value });
 
     return res.status(httpStatus.OK).send(ride);
   } catch (error) {

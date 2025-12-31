@@ -81,7 +81,6 @@ function DurationStrToNumber(duration: string) {
 
 export async function rideEstimate({ customer_id, origin, destination }: RideEstimateParams) {
   const apiKey = process.env.GOOGLE_API_KEY; // Replace with your actual API key.
-
   try {
     checkOriginAndDestination(origin, destination);
     await checkCustomerExists(customer_id);
@@ -156,22 +155,22 @@ export async function rideEstimate({ customer_id, origin, destination }: RideEst
   }
 }
 
-export async function rideConfirm(
-  customer_id: number,
-  origin: string,
-  destination: string,
-  distance: number,
-  duration: number,
-  driver: { id: number; name: string },
-  value: number,
-) {
+export async function rideConfirm({
+  customer_id,
+  origin,
+  destination,
+  distance,
+  duration,
+  driver,
+  value,
+}: RideConfirmParams) {
   try {
     checkOriginAndDestination(origin, destination);
     await checkCustomerExists(customer_id);
-    const driverDB = await checkDriverExists(driver.id);
+    await checkDriverExists(driver.id);
 
     // Check the distance by driver
-    await checkDistanceByDriver(driverDB.id, distance);
+    await checkDistanceByDriver(driver.id, distance);
 
     const originAddress = await originRepository.createOrigin({ address: origin });
     const destinationAddress = await destinationRepository.createDestination({
@@ -221,6 +220,15 @@ export async function getRidesByCustomerAndDriverId(customer_id: number, driver_
 }
 
 export type RideEstimateParams = { customer_id: number; origin: string; destination: string };
+export type RideConfirmParams = {
+  customer_id: number;
+  origin: string;
+  destination: string;
+  distance: number;
+  duration: number;
+  driver: { id: number; name: string };
+  value: number;
+};
 
 const rideService = {
   rideEstimate,
