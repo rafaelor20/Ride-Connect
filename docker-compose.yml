@@ -14,8 +14,8 @@ services:
     container_name: ride_connect_node
     build: ./back-end
     restart: always
-    ports:
-      - 5000:5000
+    expose:
+      - 5000
     depends_on:
       - postgres
     env_file:
