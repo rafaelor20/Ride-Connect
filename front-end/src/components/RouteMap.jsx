@@ -6,17 +6,19 @@ const RouteMap = (props) => {
   const [directions, setDirections] = useState(null);
   const [mapLoaded, setMapLoaded] = useState(false);
 
-  const origin = { lat: props.origin.latitude, lng: props.origin.longitude };
-  const destination = { lat: props.destination.latitude, lng: props.destination.longitude };
+  const originLat = props.origin?.latitude;
+  const originLng = props.origin?.longitude;
+  const destinationLat = props.destination?.latitude;
+  const destinationLng = props.destination?.longitude;
 
   useEffect(() => {
-    if (!mapLoaded) return;
+    if (!mapLoaded || !originLat || !originLng || !destinationLat || !destinationLng) return;
 
     const directionsService = new window.google.maps.DirectionsService();
     directionsService.route(
       {
-        origin,
-        destination,
+        origin: { lat: originLat, lng: originLng },
+        destination: { lat: destinationLat, lng: destinationLng },
         travelMode: window.google.maps.TravelMode.DRIVING,
       },
       (result, status) => {
@@ -27,7 +29,7 @@ const RouteMap = (props) => {
         }
       }
     );
-  }, [mapLoaded]);
+  }, [mapLoaded, originLat, originLng, destinationLat, destinationLng]);
 
   return (
     <MapContainer>
@@ -37,7 +39,7 @@ const RouteMap = (props) => {
     >
       <GoogleMap
         mapContainerStyle={{ width: '300px', height: '300px' }}
-        center={origin}
+        center={{ lat: originLat, lng: originLng }}
         zoom={13}
       >
         {directions && <DirectionsRenderer directions={directions} />}
