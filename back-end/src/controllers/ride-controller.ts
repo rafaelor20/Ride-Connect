@@ -31,14 +31,20 @@ export async function rideConfirm(req: AuthenticatedRequest, res: Response) {
 
 export async function getRidesByCustomerId(req: AuthenticatedRequest, res: Response) {
   try {
-    const { driver_id } = req.query;
+    const { driver_id, date, start_date, end_date } = req.query;
     const { userId } = req;
 
+    const dateOptions = {
+      date: date ? String(date) : undefined,
+      startDate: start_date ? String(start_date) : undefined,
+      endDate: end_date ? String(end_date) : undefined,
+    };
+
     let rides;
-    if (driver_id !== undefined) {
-      rides = await rideService.getRidesByCustomerAndDriverId(userId, Number(driver_id));
+    if (driver_id !== undefined && driver_id !== '' && driver_id !== null) {
+      rides = await rideService.getRidesByCustomerAndDriverId(userId, Number(driver_id), dateOptions);
     } else {
-      rides = await rideService.getRidesByCustomerId(String(userId));
+      rides = await rideService.getRidesByCustomerId(userId, dateOptions);
     }
     return res.status(httpStatus.OK).send({ rides });
   } catch (error) {

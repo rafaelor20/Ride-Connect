@@ -197,21 +197,31 @@ export async function rideConfirm({
   }
 }
 
-export async function getRidesByCustomerId(customer_id: string) {
+export type RideDateOptions = {
+  date?: string;
+  startDate?: string;
+  endDate?: string;
+};
+
+export async function getRidesByCustomerId(customer_id: string | number, dateOptions?: RideDateOptions) {
   try {
     const customer = await checkCustomerExists(Number(customer_id));
-    const rides = await rideRepository.findByCustomerId(customer.id);
+    const rides = await rideRepository.findByCustomerId(customer.id, dateOptions);
     return rides;
   } catch (error) {
     throw new Error('Error in getRidesByCustomerId');
   }
 }
 
-export async function getRidesByCustomerAndDriverId(customer_id: number, driver_id: number) {
+export async function getRidesByCustomerAndDriverId(
+  customer_id: number, 
+  driver_id: number, 
+  dateOptions?: RideDateOptions
+) {
   try {
     const customer = await checkCustomerExists(customer_id);
     const driver = await checkDriverExists(driver_id);
-    const rides = await rideRepository.findByCustomerAndDriverId(customer.id, driver.id);
+    const rides = await rideRepository.findByCustomerAndDriverId(customer.id, driver.id, dateOptions);
 
     return rides;
   } catch (error) {
