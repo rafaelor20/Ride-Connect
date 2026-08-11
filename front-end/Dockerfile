@@ -1,16 +1,12 @@
-# avoid routine error problem: error:0308010C:digital envelope routines::unsupported
 FROM node:20-alpine
 
-# folder where the build will go
-WORKDIR /tmp/react
+WORKDIR /app
 
-# copy files into the WORKDIR folder
+# Copia os arquivos do projeto
 COPY . .
 
-# install project dependencies
-RUN npm i && npm run build && mkdir -p /var/www/html && mv dist/* /var/www/html
-# exit the folder
-WORKDIR /
+# Instala dependencias e gera o build
+RUN npm i && npm run build
 
-# remove the entire development directory
-RUN rm -rf /tmp/react
+# Ao iniciar o container, garante que o volume compartilhado /var/www/html receba os arquivos da nova build
+CMD ["sh", "-c", "mkdir -p /var/www/html && rm -rf /var/www/html/* && cp -rf /app/dist/* /var/www/html/ && echo 'Frontend build sincronizado com sucesso no volume!'"]
