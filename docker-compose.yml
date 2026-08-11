@@ -18,7 +18,9 @@ services:
 
   node:
     container_name: ride_connect_node
-    build: ./back-end
+    build:
+      context: ./back-end
+      target: runner
     restart: always
     expose:
       - 5000
@@ -30,7 +32,9 @@ services:
 
   react:
     container_name: ride_connect_react
-    build: ./front-end
+    build:
+      context: ./front-end
+      target: runner
     env_file:
       - front-end/.env
     volumes:

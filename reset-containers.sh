@@ -8,15 +8,16 @@ docker compose -f docker-compose.dbreset.yml down -v --remove-orphans 2>/dev/nul
 echo "=== [2/4] Iniciando PostgreSQL 17 Alpine ==="
 docker compose -f docker-compose.dbreset.yml up -d postgres
 
-echo "=== [3/4] Executando migracoes e seed de dados no PostgreSQL ==="
+echo "=== [3/4] Executando migracoes e seed de dados no PostgreSQL (Stage Builder) ==="
+docker compose -f docker-compose.dbreset.yml build
 docker compose -f docker-compose.dbreset.yml run --rm db-reset
 
-echo "=== [4/4] Subindo aplicacao completa (PostgreSQL, Node.js, React, Nginx) ==="
+echo "=== [4/4] Subindo aplicacao completa com imagens multi-stage otimizadas (PostgreSQL, Node, React, Nginx) ==="
 docker compose up -d --build
 
 echo ""
 echo "=========================================================================="
-echo "  Ride Connect iniciado com sucesso!"
+echo "  Ride Connect iniciado com sucesso com Multi-Stage Build!"
 echo "  Banco de dados: PostgreSQL 17 Alpine ativo e populado com seed!"
 echo "  Status dos containers:"
 docker compose ps

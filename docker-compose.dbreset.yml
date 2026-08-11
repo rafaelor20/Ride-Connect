@@ -17,7 +17,9 @@ services:
       start_period: 5s
 
   db-reset:
-    build: ./back-end
+    build:
+      context: ./back-end
+      target: builder
     container_name: ride_connect_db_reset
     depends_on:
       postgres:
