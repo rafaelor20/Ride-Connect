@@ -3,39 +3,38 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 100%;
 `;
 
 export const Title = styled.h1`
-  font-size: 24px;
+  font-size: 1.5rem;
+  font-weight: 700;
   margin-top: 10px;
-  color: white;
+  color: var(--text-main);
+  text-align: center;
 `;
 
-export const Label = styled.h1`
-  font-size: 12px;
-  margin-bottom: 1px;
-  color: #3b3b3b;
+export const Label = styled.label`
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--text-secondary);
+  display: block;
 `;
 
 export const MainRow = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  background-color: white;
-  border-radius: 20px;
-  padding: 20px;
-  margin: 10px;
-  min-width: 20%;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 export const Row = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  margin-top: 0.75rem;
+  width: 100%;
 `;

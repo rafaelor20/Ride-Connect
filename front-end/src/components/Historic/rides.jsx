@@ -1,32 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import Ride from './ride';
+import { useNavigate } from 'react-router-dom';
+import RideCard from './RideCard';
 
-export default function Rides(props) {
-  const rides = props.rides;
-  
+export default function Rides({ rides = [] }) {
+  const navigate = useNavigate();
+
+  const handleSelectDriver = (driverId) => {
+    localStorage.setItem('driverId', JSON.stringify(driverId));
+    navigate('/rides-by-driver');
+  };
+
   return (
-    <RideContainer>
+    <RidesGrid>
       {rides.map((ride) => (
-        <Ride key={ride.id} {...ride} />
+        <RideCard 
+          key={ride.id} 
+          ride={ride} 
+          onSelectDriver={handleSelectDriver} 
+        />
       ))}
-    </RideContainer>
+    </RidesGrid>
   );
 }
-Rides.propTypes = {
-  rides: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      // add other ride properties here
-    })
-  ).isRequired,
-};
 
-const RideContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: auto;
-  padding: 5px;
+const RidesGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
 `;

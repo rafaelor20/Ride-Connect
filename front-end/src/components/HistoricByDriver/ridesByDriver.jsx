@@ -1,39 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import RideByDriver from './rideByDriver';
+import RideCard from '../Historic/RideCard';
 
-export default function RidesByDriver(props) {
-  const rides = props.rides;
-
-  console.log('Ride props:', props);
-  
+export default function RidesByDriver({ rides = [], onSelectDriver }) {
   return (
-    <RideContainer>
-      {rides.map((ride, index) => (
-        <RideByDriver key={ride.id} {...ride} />
+    <RidesGrid>
+      {rides.map((ride) => (
+        <RideCard 
+          key={ride.id} 
+          ride={ride} 
+          onSelectDriver={onSelectDriver}
+        />
       ))}
-    </RideContainer>
+    </RidesGrid>
   );
 }
-RidesByDriver.propTypes = {
-  rides: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      // add other ride properties here
-    })
-  ).isRequired,
-};
 
-const RideContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: auto;
-  padding: 5px;
+const RidesGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
 
-  p{
-    font-size: 14px;
-    color: black;
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
   }
 `;

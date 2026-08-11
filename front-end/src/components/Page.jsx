@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 export default function Page({ children }) {
@@ -11,9 +12,9 @@ export default function Page({ children }) {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  min-width: 100vw;
-  background-color: #8C11BE;
+  width: 100%;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  box-sizing: border-box;
 `;

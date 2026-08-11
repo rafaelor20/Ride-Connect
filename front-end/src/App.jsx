@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { UserProvider } from './contexts/UserContext';
 import SignIn from './pages/SignIn';
@@ -18,7 +19,7 @@ import useToken from './hooks/useToken';
 export default function App() {
   return (
     <>
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3500} theme="colored" />
       <UserProvider>
         <Router>
           <Routes>
