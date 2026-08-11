@@ -1,17 +1,14 @@
-# fetch base image of Node
-FROM node:19-alpine
+FROM node:20-slim
 
-# use this folder as the working directory (like a CD command)
+# Instala dependencias necessarias para o Prisma Engine
+RUN apt-get update -y && apt-get install -y openssl ca-certificates && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /usr/src
 
-# copy the current directory to the workdir
 COPY . .
 
-# "expose" port 5000
+RUN npm i && npx prisma generate && npm run build
+
 EXPOSE 5000
 
-# download dependencies
-RUN npm i && npm run build
-
-# start the server
-CMD ["npm", "run","start"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]

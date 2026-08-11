@@ -29,7 +29,7 @@
   "author": "Rafael Oliveira Rosario",
   "license": "ISC",
   "prisma": {
-    "seed": "npm run dev:load-envs -- ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.3.1",

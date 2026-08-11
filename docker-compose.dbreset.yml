@@ -16,39 +16,20 @@ services:
       retries: 15
       start_period: 5s
 
-  node:
-    container_name: ride_connect_node
+  db-reset:
     build: ./back-end
-    restart: always
-    expose:
-      - 5000
+    container_name: ride_connect_db_reset
     depends_on:
       postgres:
         condition: service_healthy
     env_file:
       - back-end/.env
-
-  react:
-    container_name: ride_connect_react
-    build: ./front-end
-    env_file:
-      - front-end/.env
-    volumes:
-      - react-volume:/var/www/html
-
-  nginx:
-    container_name: ride_connect_nginx
-    build: ./nginx
-    restart: always
-    ports:
-      - 8080:80
-    volumes:
-      - react-volume:/var/www/html
-    depends_on:
-      - postgres
-      - node
-      - react
+    command: >
+      sh -c "
+      echo 'Aguardando inicializacao e conexao com o PostgreSQL...' &&
+      npx prisma migrate reset --force &&
+      echo 'Banco de dados PostgreSQL resetado, migracoes aplicadas e seeds inseridos com sucesso!'
+      "
 
 volumes:
   postgres-volume:
-  react-volume:
