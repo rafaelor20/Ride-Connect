@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { GoogleMap, LoadScript, DirectionsRenderer } from '@react-google-maps/api';
+import React, { useEffect, useRef, useState } from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import styled from 'styled-components';
-import { MapPin, Navigation, AlertCircle } from 'lucide-react';
+import { Navigation, AlertCircle } from 'lucide-react';
 
 const RouteMap = ({ origin, destination }) => {
-  const [directions, setDirections] = useState(null);
-  const [mapLoaded, setMapLoaded] = useState(false);
+  const mapContainerRef = useRef(null);
+  const mapInstanceRef = useRef(null);
   const [loadError, setLoadError] = useState(false);
 
   const originLat = origin?.latitude;
@@ -13,33 +14,155 @@ const RouteMap = ({ origin, destination }) => {
   const destinationLat = destination?.latitude;
   const destinationLng = destination?.longitude;
 
-  const apiKey = import.meta.env.VITE_API_GOOGLE_API_KEY || '';
+  const hasValidCoordinates =
+    typeof originLat === 'number' &&
+    typeof originLng === 'number' &&
+    typeof destinationLat === 'number' &&
+    typeof destinationLng === 'number';
 
   useEffect(() => {
-    if (!mapLoaded || !window.google || !originLat || !originLng || !destinationLat || !destinationLng) return;
+    if (!hasValidCoordinates || !mapContainerRef.current) return;
+
+    // Clean up any existing map instance before re-initializing
+    if (mapInstanceRef.current) {
+      mapInstanceRef.current.remove();
+      mapInstanceRef.current = null;
+    }
 
     try {
-      const directionsService = new window.google.maps.DirectionsService();
-      directionsService.route(
-        {
-          origin: { lat: originLat, lng: originLng },
-          destination: { lat: destinationLat, lng: destinationLng },
-          travelMode: window.google.maps.TravelMode.DRIVING,
-        },
-        (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-            setDirections(result);
-          } else {
-            console.warn(`Error fetching directions: ${status}`);
-          }
-        }
-      );
-    } catch (err) {
-      console.warn('Google Maps route calculation error:', err);
-    }
-  }, [mapLoaded, originLat, originLng, destinationLat, destinationLng]);
+      // 1. Initialize Leaflet map
+      const map = L.map(mapContainerRef.current, {
+        zoomControl: false,
+        attributionControl: false,
+      });
+      mapInstanceRef.current = map;
 
-  if (!apiKey) {
+      // Add zoom control in top-right
+      L.control.zoom({ position: 'topright' }).addTo(map);
+
+      // 2. Add CartoDB Voyager tiles (Clean, modern and free)
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+        subdomains: 'abcd',
+      }).addTo(map);
+
+      // 3. Custom Marker Icons
+      const createCustomIcon = (bgColor, labelText) => {
+        return L.divIcon({
+          className: 'rc-custom-marker',
+          html: `
+            <div style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 32px;
+              height: 32px;
+              background-color: ${bgColor};
+              color: #ffffff;
+              border-radius: 50%;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+              border: 2.5px solid #ffffff;
+              font-weight: 700;
+              font-size: 11px;
+              font-family: sans-serif;
+            ">
+              ${labelText}
+            </div>
+          `,
+          iconSize: [32, 32],
+          iconAnchor: [16, 16],
+          popupAnchor: [0, -18],
+        });
+      };
+
+      const originIcon = createCustomIcon('#10b981', 'A');
+      const destIcon = createCustomIcon('#6366f1', 'B');
+
+      // Add markers
+      const originMarker = L.marker([originLat, originLng], { icon: originIcon }).addTo(map);
+      originMarker.bindPopup('<strong>Origem (Embarque)</strong>');
+
+      const destMarker = L.marker([destinationLat, destinationLng], { icon: destIcon }).addTo(map);
+      destMarker.bindPopup('<strong>Destino</strong>');
+
+      // 4. Trace driving route via OSRM (Free open-source routing)
+      const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${originLng},${originLat};${destinationLng},${destinationLat}?overview=full&geometries=geojson`;
+
+      const drawFallbackLine = () => {
+        if (!mapInstanceRef.current) return;
+        L.polyline(
+          [
+            [originLat, originLng],
+            [destinationLat, destinationLng],
+          ],
+          {
+            color: '#6366f1',
+            weight: 4,
+            dashArray: '6, 8',
+            opacity: 0.85,
+          }
+        ).addTo(map);
+      };
+
+      fetch(osrmUrl)
+        .then((res) => res.json())
+        .then((data) => {
+          if (!mapInstanceRef.current) return;
+
+          if (data.routes && data.routes.length > 0 && data.routes[0].geometry) {
+            // Glow line behind
+            L.geoJSON(data.routes[0].geometry, {
+              style: {
+                color: '#6366f1',
+                weight: 8,
+                opacity: 0.25,
+                lineCap: 'round',
+                lineJoin: 'round',
+              },
+            }).addTo(map);
+
+            // Main route line
+            L.geoJSON(data.routes[0].geometry, {
+              style: {
+                color: '#4f46e5',
+                weight: 4.5,
+                opacity: 0.95,
+                lineCap: 'round',
+                lineJoin: 'round',
+              },
+            }).addTo(map);
+          } else {
+            drawFallbackLine();
+          }
+        })
+        .catch((err) => {
+          console.warn('Could not fetch OSRM route, falling back to direct polyline:', err);
+          drawFallbackLine();
+        });
+
+      // 5. Fit bounds to nicely frame origin and destination
+      const bounds = L.latLngBounds(
+        [originLat, originLng],
+        [destinationLat, destinationLng]
+      );
+      map.fitBounds(bounds, {
+        padding: [50, 50],
+        maxZoom: 16,
+      });
+    } catch (err) {
+      console.error('Error initializing Leaflet map:', err);
+      setLoadError(true);
+    }
+
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [originLat, originLng, destinationLat, destinationLng, hasValidCoordinates]);
+
+  if (!hasValidCoordinates) {
     return (
       <MapFallback>
         <MapFallbackIconWrapper>
@@ -47,7 +170,19 @@ const RouteMap = ({ origin, destination }) => {
         </MapFallbackIconWrapper>
         <MapFallbackTitle>Visualização da Rota</MapFallbackTitle>
         <MapFallbackDesc>
-          Origem e destino definidos com sucesso. A rota estimada está pronta para navegação.
+          Defina a origem e o destino para visualizar o mapa do trajeto em tempo real.
+        </MapFallbackDesc>
+      </MapFallback>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <MapFallback>
+        <AlertCircle size={32} color="var(--color-warning)" />
+        <MapFallbackTitle>Mapa Temporariamente Indisponível</MapFallbackTitle>
+        <MapFallbackDesc>
+          Não foi possível carregar os dados do mapa, mas você pode continuar sua solicitação normalmente.
         </MapFallbackDesc>
       </MapFallback>
     );
@@ -55,38 +190,7 @@ const RouteMap = ({ origin, destination }) => {
 
   return (
     <MapContainer>
-      <LoadScript
-        googleMapsApiKey={apiKey}
-        onLoad={() => setMapLoaded(true)}
-        onError={() => setLoadError(true)}
-      >
-        {loadError ? (
-          <MapFallback>
-            <AlertCircle size={32} color="var(--color-warning)" />
-            <MapFallbackTitle>Mapa Temporariamente Indisponível</MapFallbackTitle>
-            <MapFallbackDesc>Não foi possível carregar os dados do mapa, mas você pode continuar sua solicitação normalmente.</MapFallbackDesc>
-          </MapFallback>
-        ) : (
-          <GoogleMap
-            mapContainerStyle={{ 
-              width: '100%', 
-              height: '100%',
-              minHeight: '280px',
-              borderRadius: 'var(--radius-xl)'
-            }}
-            center={{ lat: originLat || -23.5505, lng: originLng || -46.6333 }}
-            zoom={13}
-            options={{
-              disableDefaultUI: false,
-              zoomControl: true,
-              streetViewControl: false,
-              mapTypeControl: false,
-            }}
-          >
-            {directions && <DirectionsRenderer directions={directions} />}
-          </GoogleMap>
-        )}
-      </LoadScript>
+      <MapElement ref={mapContainerRef} />
     </MapContainer>
   );
 };
@@ -107,6 +211,34 @@ const MapContainer = styled.div`
   @media (min-width: 768px) {
     height: 380px;
   }
+
+  /* Ensure Leaflet controls stay within border radius */
+  .leaflet-container {
+    width: 100%;
+    height: 100%;
+    font-family: inherit;
+  }
+
+  .leaflet-touch .leaflet-control-layers,
+  .leaflet-touch .leaflet-bar {
+    border: none;
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out {
+    background-color: #ffffff !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--border-color) !important;
+  }
+`;
+
+const MapElement = styled.div`
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
 `;
 
 const MapFallback = styled.div`

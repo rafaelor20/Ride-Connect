@@ -12,9 +12,9 @@
   "dependencies": {
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^7.1.0",
-    "@react-google-maps/api": "^2.20.6",
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
+    "leaflet": "^1.9.4",
     "lucide-react": "^1.31.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
