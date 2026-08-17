@@ -1,46 +1,63 @@
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
-import { useNavigate, Link } from 'react-router-dom';
-import { KeyRound, Lock, ShieldCheck, CheckCircle2, ArrowLeft } from 'lucide-react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import {
+  KeyRound,
+  Lock,
+  ShieldCheck,
+  CheckCircle2,
+  ArrowLeft,
+} from "lucide-react";
+import styled from "styled-components";
 
-import AuthLayout from '../../components/Layout/AuthLayout';
-import Input from '../../components/Form/Input';
-import Button from '../../components/Form/Button';
-import useResetPassword from '../../hooks/api/useResetPassword';
+import AuthLayout from "../../components/Layout/AuthLayout";
+import Input from "../../components/Form/Input";
+import Button from "../../components/Form/Button";
+import useResetPassword from "../../hooks/api/useResetPassword";
 
 export default function ResetPassword() {
-  const [token, setToken] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [searchParams] = useSearchParams();
+  const [token, setToken] = useState(searchParams.get("token") || "");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const { resetPasswordLoading, resetPassword } = useResetPassword();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const tokenFromUrl = searchParams.get("token");
+    if (tokenFromUrl) {
+      setToken(tokenFromUrl);
+    }
+  }, [searchParams]);
 
   async function submit(event) {
     event.preventDefault();
 
     if (!token || !password || !confirmPassword) {
-      toast.error('Preencha todos os campos para continuar.');
+      toast.error("Preencha todos os campos para continuar.");
       return;
     }
 
     if (password !== confirmPassword) {
-      toast.error('As senhas digitadas não coincidem.');
+      toast.error("As senhas digitadas não coincidem.");
       return;
     }
 
     if (password.length < 6) {
-      toast.warning('A senha deve conter pelo menos 6 caracteres.');
+      toast.warning("A senha deve conter pelo menos 6 caracteres.");
       return;
     }
 
     try {
       await resetPassword(token, password);
-      toast.success('Senha redefinida com sucesso! Você já pode entrar.');
-      navigate('/');
+      toast.success("Senha redefinida com sucesso! Você já pode entrar.");
+      navigate("/");
     } catch (error) {
-      const msg = error.response?.data?.message || error.message || 'Erro ao redefinir senha';
+      const msg =
+        error.response?.data?.message ||
+        error.message ||
+        "Erro ao redefinir senha";
       toast.error(`Falha: ${msg}`);
     }
   }

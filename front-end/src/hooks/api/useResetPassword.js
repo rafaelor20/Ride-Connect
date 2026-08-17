@@ -1,15 +1,13 @@
-import useAsync from '../useAsync';
-import useToken from '../useToken';
+import useAsync from "../useAsync";
 
-import * as resetPasswordApi from '../../services/resetPassword';
+import * as resetPasswordApi from "../../services/resetPassword";
 
 export default function useResetPassword() {
-  const token = useToken();
   const {
     loading: resetPasswordLoading,
     error: resetPasswordError,
     act: resetPassword,
-  } = useAsync((data) => resetPasswordApi.resetPassword(data, token), false);
+  } = useAsync(resetPasswordApi.resetPassword, false);
 
   return {
     resetPasswordLoading,

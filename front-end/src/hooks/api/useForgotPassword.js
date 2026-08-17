@@ -1,15 +1,13 @@
-import useAsync from '../useAsync';
-import useToken from '../useToken';
+import useAsync from "../useAsync";
 
-import * as forgotPasswordApi from '../../services/forgotPassword';
+import * as forgotPasswordApi from "../../services/forgotPassword";
 
 export default function useForgotPassword() {
-  const token = useToken();
   const {
     loading: forgotPasswordLoading,
     error: forgotPasswordError,
     act: forgotPassword,
-  } = useAsync((data) => forgotPasswordApi.forgotPassword(data, token), false);
+  } = useAsync((data) => forgotPasswordApi.forgotPassword(data), false);
 
   return {
     forgotPasswordLoading,
